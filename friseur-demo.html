@@ -1,63 +1,84 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Friseur Demo – Besucher</title>
-  <style>
-    body { margin:0; font-family: Arial, sans-serif; background:#0a0a0a; color:#f5f2ec; }
-    header { padding:24px; background:#131310; border-bottom:1px solid #333; }
-    a { color:#e8572a; text-decoration:none; }
-    .wrap { max-width:900px; margin:auto; padding:32px 20px; }
-    .card { background:#181812; border:1px solid #333; border-radius:10px; padding:24px; margin-bottom:20px; }
-    h1,h2 { margin-top:0; }
-    input, select, button { width:100%; padding:14px; margin-top:10px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; }
-    button { background:#e8572a; border:none; cursor:pointer; font-weight:bold; }
-    .slots { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-top:15px; }
-    .slot { padding:12px; background:#222; border:1px solid #444; border-radius:6px; text-align:center; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friseur Demo</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#0a0a0a;color:#f5f2ec}
+header{padding:20px;background:#131310;border-bottom:1px solid #333}
+a{color:#e8572a;text-decoration:none}
+.wrap{max-width:900px;margin:auto;padding:30px 20px}
+.card{background:#181812;border:1px solid #333;border-radius:10px;padding:22px;margin-bottom:20px}
+input,select,button{width:100%;padding:14px;margin-top:10px;border-radius:6px;border:1px solid #444;background:#111;color:#fff}
+button{background:#e8572a;border:none;font-weight:bold;cursor:pointer}
+.msg{display:none;color:#28c840;margin-top:15px}
+</style>
 </head>
 <body>
+
 <header>
-  <a href="index.html">← Zurück zur Main Page</a> |
-  <a href="friseur-owner.html">Eigentümer-Ansicht öffnen</a>
+  <a href="index.html">← Main Page</a> |
+  <a href="friseur-owner.html">Owner Dashboard</a>
 </header>
 
 <div class="wrap">
   <div class="card">
     <h1>Friseur Bella</h1>
-    <p>Buche deinen Termin schnell und einfach online.</p>
+    <p>Buche hier einen Demo-Termin. Danach erscheint er im Owner Dashboard.</p>
   </div>
 
   <div class="card">
     <h2>Termin buchen</h2>
-    <input type="text" placeholder="Dein Name" />
-    <input type="email" placeholder="E-Mail-Adresse" />
-    <select>
+
+    <input id="name" type="text" placeholder="Dein Name">
+    <input id="email" type="email" placeholder="E-Mail-Adresse">
+
+    <select id="service">
       <option>Haarschnitt Herren – 25 €</option>
       <option>Haarschnitt Damen – 45 €</option>
       <option>Färben – ab 65 €</option>
       <option>Bart trimmen – 15 €</option>
     </select>
-    <select>
-      <option>Mitarbeiter auswählen</option>
+
+    <select id="employee">
       <option>Lisa</option>
       <option>Emre</option>
       <option>Sara</option>
     </select>
 
-    <h2>Freie Zeiten</h2>
-    <div class="slots">
-      <div class="slot">10:00</div>
-      <div class="slot">11:30</div>
-      <div class="slot">13:00</div>
-      <div class="slot">14:30</div>
-      <div class="slot">16:00</div>
-      <div class="slot">17:30</div>
-    </div>
+    <select id="time">
+      <option>10:00 Uhr</option>
+      <option>11:30 Uhr</option>
+      <option>13:00 Uhr</option>
+      <option>14:30 Uhr</option>
+      <option>16:00 Uhr</option>
+      <option>17:30 Uhr</option>
+    </select>
 
-    <button onclick="alert('Demo: Termin wurde gebucht!')">Termin buchen</button>
+    <button onclick="bookAppointment()">Termin buchen</button>
+    <p id="msg" class="msg">Termin wurde gespeichert. Öffne jetzt das Owner Dashboard.</p>
   </div>
 </div>
+
+<script>
+function bookAppointment(){
+  const appointment = {
+    name: document.getElementById("name").value || "Demo Kunde",
+    email: document.getElementById("email").value || "demo@mail.de",
+    service: document.getElementById("service").value,
+    employee: document.getElementById("employee").value,
+    time: document.getElementById("time").value,
+    created: new Date().toLocaleString("de-DE")
+  };
+
+  const appointments = JSON.parse(localStorage.getItem("friseurAppointments")) || [];
+  appointments.push(appointment);
+  localStorage.setItem("friseurAppointments", JSON.stringify(appointments));
+
+  document.getElementById("msg").style.display = "block";
+}
+</script>
+
 </body>
 </html>
