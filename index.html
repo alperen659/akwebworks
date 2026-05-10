@@ -3,74 +3,699 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Network Studio</title>
+
+<title>Network Studio – Digitale Lösungen für lokale Betriebe</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#0a0a0a;color:#f5f2ec;font-family:Arial,sans-serif}
-nav{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,.92);border-bottom:1px solid #2a2a2a;padding:18px 30px;display:flex;justify-content:space-between;align-items:center;z-index:99}
-.logo{font-size:1.4rem;font-weight:bold;color:#fff;text-decoration:none}
-.logo span{color:#e8572a}
-nav ul{display:flex;gap:22px;list-style:none}
-nav a{color:#b8b1a7;text-decoration:none}
-nav a:hover{color:#fff}
-.hero{min-height:80vh;display:flex;align-items:center;padding:130px 30px 60px;max-width:1200px;margin:auto}
-.hero h1{font-size:clamp(3rem,7vw,6rem);line-height:1}
-.hero em{color:#e8572a;font-style:normal}
-.hero p{color:#b8b1a7;font-size:1.1rem;line-height:1.7;max-width:600px;margin-top:24px}
-section{padding:60px 30px;max-width:1200px;margin:auto}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.card{background:#131310;border:1px solid #2a2a2a;border-radius:14px;padding:28px;text-decoration:none;color:#fff;transition:.2s}
-.card:hover{border-color:#e8572a;transform:translateY(-4px)}
-.card h2{margin-bottom:12px}
-.card p{color:#b8b1a7;line-height:1.6}
-footer{text-align:center;color:#777;padding:30px;border-top:1px solid #222}
-@media(max-width:850px){nav{flex-direction:column;gap:12px}nav ul{flex-wrap:wrap;justify-content:center}.grid{grid-template-columns:1fr}.hero{padding-top:160px}}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --black:#070707;
+  --card:#111111;
+  --card2:#171717;
+  --white:#f5f2ec;
+  --gray:#b6aea1;
+  --accent:#e8572a;
+  --accent2:#ffb347;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.025;
+  pointer-events:none;
+  z-index:9999;
+}
+
+.hero-glow{
+  position:absolute;
+  width:900px;
+  height:900px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(232,87,42,.18) 0%, transparent 70%);
+  top:-250px;
+  right:-250px;
+  z-index:0;
+}
+
+nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 40px;
+  backdrop-filter:blur(14px);
+  background:rgba(7,7,7,.82);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.logo{
+  font-family:'Syne',sans-serif;
+  font-size:1.4rem;
+  font-weight:800;
+  text-decoration:none;
+  color:var(--white);
+  letter-spacing:-.04em;
+}
+
+.logo span{
+  color:var(--accent);
+}
+
+nav ul{
+  display:flex;
+  list-style:none;
+  gap:28px;
+  align-items:center;
+}
+
+nav ul a{
+  text-decoration:none;
+  color:var(--gray);
+  font-size:.92rem;
+  transition:.2s;
+}
+
+nav ul a:hover{
+  color:white;
+}
+
+.nav-btn{
+  background:var(--accent);
+  color:white !important;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:500;
+}
+
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  align-items:center;
+  gap:60px;
+  max-width:1300px;
+  margin:auto;
+  padding:140px 40px 80px;
+  position:relative;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+}
+
+.hero-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  font-size:.78rem;
+  margin-bottom:24px;
+}
+
+.hero-tag::before{
+  content:'';
+  width:24px;
+  height:1px;
+  background:var(--accent);
+}
+
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(3.4rem,7vw,6.6rem);
+  line-height:.95;
+  letter-spacing:-.06em;
+  margin-bottom:26px;
+}
+
+h1 em{
+  color:var(--accent);
+  font-style:normal;
+}
+
+.hero-text{
+  color:var(--gray);
+  line-height:1.9;
+  font-size:1.1rem;
+  max-width:620px;
+  margin-bottom:36px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.btn-primary,
+.btn-secondary{
+  text-decoration:none;
+  padding:16px 24px;
+  border-radius:12px;
+  transition:.2s;
+  font-size:.95rem;
+}
+
+.btn-primary{
+  background:var(--accent);
+  color:white;
+  box-shadow:0 10px 30px rgba(232,87,42,.25);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  border:1px solid rgba(255,255,255,.08);
+  color:white;
+  background:rgba(255,255,255,.02);
+}
+
+.btn-secondary:hover{
+  border-color:rgba(255,255,255,.18);
+}
+
+.preview{
+  position:relative;
+  z-index:2;
+}
+
+.preview-card{
+  background:linear-gradient(180deg,var(--card2),var(--card));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 40px 80px rgba(0,0,0,.45);
+}
+
+.preview-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px 24px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+}
+
+.red{background:#ff5f57}
+.yellow{background:#ffbd2e}
+.green{background:#28c840}
+
+.preview-body{
+  padding:30px;
+}
+
+.preview-title{
+  font-family:'Syne',sans-serif;
+  font-size:1.5rem;
+  margin-bottom:24px;
+}
+
+.preview-row{
+  display:flex;
+  justify-content:space-between;
+  padding:16px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.preview-row span:first-child{
+  color:var(--gray);
+}
+
+.badge{
+  background:rgba(232,87,42,.15);
+  color:var(--accent);
+  padding:5px 12px;
+  border-radius:999px;
+  font-size:.75rem;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  max-width:1300px;
+  margin:auto;
+  padding:0 40px 80px;
+}
+
+.stat{
+  background:linear-gradient(180deg,var(--card2),var(--card));
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:18px;
+  padding:28px;
+}
+
+.stat h3{
+  font-size:2.6rem;
+  color:white;
+  margin-bottom:10px;
+}
+
+.stat p{
+  color:var(--gray);
+}
+
+.section{
+  max-width:1300px;
+  margin:auto;
+  padding:80px 40px;
+}
+
+.section-tag{
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  font-size:.75rem;
+  margin-bottom:16px;
+}
+
+.section h2{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.3rem,4vw,4rem);
+  line-height:1;
+  margin-bottom:18px;
+  letter-spacing:-.04em;
+}
+
+.section-text{
+  color:var(--gray);
+  max-width:700px;
+  line-height:1.9;
+  margin-bottom:45px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
+}
+
+.card{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(180deg,var(--card2),var(--card));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:24px;
+  padding:34px;
+  text-decoration:none;
+  color:white;
+  transition:.25s;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at top right, rgba(232,87,42,.16), transparent 45%);
+  opacity:0;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(232,87,42,.45);
+}
+
+.card:hover::before{
+  opacity:1;
+}
+
+.card-icon{
+  font-size:3rem;
+  margin-bottom:20px;
+}
+
+.card h3{
+  font-family:'Syne',sans-serif;
+  font-size:1.8rem;
+  margin-bottom:14px;
+}
+
+.card p{
+  color:var(--gray);
+  line-height:1.8;
+  margin-bottom:26px;
+}
+
+.card-link{
+  color:var(--accent2);
+  font-weight:600;
+}
+
+.cta{
+  margin-top:80px;
+  background:linear-gradient(135deg,#1c120d,#28160f);
+  border:1px solid rgba(232,87,42,.25);
+  border-radius:28px;
+  padding:50px;
+  text-align:center;
+}
+
+.cta h2{
+  margin-bottom:18px;
+}
+
+.cta p{
+  color:var(--gray);
+  line-height:1.8;
+  max-width:700px;
+  margin:0 auto 30px;
+}
+
+footer{
+  padding:40px;
+  text-align:center;
+  color:#666;
+  border-top:1px solid rgba(255,255,255,.05);
+}
+
+@media(max-width:950px){
+
+  nav{
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+    padding-top:180px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:700px){
+
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .hero,
+  .section,
+  .stats{
+    padding-left:20px;
+    padding-right:20px;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
 
+<div class="hero-glow"></div>
+
 <nav>
-<a href="index.html" class="logo">Network<span>.</span>Studio</a>
+
+<a href="index.html" class="logo">
+Network<span>.</span>Studio
+</a>
+
 <ul>
 <li><a href="demos.html">Demos</a></li>
 <li><a href="modelle.html">Modelle</a></li>
 <li><a href="preise.html">Preise</a></li>
-<li><a href="anfragen.html">Anfragen</a></li>
+<li><a href="anfragen.html" class="nav-btn">Anfragen</a></li>
 </ul>
+
 </nav>
 
-<div class="hero">
-<div>
-<h1>Dein Betrieb.<br><em>Digital.</em><br>Fertig.</h1>
-<p>Der zentrale Einstieg zu Demos, Modellen, Preisen und Anfragen.</p>
-</div>
+<section class="hero">
+
+<div class="hero-content">
+
+<div class="hero-tag">
+Digitale Lösungen · Made in Germany
 </div>
 
-<section>
+<h1>
+Dein Betrieb.<br>
+<em>Digital.</em><br>
+Neu gedacht.
+</h1>
+
+<p class="hero-text">
+Moderne Systeme für Friseure, Restaurants und lokale Betriebe.
+Von Online-Terminbuchung bis KI-Chatbot —
+alles individuell angepasst und sofort einsatzbereit.
+</p>
+
+<div class="hero-buttons">
+
+<a href="demos.html" class="btn-primary">
+Live-Demos testen
+</a>
+
+<a href="preise.html" class="btn-secondary">
+Pakete ansehen
+</a>
+
+</div>
+
+</div>
+
+<div class="preview">
+
+<div class="preview-card">
+
+<div class="preview-header">
+<div class="dot red"></div>
+<div class="dot yellow"></div>
+<div class="dot green"></div>
+</div>
+
+<div class="preview-body">
+
+<div class="preview-title">
+Dashboard · Friseur Bella
+</div>
+
+<div class="preview-row">
+<span>Heutige Termine</span>
+<strong>12 gebucht</strong>
+</div>
+
+<div class="preview-row">
+<span>Status</span>
+<span class="badge">Aktiv</span>
+</div>
+
+<div class="preview-row">
+<span>Nächster Termin</span>
+<strong>14:30 Uhr</strong>
+</div>
+
+<div class="preview-row">
+<span>Online-Buchungen</span>
+<strong>+34%</strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="stats">
+
+<div class="stat">
+<h3>48h</h3>
+<p>Durchschnittliche Lieferzeit</p>
+</div>
+
+<div class="stat">
+<h3>0%</h3>
+<p>Lieferando-Provision</p>
+</div>
+
+<div class="stat">
+<h3>24/7</h3>
+<p>Online erreichbar</p>
+</div>
+
+<div class="stat">
+<h3>100%</h3>
+<p>Individuell angepasst</p>
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="section-tag">
+Entdecken
+</div>
+
+<h2>
+Alles an einem Ort.
+</h2>
+
+<p class="section-text">
+Teste interaktive Demos, entdecke verschiedene Modelle
+und finde das passende Paket für deinen Betrieb.
+</p>
+
 <div class="grid">
+
 <a href="demos.html" class="card">
-<h2>Demos</h2>
-<p>Teste verschiedene Beispiel-Anwendungen direkt im Browser.</p>
+
+<div class="card-icon">
+🧪
+</div>
+
+<h3>
+Interaktive Demos
+</h3>
+
+<p>
+Teste komplette Beispielsysteme direkt im Browser —
+von Terminbuchung bis Live-Bestellung.
+</p>
+
+<div class="card-link">
+Demos öffnen →
+</div>
+
 </a>
 
 <a href="modelle.html" class="card">
-<h2>Modelle</h2>
-<p>Wähle ein Modell und öffne die passende Testseite.</p>
+
+<div class="card-icon">
+⚙️
+</div>
+
+<h3>
+Modelle & Funktionen
+</h3>
+
+<p>
+Vergleiche verschiedene Systeme wie Dashboard,
+Inventarverwaltung oder KI-Chatbot.
+</p>
+
+<div class="card-link">
+Modelle ansehen →
+</div>
+
 </a>
 
 <a href="preise.html" class="card">
-<h2>Preise</h2>
-<p>Sieh dir die verfügbaren Pakete und Leistungen an.</p>
+
+<div class="card-icon">
+💼
+</div>
+
+<h3>
+Pakete & Preise
+</h3>
+
+<p>
+Transparent kalkulierte Pakete ohne versteckte Kosten —
+vom Starter bis Komplettsystem.
+</p>
+
+<div class="card-link">
+Preise ansehen →
+</div>
+
 </a>
 
 <a href="anfragen.html" class="card">
-<h2>Anfragen</h2>
-<p>Stelle eine unverbindliche Anfrage für dein Projekt.</p>
-</a>
+
+<div class="card-icon">
+🚀
 </div>
+
+<h3>
+Projekt anfragen
+</h3>
+
+<p>
+Beschreibe kurz deinen Betrieb und erhalte
+ein individuelles Angebot.
+</p>
+
+<div class="card-link">
+Anfrage starten →
+</div>
+
+</a>
+
+</div>
+
+<div class="cta">
+
+<h2>
+Bereit für den nächsten Schritt?
+</h2>
+
+<p>
+Moderne digitale Systeme müssen nicht kompliziert sein.
+Teste die Demos und finde heraus,
+wie dein Betrieb digital aussehen könnte.
+</p>
+
+<a href="demos.html" class="btn-primary">
+Jetzt ausprobieren
+</a>
+
+</div>
+
 </section>
 
-<footer>© 2026 Network Studio</footer>
+<footer>
+© 2026 Network Studio — Digitale Lösungen für lokale Betriebe
+</footer>
 
 </body>
 </html>
