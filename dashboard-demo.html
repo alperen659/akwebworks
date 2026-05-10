@@ -2,75 +2,28 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Demo</title>
-
 <style>
-body{
-  background:#0a0a0a;
-  color:#fff;
-  font-family:Arial;
-  margin:0;
-}
-
-.wrap{
-  max-width:1000px;
-  margin:auto;
-  padding:30px 20px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
-
-.card{
-  background:#181812;
-  border:1px solid #333;
-  border-radius:10px;
-  padding:24px;
-}
-
-.num{
-  font-size:3rem;
-  font-weight:bold;
-  color:#e8572a;
-}
+body{background:#0a0a0a;color:#fff;font-family:Arial;margin:0}
+header{padding:20px;background:#111}
+a{color:#e8572a;text-decoration:none}
+.wrap{max-width:1000px;margin:auto;padding:30px 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:#181812;border:1px solid #333;border-radius:12px;padding:24px}
+.num{font-size:3rem;font-weight:bold;color:#e8572a}
 </style>
 </head>
-
 <body>
-
+<header><a href="modelle.html">← Modelle</a></header>
 <div class="wrap">
-
 <h1>Dashboard Demo</h1>
-
 <div class="grid">
-
-<div class="card">
-<div class="num">28</div>
-<p>Bestellungen heute</p>
+<div class="card"><div class="num">28</div><p>Bestellungen heute</p></div>
+<div class="card"><div class="num">412 €</div><p>Umsatz heute</p></div>
+<div class="card"><div class="num">17</div><p>Neue Kunden</p></div>
+<div class="card"><div class="num">94%</div><p>Zufriedenheit</p></div>
 </div>
-
-<div class="card">
-<div class="num">412€</div>
-<p>Umsatz heute</p>
 </div>
-
-<div class="card">
-<div class="num">17</div>
-<p>Neue Kunden</p>
-</div>
-
-<div class="card">
-<div class="num">94%</div>
-<p>Kundenzufriedenheit</p>
-</div>
-
-</div>
-
-</div>
-
 </body>
 </html>
