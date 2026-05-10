@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant Demo – Besucher</title>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; background:#0a0a0a; color:#f5f2ec; }
+    header { padding:24px; background:#131310; border-bottom:1px solid #333; }
+    a { color:#e8572a; text-decoration:none; }
+    .wrap { max-width:900px; margin:auto; padding:32px 20px; }
+    .card { background:#181812; border:1px solid #333; border-radius:10px; padding:24px; margin-bottom:20px; }
+    .item { display:flex; justify-content:space-between; gap:20px; border-bottom:1px solid #333; padding:16px 0; }
+    button { background:#e8572a; color:#fff; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; font-weight:bold; }
+    .cart { position:sticky; bottom:0; background:#131310; border-top:1px solid #333; padding:20px; }
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html">← Zurück zur Main Page</a> |
+  <a href="restaurant-owner.html">Eigentümer-Ansicht öffnen</a>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h1>Pizzeria Demo</h1>
+    <p>Bestelle direkt beim Restaurant. Ohne Plattform-Gebühren.</p>
+  </div>
+
+  <div class="card">
+    <h2>Speisekarte</h2>
+
+    <div class="item">
+      <div><strong>Pizza Margherita</strong><br>Tomate, Mozzarella, Basilikum</div>
+      <div>8,90 € <button onclick="addItem()">+</button></div>
+    </div>
+
+    <div class="item">
+      <div><strong>Pizza Salami</strong><br>Tomate, Mozzarella, Salami</div>
+      <div>10,90 € <button onclick="addItem()">+</button></div>
+    </div>
+
+    <div class="item">
+      <div><strong>Döner Teller</strong><br>Fleisch, Pommes, Salat, Sauce</div>
+      <div>12,50 € <button onclick="addItem()">+</button></div>
+    </div>
+
+    <div class="item">
+      <div><strong>Cola 0,33l</strong><br>Gekühltes Getränk</div>
+      <div>2,50 € <button onclick="addItem()">+</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="cart">
+  Warenkorb: <strong id="count">0</strong> Artikel
+  <button onclick="alert('Demo: Bestellung wurde abgeschickt!')">Bestellung abschicken</button>
+</div>
+
+<script>
+  let count = 0;
+  function addItem() {
+    count++;
+    document.getElementById('count').textContent = count;
+  }
+</script>
+</body>
+</html>
