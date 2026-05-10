@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Friseur Demo – Eigentümer</title>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; background:#0a0a0a; color:#f5f2ec; }
+    header { padding:24px; background:#131310; border-bottom:1px solid #333; }
+    a { color:#e8572a; text-decoration:none; }
+    .wrap { max-width:1000px; margin:auto; padding:32px 20px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
+    .card { background:#181812; border:1px solid #333; border-radius:10px; padding:24px; margin-bottom:20px; }
+    .num { font-size:2.4rem; font-weight:bold; color:#e8572a; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    td, th { padding:12px; border-bottom:1px solid #333; text-align:left; }
+  </style>
+</head>
+<body>
+<header>
+  <a href="friseur-demo.html">← Besucher-Ansicht</a> |
+  <a href="index.html">Main Page</a>
+</header>
+
+<div class="wrap">
+  <h1>Friseur Bella – Betreiber Dashboard</h1>
+
+  <div class="grid">
+    <div class="card"><div class="num">12</div><p>Termine heute</p></div>
+    <div class="card"><div class="num">4</div><p>Neue Buchungen</p></div>
+    <div class="card"><div class="num">92%</div><p>Auslastung</p></div>
+    <div class="card"><div class="num">+34%</div><p>Online-Buchungen</p></div>
+  </div>
+
+  <div class="card">
+    <h2>Heutige Termine</h2>
+    <table>
+      <tr><th>Zeit</th><th>Kunde</th><th>Leistung</th><th>Mitarbeiter</th></tr>
+      <tr><td>10:00</td><td>Max Müller</td><td>Haarschnitt Herren</td><td>Emre</td></tr>
+      <tr><td>11:30</td><td>Aylin Kaya</td><td>Färben</td><td>Lisa</td></tr>
+      <tr><td>14:30</td><td>Sara Weber</td><td>Haarschnitt Damen</td><td>Sara</td></tr>
+      <tr><td>16:00</td><td>Ali Demir</td><td>Bart trimmen</td><td>Emre</td></tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>
