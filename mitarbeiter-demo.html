@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mitarbeiter Demo</title>
+
+<style>
+body{
+  background:#0a0a0a;
+  color:#fff;
+  font-family:Arial;
+  margin:0;
+}
+
+.wrap{
+  max-width:1000px;
+  margin:auto;
+  padding:30px 20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#181812;
+  border:1px solid #333;
+  border-radius:10px;
+  padding:20px;
+}
+
+.avatar{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background:#e8572a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.5rem;
+  margin-bottom:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<h1>Mitarbeiterverwaltung</h1>
+
+<div class="grid">
+
+<div class="card">
+<div class="avatar">E</div>
+<h3>Emre</h3>
+<p>Friseur</p>
+</div>
+
+<div class="card">
+<div class="avatar">L</div>
+<h3>Lisa</h3>
+<p>Coloristin</p>
+</div>
+
+<div class="card">
+<div class="avatar">S</div>
+<h3>Sara</h3>
+<p>Service</p>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
