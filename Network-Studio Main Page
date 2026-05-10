@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Studio – Digitale Lösungen für lokale Betriebe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+```
+:root {
+  --black: #0a0a0a;
+  --white: #f5f2ec;
+  --cream: #ede9e0;
+  --accent: #e8572a;
+  --accent2: #f0a500;
+  --gray: #6b6760;
+  --card-bg: #131310;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 3rem;
+  backdrop-filter: blur(12px);
+  background: rgba(10,10,10,0.7);
+  border-bottom: 1px solid rgba(245,242,236,0.06);
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  text-decoration: none;
+}
+.logo span { color: var(--accent); }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
+}
+nav ul a {
+  text-decoration: none;
+  color: var(--gray);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+nav ul a:hover { color: var(--white); }
+
+.nav-cta {
+  background: var(--accent);
+  color: var(--white) !important;
+  padding: 0.5rem 1.2rem;
+  border-radius: 2px;
+}
+.nav-cta:hover { background: #d04420; color: var(--white) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 8rem 3rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg-circle {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,87,42,0.12) 0%, transparent 70%);
+  top: 50%; right: -100px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.8rem;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.1s forwards;
+}
+.hero-tag::before {
+  content: '';
+  display: block;
+  width: 24px; height: 1px;
+  background: var(--accent);
+}
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.8rem, 5vw, 4.8rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.8rem;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.25s forwards;
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--accent);
+  position: relative;
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--gray);
+  max-width: 440px;
+  margin-bottom: 2.8rem;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.4s forwards;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.55s forwards;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--white);
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: #d04420; transform: translateY(-1px); }
+
+.btn-secondary {
+  border: 1px solid rgba(245,242,236,0.2);
+  color: var(--white);
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.btn-secondary:hover { border-color: var(--white); transform: translateY(-1px); }
+
+/* Hero right side — mockup card */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 1s ease 0.6s forwards;
+}
+
+.mockup-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(245,242,236,0.08);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  position: relative;
+}
+
+.mockup-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(245,242,236,0.07);
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #ff5f57; }
+.dot-y { background: #ffbd2e; }
+.dot-g { background: #28c840; }
+
+.mockup-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-left: auto;
+}
+
+.mock-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(245,242,236,0.05);
+  font-size: 0.85rem;
+}
+.mock-row:last-child { border-bottom: none; }
+.mock-label { color: var(--gray); }
+.mock-val { font-weight: 500; }
+.badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.badge-green { background: rgba(40,200,64,0.15); color: #28c840; }
+.badge-orange { background: rgba(240,165,0,0.15); color: var(--accent2); }
+
+.mock-bar-wrap {
+  margin-top: 1.2rem;
+}
+.mock-bar-label {
+  font-size: 0.75rem;
+  color: var(--gray);
+  margin-bottom: 0.4rem;
+}
+.mock-bar {
+  height: 4px;
+  background: rgba(245,242,236,0.07);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+}
+.mock-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  animation: barGrow 1.5s ease 1s forwards;
+  width: 0;
+}
+.fill-accent { background: var(--accent); --target: 72%; }
+.fill-accent2 { background: var(--accent2); --target: 48%; }
+.fill-white { background: rgba(245,242,236,0.5); --target: 89%; }
+
+@keyframes barGrow {
+  to { width: var(--target); }
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  border-top: 1px solid rgba(245,242,236,0.07);
+  border-bottom: 1px solid rgba(245,242,236,0.07);
+  display: flex;
+  justify-content: space-around;
+  padding: 2.5rem 3rem;
+}
+
+.stat {
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--white);
+}
+.stat-num span { color: var(--accent); }
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--gray);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+/* ── SECTION COMMON ── */
+section { padding: 6rem 3rem; }
+
+.section-tag {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.section-tag::before {
+  content: '';
+  display: block;
+  width: 20px; height: 1px;
+  background: var(--accent);
+}
+
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.section-intro {
+  color: var(--gray);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 500px;
+  margin-bottom: 3.5rem;
+}
+
+/* ── DEMOS SECTION ── */
+.demos { background: var(--black); }
+
+.demos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.demo-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(245,242,236,0.07);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.demo-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.demo-thumb {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-thumb-friseur { background: linear-gradient(135deg, #1a0f0a 0%, #2d1a10 100%); }
+.demo-thumb-restaurant { background: linear-gradient(135deg, #0a0f1a 0%, #101d2d 100%); }
+
+.demo-thumb-icon {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 30px rgba(232,87,42,0.4));
+}
+
+.demo-thumb-glow {
+  position: absolute;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.3;
+}
+
+.demo-body {
+  padding: 1.5rem;
+}
+
+.demo-kicker {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.demo-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.demo-desc {
+  font-size: 0.88rem;
+  color: var(--gray);
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+.demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.demo-link::after { content: '→'; transition: transform 0.2s; }
+.demo-card:hover .demo-link::after { transform: translateX(4px); }
+
+.demo-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+.demo-tag {
+  font-size: 0.68rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba(245,242,236,0.12);
+  border-radius: 20px;
+  color: var(--gray);
+}
+
+/* ── HOW IT WORKS ── */
+.how { background: #0d0d0b; }
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(245,242,236,0.07);
+  border: 1px solid rgba(245,242,236,0.07);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.step {
+  background: var(--card-bg);
+  padding: 2rem 1.8rem;
+}
+
+.step-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: rgba(232,87,42,0.2);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.step-desc {
+  font-size: 0.83rem;
+  color: var(--gray);
+  line-height: 1.65;
+}
+
+/* ── PRICING ── */
+.pricing { background: var(--black); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+}
+
+.pricing-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(245,242,236,0.07);
+  border-radius: 6px;
+  padding: 2rem;
+  position: relative;
+}
+
+.pricing-card.featured {
+  border-color: var(--accent);
+}
+
+.featured-badge {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.price-tier {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 1rem;
+}
+
+.price-amount {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 2.4rem;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.3rem;
+}
+
+.price-period {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-bottom: 1.5rem;
+}
+
+.price-list {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.price-list li {
+  font-size: 0.85rem;
+  color: var(--gray);
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(245,242,236,0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.price-list li::before {
+  content: '✓';
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.btn-price {
+  display: block;
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 2px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid rgba(245,242,236,0.15);
+  color: var(--white);
+  transition: all 0.2s;
+}
+.btn-price:hover { border-color: var(--white); }
+.btn-price-fill {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.btn-price-fill:hover { background: #d04420; border-color: #d04420; }
+
+/* ── CONTACT ── */
+.contact {
+  background: var(--card-bg);
+  border-top: 1px solid rgba(245,242,236,0.07);
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+label {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+input, textarea, select {
+  background: rgba(245,242,236,0.04);
+  border: 1px solid rgba(245,242,236,0.1);
+  border-radius: 3px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+}
+
+textarea { resize: vertical; min-height: 120px; }
+
+select option { background: #1a1a16; }
+
+.form-submit {
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  padding: 0.9rem;
+  border-radius: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.02em;
+}
+.form-submit:hover { background: #d04420; }
+
+.contact-info {
+  padding-top: 0.5rem;
+}
+
+.contact-info h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-info p {
+  color: var(--gray);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(245,242,236,0.06);
+  font-size: 0.88rem;
+  color: var(--gray);
+}
+.contact-detail-icon {
+  width: 32px; height: 32px;
+  background: rgba(232,87,42,0.1);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 2rem 3rem;
+  border-top: 1px solid rgba(245,242,236,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer p {
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.2rem; }
+  nav ul { display: none; }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 7rem 1.2rem 3rem;
+    gap: 3rem;
+  }
+  .hero-visual { order: -1; }
+  .mockup-card { max-width: 100%; }
+
+  section { padding: 4rem 1.2rem; }
+  .stats-bar { flex-wrap: wrap; gap: 2rem; padding: 2rem 1.2rem; }
+  .demos-grid { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+```
+
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <a href="#" class="logo">Network<span>.</span>Studio</a>
+  <ul>
+    <li><a href="#demos">Demos</a></li>
+    <li><a href="#how">So läuft's</a></li>
+    <li><a href="#preise">Preise</a></li>
+    <li><a href="#kontakt" class="nav-cta">Anfragen</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Digitale Lösungen · Made in Germany</div>
+    <h1>Dein Betrieb.<br/><em>Digital.</em><br/>Fertig.</h1>
+    <p class="hero-sub">
+      Wir bauen maßgeschneiderte Web-Apps für Friseure, Restaurants und lokale Betriebe — 
+      ohne Monatsgebühren für überflüssige Features. Nur das, was wirklich gebraucht wird.
+    </p>
+    <div class="hero-btns">
+      <a href="#demos" class="btn-primary">Live-Demos ansehen</a>
+      <a href="#kontakt" class="btn-secondary">Kostenlos anfragen</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="mockup-card">
+      <div class="mockup-header">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="mockup-title">Dashboard · Friseur Bella</div>
+      </div>
+      <div class="mock-row">
+        <span class="mock-label">Heutige Termine</span>
+        <span class="mock-val">12 gebucht</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-label">Status</span>
+        <span class="badge badge-green">Aktiv</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-label">Nächster Termin</span>
+        <span class="mock-val">14:30 Uhr</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-label">Online-Buchungen</span>
+        <span class="badge badge-orange">+34% diese Woche</span>
+      </div>
+      <div class="mock-bar-wrap">
+        <div class="mock-bar-label">Auslastung heute</div>
+        <div class="mock-bar"><div class="mock-bar-fill fill-accent"></div></div>
+        <div class="mock-bar-label">Kundenzufriedenheit</div>
+        <div class="mock-bar"><div class="mock-bar-fill fill-white"></div></div>
+        <div class="mock-bar-label">Neue Stammkunden</div>
+        <div class="mock-bar"><div class="mock-bar-fill fill-accent2"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-bg-circle"></div>
+</section>
+
+<!-- STATS -->
+
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">48<span>h</span></div>
+    <div class="stat-label">Lieferzeit</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">0<span>€</span></div>
+    <div class="stat-label">Startkosten</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100<span>%</span></div>
+    <div class="stat-label">Maßgeschneidert</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">24<span>/7</span></div>
+    <div class="stat-label">Online für Kunden</div>
+  </div>
+</div>
+
+<!-- DEMOS -->
+
+<section class="demos" id="demos">
+  <div class="section-tag">Live-Demos</div>
+  <h2>Sieh es selbst.<br/>Direkt ausprobieren.</h2>
+  <p class="section-intro">Keine Präsentation. Keine Folien. Nur echte, funktionierende Beispiele — so sieht das Endprodukt für deinen Betrieb aus.</p>
+
+  <div class="demos-grid">
+    <a href="friseur-demo.html" class="demo-card">
+      <div class="demo-thumb demo-thumb-friseur">
+        <div class="demo-thumb-glow" style="background: #e8572a;"></div>
+        <span class="demo-thumb-icon">✂️</span>
+      </div>
+      <div class="demo-body">
+        <div class="demo-kicker">Friseure & Beauty</div>
+        <div class="demo-title">Online-Terminbuchung</div>
+        <div class="demo-desc">Kunden buchen rund um die Uhr online — du siehst alles in deinem Dashboard. Keine Telefonate mehr, keine Zettel.</div>
+        <div class="demo-link">Demo öffnen</div>
+        <div class="demo-tags">
+          <span class="demo-tag">Kalender</span>
+          <span class="demo-tag">SMS-Erinnerung</span>
+          <span class="demo-tag">Mitarbeiter</span>
+          <span class="demo-tag">Mobiloptimiert</span>
+        </div>
+      </div>
+    </a>
+
+```
+<a href="restaurant-demo.html" class="demo-card">
+  <div class="demo-thumb demo-thumb-restaurant">
+    <div class="demo-thumb-glow" style="background: #f0a500;"></div>
+    <span class="demo-thumb-icon">🍕</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-kicker">Restaurants & Cafés</div>
+    <div class="demo-title">Online-Bestellsystem</div>
+    <div class="demo-desc">Eigene Bestellseite ohne Lieferando-Gebühren. Speisekarte verwalten, Bestellungen live empfangen, direkt ausdrucken.</div>
+    <div class="demo-link">Demo öffnen</div>
+    <div class="demo-tags">
+      <span class="demo-tag">Speisekarte</span>
+      <span class="demo-tag">Live-Bestellungen</span>
+      <span class="demo-tag">0% Provision</span>
+      <span class="demo-tag">Abholung / Lieferung</span>
+    </div>
+  </div>
+</a>
+```
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="how" id="how">
+  <div class="section-tag">So läuft's</div>
+  <h2>Einfach. Schnell.<br/>Fertig.</h2>
+  <p class="section-intro" style="margin-bottom: 3rem;">Von der Anfrage bis zur fertigen App in wenigen Tagen — ohne technisches Vorwissen auf deiner Seite.</p>
+
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Kostenlos anfragen</div>
+      <div class="step-desc">Du beschreibst kurz, was dein Betrieb braucht. Kein Fachwissen nötig.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Angebot erhalten</div>
+      <div class="step-desc">Wir schicken dir innerhalb von 24h ein konkretes Angebot mit Preis und Umfang.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">App wird gebaut</div>
+      <div class="step-desc">Deine individuelle App ist in 48 Stunden fertig — bereits mit deinem Logo und deinen Farben.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Live & fertig</div>
+      <div class="step-desc">Wir schalten alles live. Du bekommst eine kurze Einführung — und kannst sofort loslegen.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+
+<section class="pricing" id="preise">
+  <div class="section-tag">Preise</div>
+  <h2>Transparent.<br/>Keine Überraschungen.</h2>
+  <p class="section-intro">Einmalige Einrichtung, dann monatliche Pauschale für Hosting & Updates. Keine versteckten Kosten.</p>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="price-tier">Starter</div>
+      <div class="price-amount">299 €</div>
+      <div class="price-period">einmalig + 29 €/Monat</div>
+      <ul class="price-list">
+        <li>Terminbuchungs-App</li>
+        <li>Mobiloptimiert</li>
+        <li>Bis zu 3 Mitarbeiter</li>
+        <li>E-Mail-Bestätigung</li>
+        <li>1 Monat kostenloser Support</li>
+      </ul>
+      <a href="#kontakt" class="btn-price">Anfragen</a>
+    </div>
+
+```
+<div class="pricing-card featured">
+  <div class="featured-badge">Beliebteste Wahl</div>
+  <div class="price-tier">Pro</div>
+  <div class="price-amount">499 €</div>
+  <div class="price-period">einmalig + 49 €/Monat</div>
+  <ul class="price-list">
+    <li>Alles aus Starter</li>
+    <li>Bestellsystem inklusive</li>
+    <li>Dashboard für Betreiber</li>
+    <li>SMS-Erinnerungen</li>
+    <li>Unbegrenzte Mitarbeiter</li>
+    <li>3 Monate Support</li>
+  </ul>
+  <a href="#kontakt" class="btn-price btn-price-fill">Anfragen</a>
+</div>
+
+<div class="pricing-card">
+  <div class="price-tier">Komplett</div>
+  <div class="price-amount">799 €</div>
+  <div class="price-period">einmalig + 69 €/Monat</div>
+  <ul class="price-list">
+    <li>Alles aus Pro</li>
+    <li>Eigene Domain inklusive</li>
+    <li>KI-Chatbot für die Website</li>
+    <li>Inventar-Verwaltung</li>
+    <li>Monatliche Updates</li>
+    <li>Dauerhafter Support</li>
+  </ul>
+  <a href="#kontakt" class="btn-price">Anfragen</a>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+
+<section class="contact" id="kontakt">
+  <div class="contact-inner">
+    <div class="contact-info">
+      <div class="section-tag">Kontakt</div>
+      <h3>Lass uns reden.<br/>Kostenlos & unverbindlich.</h3>
+      <p>Schreib uns kurz, was du brauchst — wir melden uns innerhalb von 24 Stunden mit einem konkreten Angebot. Keine Verpflichtung, kein Kleingedrucktes.</p>
+
+```
+  <div class="contact-detail">
+    <div class="contact-detail-icon">📧</div>
+    <span>hallo@network-studio.de</span>
+  </div>
+  <div class="contact-detail">
+    <div class="contact-detail-icon">⚡</div>
+    <span>Antwort innerhalb von 24 Stunden</span>
+  </div>
+  <div class="contact-detail">
+    <div class="contact-detail-icon">🇩🇪</div>
+    <span>Entwicklung & Support aus Deutschland</span>
+  </div>
+</div>
+
+<form class="contact-form" onsubmit="handleSubmit(event)">
+  <div class="form-group">
+    <label>Dein Name</label>
+    <input type="text" placeholder="Max Mustermann" required />
+  </div>
+  <div class="form-group">
+    <label>E-Mail-Adresse</label>
+    <input type="email" placeholder="info@deinbetrieb.de" required />
+  </div>
+  <div class="form-group">
+    <label>Art des Betriebs</label>
+    <select>
+      <option value="">Bitte wählen…</option>
+      <option>Friseur / Beauty-Salon</option>
+      <option>Restaurant / Café</option>
+      <option>Einzelhandel / Laden</option>
+      <option>Sonstiges</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Was brauchst du?</label>
+    <textarea placeholder="Kurz beschreiben, was du dir vorstellst…"></textarea>
+  </div>
+  <button type="submit" class="form-submit" id="submit-btn">Kostenlos anfragen →</button>
+  <p id="form-msg" style="font-size:0.82rem; color: var(--accent); display:none; margin-top:0.3rem;">✓ Nachricht gesendet! Wir melden uns bald.</p>
+</form>
+```
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <p>© 2026 Network Studio — Digitale Lösungen für lokale Betriebe</p>
+  <p style="color: var(--gray); font-size:0.78rem;">network-studio.github.io</p>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const msg = document.getElementById('form-msg');
+    btn.textContent = 'Gesendet ✓';
+    btn.style.background = '#28c840';
+    msg.style.display = 'block';
+    setTimeout(() => {
+      btn.textContent = 'Kostenlos anfragen →';
+      btn.style.background = '';
+      msg.style.display = 'none';
+      e.target.reset();
+    }, 4000);
+  }
+</script>
+
+</body>
+</html>
