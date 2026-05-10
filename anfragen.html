@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anfragen – Network Studio</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#f5f2ec;font-family:Arial,sans-serif}
+nav{padding:20px 30px;background:#111;border-bottom:1px solid #2a2a2a;display:flex;justify-content:space-between}
+a{color:#e8572a;text-decoration:none}
+.wrap{max-width:800px;margin:auto;padding:50px 20px}
+h1{font-size:3rem;margin-bottom:15px}
+p{color:#b8b1a7;line-height:1.7;margin-bottom:30px}
+form{background:#131310;border:1px solid #2a2a2a;border-radius:14px;padding:28px;display:grid;gap:15px}
+input,select,textarea{width:100%;padding:14px;background:#0f0f0d;color:#fff;border:1px solid #333;border-radius:8px}
+textarea{min-height:130px}
+button{background:#e8572a;color:white;border:none;padding:15px;border-radius:8px;font-weight:bold;cursor:pointer}
+.msg{display:none;color:#28c840;margin-top:15px}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html">← Startseite</a>
+<a href="preise.html">Preise</a>
+</nav>
+
+<div class="wrap">
+<h1>Anfrage stellen</h1>
+<p>Fülle das Formular aus. In dieser Demo wird nichts wirklich verschickt.</p>
+
+<form onsubmit="sendRequest(event)">
+<input type="text" placeholder="Dein Name" required>
+<input type="email" placeholder="E-Mail-Adresse" required>
+<select required>
+<option value="">Betriebsart wählen</option>
+<option>Friseur / Beauty</option>
+<option>Restaurant / Café</option>
+<option>Einzelhandel</option>
+<option>Sonstiges</option>
+</select>
+<select required>
+<option value="">Paket wählen</option>
+<option>Starter</option>
+<option>Pro</option>
+<option>Komplett</option>
+<option>Noch unsicher</option>
+</select>
+<textarea placeholder="Was brauchst du?"></textarea>
+<button type="submit">Anfrage senden</button>
+<div id="msg" class="msg">Anfrage wurde gespeichert. Wir melden uns bald.</div>
+</form>
+</div>
+
+<script>
+function sendRequest(e){
+e.preventDefault();
+document.getElementById("msg").style.display="block";
+e.target.reset();
+}
+</script>
+
+</body>
+</html>
