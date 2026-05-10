@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Studio – Digitale Lösungen für lokale Betriebe</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ec;
+      --cream: #ede9e0;
+      --accent: #e8572a;
+      --accent2: #f0a500;
+      --gray: #b8b1a7;
+      --card-bg: #131310;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,10,0.85);
+      border-bottom: 1px solid rgba(245,242,236,0.08);
+    }
+
+    .logo {
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--gray);
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--white);
+    }
+
+    .nav-cta {
+      background: var(--accent);
+      color: white !important;
+      padding: 0.55rem 1.2rem;
+      border-radius: 4px;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      gap: 4rem;
+      position: relative;
+    }
+
+    .hero-bg-circle {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,87,42,0.14) 0%, transparent 70%);
+      right: -200px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      color: var(--accent);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.04em;
+    }
+
+    h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .hero-sub {
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      text-decoration: none;
+      padding: 0.9rem 1.8rem;
+      border-radius: 4px;
+      transition: 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #d94c22;
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(245,242,236,0.2);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      border-color: white;
+    }
+
+    .mockup-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(245,242,236,0.08);
+      border-radius: 10px;
+      padding: 2rem;
+      max-width: 420px;
+      margin-left: auto;
+    }
+
+    .mockup-title {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    .mock-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(245,242,236,0.05);
+      font-size: 0.9rem;
+    }
+
+    .mock-label {
+      color: var(--gray);
+    }
+
+    .badge {
+      background: rgba(232,87,42,0.15);
+      color: var(--accent);
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+    }
+
+    section {
+      padding: 6rem 3rem;
+    }
+
+    .section-tag {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .section-intro {
+      color: var(--gray);
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .demos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .demo-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(245,242,236,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: 0.25s;
+    }
+
+    .demo-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-5px);
+    }
+
+    .demo-thumb {
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4rem;
+    }
+
+    .demo-thumb-friseur {
+      background: linear-gradient(135deg,#1c120d,#2b1911);
+    }
+
+    .demo-thumb-restaurant {
+      background: linear-gradient(135deg,#10121b,#172132);
+    }
+
+    .demo-body {
+      padding: 1.8rem;
+    }
+
+    .demo-kicker {
+      color: var(--accent);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.6rem;
+    }
+
+    .demo-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .demo-desc {
+      color: var(--gray);
+      line-height: 1.7;
+      margin-bottom: 1.4rem;
+      font-size: 0.92rem;
+    }
+
+    .demo-link {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid rgba(245,242,236,0.08);
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1.2rem;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 7rem 1.2rem 3rem;
+      }
+
+      .mockup-card {
+        margin: auto;
+        width: 100%;
+      }
+
+      section {
+        padding: 4rem 1.2rem;
+      }
+
+      .demos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-sub,
+      .section-intro,
+      .demo-desc {
+        color: #d0c7bb;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <a href="#" class="logo">Network<span>.</span>Studio</a>
+
+  <ul>
+    <li><a href="#demos">Demos</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+    <li><a href="#kontakt" class="nav-cta">Anfragen</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-tag">Digitale Lösungen · Made in Germany</div>
+
+    <h1>
+      Dein Betrieb.<br>
+      <em>Digital.</em><br>
+      Fertig.
+    </h1>
+
+    <p class="hero-sub">
+      Moderne Web-Apps für Friseure, Restaurants und lokale Betriebe.
+      Schnell umgesetzt. Mobiloptimiert. Direkt einsatzbereit.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#demos" class="btn-primary">Live-Demos ansehen</a>
+      <a href="#kontakt" class="btn-secondary">Kostenlos anfragen</a>
+    </div>
+  </div>
+
+  <div class="mockup-card">
+    <div class="mockup-title">Dashboard · Friseur Bella</div>
+
+    <div class="mock-row">
+      <span class="mock-label">Heutige Termine</span>
+      <span>12 gebucht</span>
+    </div>
+
+    <div class="mock-row">
+      <span class="mock-label">Status</span>
+      <span class="badge">Aktiv</span>
+    </div>
+
+    <div class="mock-row">
+      <span class="mock-label">Nächster Termin</span>
+      <span>14:30 Uhr</span>
+    </div>
+
+    <div class="mock-row">
+      <span class="mock-label">Online-Buchungen</span>
+      <span>+34%</span>
+    </div>
+  </div>
+
+  <div class="hero-bg-circle"></div>
+</section>
+
+<section id="demos">
+  <div class="section-tag">Live-Demos</div>
+
+  <h2>
+    Sieh es selbst.<br>
+    Direkt ausprobieren.
+  </h2>
+
+  <p class="section-intro">
+    Keine Präsentation. Keine Folien.
+    Nur echte, funktionierende Beispiele.
+  </p>
+
+  <div class="demos-grid">
+
+    <a href="friseur-demo.html" class="demo-card">
+      <div class="demo-thumb demo-thumb-friseur">✂️</div>
+
+      <div class="demo-body">
+        <div class="demo-kicker">Friseure & Beauty</div>
+
+        <div class="demo-title">
+          Online-Terminbuchung
+        </div>
+
+        <div class="demo-desc">
+          Kunden buchen online Termine und der Betreiber verwaltet alles im Dashboard.
+        </div>
+
+        <div class="demo-link">
+          Demo öffnen →
+        </div>
+      </div>
+    </a>
+
+    <a href="restaurant-demo.html" class="demo-card">
+      <div class="demo-thumb demo-thumb-restaurant">🍕</div>
+
+      <div class="demo-body">
+        <div class="demo-kicker">Restaurants & Cafés</div>
+
+        <div class="demo-title">
+          Online-Bestellsystem
+        </div>
+
+        <div class="demo-desc">
+          Eigene Bestellplattform ohne Lieferando-Provision mit Live-Bestellungen.
+        </div>
+
+        <div class="demo-link">
+          Demo öffnen →
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="section-tag">Kontakt</div>
+
+  <h2>
+    Lass uns reden.
+  </h2>
+
+  <p class="section-intro">
+    Schreib uns kurz, was du brauchst.
+    Wir melden uns innerhalb von 24 Stunden.
+  </p>
+
+  <div class="hero-btns">
+    <a href="mailto:hallo@network-studio.de" class="btn-primary">
+      hallo@network-studio.de
+    </a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Network Studio — Digitale Lösungen für lokale Betriebe
+</footer>
+
+</body>
+</html>
