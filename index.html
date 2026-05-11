@@ -22,17 +22,16 @@
 :root {
   --black: #070707;
   --dark: #0d0c0a;
-  --dark-soft: #13110e;
-  --card: rgba(255,255,255,.045);
-  --card-strong: rgba(255,255,255,.075);
+  --dark-soft: #14120f;
   --white: #f8f4ee;
   --gray: #c5beb4;
   --muted: #8d857a;
   --accent: #e8572a;
+  --accent-dark: #c83d18;
   --accent-soft: #ffb347;
-  --cream: #f3dfc0;
-  --border: rgba(248,244,238,.11);
-  --shadow: 0 34px 90px rgba(0,0,0,.45);
+  --border: rgba(248,244,238,.12);
+  --card: rgba(255,255,255,.055);
+  --card-strong: rgba(255,255,255,.085);
 }
 
 html {
@@ -45,9 +44,9 @@ body {
   font-weight: 300;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 78% 8%, rgba(232,87,42,.24), transparent 33%),
-    radial-gradient(circle at 16% 22%, rgba(255,179,71,.11), transparent 28%),
-    linear-gradient(180deg, #090908 0%, #0d0c0a 48%, #11100d 100%);
+    radial-gradient(circle at 80% 8%, rgba(232,87,42,.25), transparent 32%),
+    radial-gradient(circle at 18% 18%, rgba(255,179,71,.12), transparent 28%),
+    linear-gradient(180deg, #080807 0%, #0d0c0a 48%, #11100d 100%);
 }
 
 body::before {
@@ -55,7 +54,7 @@ body::before {
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: .027;
+  opacity: .026;
   pointer-events: none;
   z-index: 9999;
 }
@@ -70,7 +69,7 @@ nav {
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 1.1rem 3rem;
+  padding: 1.05rem 3rem;
   backdrop-filter: blur(18px);
   background: rgba(7,7,7,.74);
   border-bottom: 1px solid rgba(248,244,238,.08);
@@ -116,7 +115,7 @@ nav ul {
   align-items: center;
   justify-content: center;
   list-style: none;
-  gap: 2.2rem;
+  gap: 2.15rem;
 }
 
 nav ul a {
@@ -142,7 +141,7 @@ nav ul a:hover {
   padding: .72rem 1.2rem;
   border-radius: 999px;
   font-size: .82rem;
-  font-weight: 700;
+  font-weight: 800;
   transition: .2s ease;
 }
 
@@ -153,25 +152,15 @@ nav ul a:hover {
 }
 
 .hero {
-  min-height: 100vh;
+  min-height: 92vh;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 9.4rem 3rem 4.2rem;
+  padding: 9.2rem 3rem 3.8rem;
   display: grid;
-  grid-template-columns: .94fr 1.06fr;
+  grid-template-columns: .95fr 1.05fr;
   align-items: center;
   gap: 4rem;
   position: relative;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  left: 3rem;
-  right: 3rem;
-  bottom: 2.2rem;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(248,244,238,.18), transparent);
 }
 
 .hero-content {
@@ -187,8 +176,8 @@ nav ul a:hover {
   text-transform: uppercase;
   letter-spacing: .17em;
   font-size: .74rem;
-  font-weight: 700;
-  margin-bottom: 1.65rem;
+  font-weight: 800;
+  margin-bottom: 1.55rem;
 }
 
 .hero-tag::before {
@@ -205,11 +194,11 @@ h3 {
 }
 
 h1 {
-  max-width: 680px;
-  font-size: clamp(3.2rem, 6.7vw, 6.7rem);
+  max-width: 700px;
+  font-size: clamp(3.2rem, 6.8vw, 6.8rem);
   line-height: .94;
-  letter-spacing: -.065em;
-  margin-bottom: 1.8rem;
+  letter-spacing: -.067em;
+  margin-bottom: 1.7rem;
   text-align: left;
 }
 
@@ -223,7 +212,7 @@ h1 em {
   line-height: 1.85;
   max-width: 610px;
   font-size: 1.06rem;
-  margin-bottom: 2.4rem;
+  margin-bottom: 2.25rem;
 }
 
 .hero-btns {
@@ -248,7 +237,7 @@ h1 em {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent), #c83d18);
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff;
   box-shadow: 0 18px 45px rgba(232,87,42,.28);
 }
@@ -265,7 +254,7 @@ h1 em {
 }
 
 .hero-note {
-  margin-top: 1.5rem;
+  margin-top: 1.45rem;
   color: var(--muted);
   font-size: .92rem;
 }
@@ -278,8 +267,28 @@ h1 em {
   align-items: center;
 }
 
+.hero-logo-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-logo-wrap::before {
+  content: "";
+  position: absolute;
+  width: min(72vw, 560px);
+  height: min(72vw, 560px);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(232,87,42,.18), transparent 62%),
+    radial-gradient(circle, rgba(255,179,71,.08), transparent 70%);
+  filter: blur(2px);
+  z-index: -1;
+}
+
 .hero-logo-image {
-  width: min(100%, 650px);
+  width: min(100%, 680px);
   display: block;
   object-fit: contain;
   border: none;
@@ -289,62 +298,48 @@ h1 em {
   filter: drop-shadow(0 34px 58px rgba(0,0,0,.45));
 }
 
-.trust-section {
+.quick-proof {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 3rem 6rem;
+  padding: 0 3rem 5rem;
 }
 
-.trust-grid {
+.quick-proof-inner {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: .9rem;
+  padding: 1rem;
+  border-radius: 24px;
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(248,244,238,.09);
 }
 
-.trust-card {
-  min-height: 160px;
-  padding: 1.45rem;
+.proof-item {
+  padding: 1.2rem 1.25rem;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.032));
-  border: 1px solid rgba(248,244,238,.1);
-  position: relative;
-  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+  border: 1px solid rgba(248,244,238,.08);
 }
 
-.trust-card::before {
-  content: "";
-  position: absolute;
-  inset: auto -40px -65px auto;
-  width: 135px;
-  height: 135px;
-  background: radial-gradient(circle, rgba(232,87,42,.24), transparent 66%);
-}
-
-.trust-kicker {
-  color: var(--accent-soft);
-  font-size: .74rem;
-  font-weight: 800;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  margin-bottom: .9rem;
-}
-
-.trust-card h3 {
-  font-size: 1.18rem;
+.proof-item strong {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
   letter-spacing: -.025em;
-  margin-bottom: .55rem;
+  margin-bottom: .35rem;
 }
 
-.trust-card p {
+.proof-item span {
+  display: block;
   color: var(--gray);
-  line-height: 1.62;
-  font-size: .93rem;
+  font-size: .9rem;
+  line-height: 1.55;
 }
 
 section {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 6rem 3rem;
+  padding: 4.9rem 3rem;
 }
 
 .section-head {
@@ -352,7 +347,7 @@ section {
   grid-template-columns: .72fr 1.28fr;
   gap: 3.5rem;
   align-items: start;
-  margin-bottom: 3.4rem;
+  margin-bottom: 2.7rem;
 }
 
 .section-tag {
@@ -375,8 +370,8 @@ section {
 }
 
 h2 {
-  font-size: clamp(2.25rem, 4.2vw, 4.25rem);
-  line-height: 1.02;
+  font-size: clamp(2.2rem, 4vw, 4.15rem);
+  line-height: 1.03;
   letter-spacing: -.052em;
   text-align: left;
 }
@@ -387,31 +382,31 @@ h2 {
   font-size: 1.04rem;
   max-width: none;
   width: 100%;
-  padding-top: 2.25rem;
+  padding-top: 2.15rem;
 }
 
-.cards {
+.service-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.35rem;
+  gap: 1.2rem;
 }
 
-.card {
+.service-card {
   background:
     linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.03)),
     var(--dark-soft);
   border: 1px solid var(--border);
-  border-radius: 22px;
+  border-radius: 24px;
   padding: 2rem;
   text-decoration: none;
   color: inherit;
   transition: .25s ease;
   position: relative;
   overflow: hidden;
-  min-height: 315px;
+  min-height: 260px;
 }
 
-.card::before {
+.service-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -420,44 +415,44 @@ h2 {
   transition: .25s ease;
 }
 
-.card:hover {
+.service-card:hover {
   transform: translateY(-6px);
   border-color: rgba(232,87,42,.52);
   box-shadow: 0 24px 60px rgba(0,0,0,.32);
 }
 
-.card:hover::before {
+.service-card:hover::before {
   opacity: 1;
 }
 
-.card > * {
+.service-card > * {
   position: relative;
   z-index: 1;
 }
 
-.card-icon {
-  width: 58px;
-  height: 58px;
+.service-icon {
+  width: 54px;
+  height: 54px;
   border-radius: 16px;
   background: rgba(232,87,42,.13);
   color: var(--accent-soft);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.65rem;
-  margin-bottom: 1.35rem;
+  font-size: 1.45rem;
+  margin-bottom: 1.25rem;
 }
 
-.card h3 {
-  font-size: 1.5rem;
+.service-card h3 {
+  font-size: 1.45rem;
   letter-spacing: -.035em;
   margin-bottom: .8rem;
 }
 
-.card p {
+.service-card p {
   color: var(--gray);
-  line-height: 1.75;
-  margin-bottom: 1.5rem;
+  line-height: 1.72;
+  margin-bottom: 1.4rem;
 }
 
 .card-link {
@@ -466,18 +461,65 @@ h2 {
   font-size: .9rem;
 }
 
-.review {
+.audience-section {
+  padding-top: 3.2rem;
+}
+
+.audience-box {
   display: grid;
-  grid-template-columns: .8fr 1.2fr;
+  grid-template-columns: .9fr 1.1fr;
   gap: 3rem;
   align-items: center;
-  padding: 4rem;
   border-radius: 28px;
+  padding: 3rem;
   background:
-    radial-gradient(circle at 12% 18%, rgba(232,87,42,.17), transparent 36%),
-    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
-  border: 1px solid rgba(248,244,238,.12);
-  box-shadow: 0 28px 80px rgba(0,0,0,.3);
+    radial-gradient(circle at 12% 18%, rgba(232,87,42,.16), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+  border: 1px solid rgba(248,244,238,.11);
+}
+
+.audience-box p {
+  color: var(--gray);
+  line-height: 1.82;
+  font-size: 1.03rem;
+  margin-top: 1rem;
+}
+
+.audience-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  justify-content: flex-end;
+}
+
+.audience-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .75rem 1rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(248,244,238,.1);
+  color: var(--white);
+  font-weight: 700;
+  font-size: .92rem;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 1.2rem;
+  align-items: stretch;
+}
+
+.review-card,
+.reason-card {
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)),
+    var(--dark-soft);
+  border: 1px solid rgba(248,244,238,.11);
+  padding: 2.3rem;
 }
 
 .review-label {
@@ -489,75 +531,71 @@ h2 {
   margin-bottom: 1rem;
 }
 
-.review h2 {
-  margin-bottom: 1rem;
-}
-
 .review-stars {
   color: var(--accent-soft);
-  font-size: 1.35rem;
+  font-size: 1.28rem;
   letter-spacing: .1em;
-  margin-bottom: 1.3rem;
+  margin-bottom: 1.1rem;
 }
 
-.review blockquote {
+.review-card blockquote {
   color: var(--white);
-  font-size: clamp(1.35rem, 2.3vw, 2rem);
-  line-height: 1.45;
-  letter-spacing: -.025em;
+  font-size: clamp(1.18rem, 2vw, 1.55rem);
+  line-height: 1.52;
+  letter-spacing: -.02em;
   font-weight: 500;
 }
 
 .review-author {
-  margin-top: 1.4rem;
+  margin-top: 1.2rem;
   color: var(--gray);
   line-height: 1.65;
 }
 
-.process {
-  padding-top: 0;
-}
-
-.process-grid {
+.reason-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: .95rem;
 }
 
-.process-item {
-  padding: 1.6rem;
-  border-radius: 20px;
-  border: 1px solid rgba(248,244,238,.1);
-  background: rgba(255,255,255,.04);
+.reason-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .8rem;
+  align-items: start;
 }
 
-.process-number {
-  font-family: 'Syne', sans-serif;
-  font-size: 2.3rem;
-  font-weight: 800;
-  color: rgba(232,87,42,.9);
-  letter-spacing: -.05em;
-  margin-bottom: .9rem;
+.reason-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(232,87,42,.14);
+  color: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  margin-top: .15rem;
 }
 
-.process-item h3 {
-  font-size: 1.16rem;
-  margin-bottom: .55rem;
+.reason-item strong {
+  display: block;
+  margin-bottom: .2rem;
+  font-size: 1rem;
 }
 
-.process-item p {
+.reason-item span {
+  display: block;
   color: var(--gray);
-  line-height: 1.65;
-  font-size: .94rem;
+  line-height: 1.58;
+  font-size: .95rem;
 }
 
 .cta {
-  margin-top: 1rem;
   background:
     radial-gradient(circle at 70% 20%, rgba(232,87,42,.22), transparent 42%),
     linear-gradient(135deg, #1c130e, #0d0c0a);
   border: 1px solid rgba(232,87,42,.3);
-  border-radius: 28px;
+  border-radius: 30px;
   padding: 4rem 2.4rem;
   text-align: center;
 }
@@ -586,24 +624,26 @@ footer {
 @media (max-width: 1080px) {
   .hero {
     grid-template-columns: 1fr;
+    min-height: auto;
     padding-top: 10rem;
+    gap: 2.8rem;
   }
 
   .hero-content {
-    max-width: 820px;
+    max-width: 850px;
   }
 
   .hero-logo-image {
     width: min(100%, 560px);
   }
 
-  .trust-grid,
-  .process-grid {
+  .quick-proof-inner {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .section-head,
-  .review {
+  .audience-box,
+  .review-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -611,9 +651,13 @@ footer {
   .section-intro {
     padding-top: 0;
   }
+
+  .audience-tags {
+    justify-content: flex-start;
+  }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 860px) {
   nav {
     padding: .95rem 1.2rem;
   }
@@ -639,13 +683,7 @@ footer {
   }
 
   .hero {
-    padding: 9.4rem 1.2rem 3.4rem;
-    gap: 2.5rem;
-  }
-
-  .hero::after {
-    left: 1.2rem;
-    right: 1.2rem;
+    padding: 9.4rem 1.2rem 3.2rem;
   }
 
   h1 {
@@ -656,25 +694,31 @@ footer {
     font-size: 1rem;
   }
 
-  .hero-logo-image {
-    width: min(100%, 520px);
-  }
-
-  .trust-section {
-    padding: 0 1.2rem 4rem;
+  .quick-proof {
+    padding: 0 1.2rem 3.8rem;
   }
 
   section {
-    padding: 4.2rem 1.2rem;
+    padding: 4rem 1.2rem;
   }
 
-  .cards {
+  .service-grid {
     grid-template-columns: 1fr;
   }
 
-  .review {
+  .service-card {
+    min-height: auto;
+  }
+
+  .audience-box {
     padding: 2rem;
-    border-radius: 22px;
+    border-radius: 24px;
+  }
+
+  .review-card,
+  .reason-card {
+    padding: 2rem;
+    border-radius: 24px;
   }
 
   .cta {
@@ -721,17 +765,14 @@ footer {
     width: min(100%, 440px);
   }
 
-  .trust-grid,
-  .process-grid {
+  .quick-proof-inner {
     grid-template-columns: 1fr;
+    padding: .75rem;
   }
 
-  .trust-card {
-    min-height: auto;
-  }
-
-  .card {
-    min-height: auto;
+  .audience-tags span {
+    width: 100%;
+    justify-content: center;
   }
 
   footer {
@@ -774,63 +815,59 @@ footer {
 
       <h1>
         Websites,<br>
-        die sofort<br>
-        <em>überzeugen.</em>
+        die Vertrauen<br>
+        <em>schaffen.</em>
       </h1>
 
       <p class="hero-sub">
-        AK WebWorks erstellt moderne Websites für lokale Betriebe, Dienstleister und Unternehmen.
-        Klar im Aufbau, hochwertig im Design und so gestaltet, dass Besucher schnell verstehen,
-        warum sie genau bei dir anfragen sollten.
+        Ich erstelle moderne Websites für lokale Betriebe, Dienstleister und kleine Unternehmen.
+        Klar strukturiert, mobil optimiert und so gestaltet, dass Besucher schnell verstehen,
+        warum sie bei dir richtig sind.
       </p>
 
       <div class="hero-btns">
-        <a href="modelle.html" class="btn-primary">Modelle ansehen</a>
-        <a href="preise.html" class="btn-secondary">Preise prüfen</a>
+        <a href="anfragen.html" class="btn-primary">Website anfragen</a>
+        <a href="modelle.html" class="btn-secondary">Modelle ansehen</a>
       </div>
 
       <p class="hero-note">
-        Persönlich geplant. Sauber umgesetzt. Verständlich erklärt.
+        Kein Baukasten-Look. Keine unnötige Fachsprache. Ein Auftritt, der seriös wirkt.
       </p>
 
     </div>
 
     <div class="hero-visual">
-      <img src="akwebworks-logo.png" class="hero-logo-image" alt="AK WebWorks Logo">
+      <div class="hero-logo-wrap">
+        <img src="akwebworks-logo.png" class="hero-logo-image" alt="AK WebWorks Logo">
+      </div>
     </div>
 
   </section>
 
-  <div class="trust-section">
+  <div class="quick-proof">
+    <div class="quick-proof-inner">
 
-    <div class="trust-grid">
-
-      <div class="trust-card">
-        <div class="trust-kicker">01 · Klarheit</div>
-        <h3>Struktur statt Chaos</h3>
-        <p>Deine Inhalte werden so aufgebaut, dass Besucher sich schnell zurechtfinden und direkt verstehen, was du anbietest.</p>
+      <div class="proof-item">
+        <strong>Klarer Aufbau</strong>
+        <span>Besucher finden schnell, was wichtig ist.</span>
       </div>
 
-      <div class="trust-card">
-        <div class="trust-kicker">02 · Wirkung</div>
-        <h3>Moderner erster Eindruck</h3>
-        <p>Farben, Typografie und Abstände werden bewusst eingesetzt, damit deine Website hochwertig und vertrauenswürdig wirkt.</p>
+      <div class="proof-item">
+        <strong>Modernes Design</strong>
+        <span>Hochwertiger Auftritt statt zufälliger Baukasten-Look.</span>
       </div>
 
-      <div class="trust-card">
-        <div class="trust-kicker">03 · Technik</div>
-        <h3>Saubere Umsetzung</h3>
-        <p>Die Seite wird übersichtlich, responsive und leicht verständlich umgesetzt. Desktop und Smartphone werden direkt mitgedacht.</p>
+      <div class="proof-item">
+        <strong>Mobil optimiert</strong>
+        <span>Saubere Darstellung auf Smartphone, Tablet und Desktop.</span>
       </div>
 
-      <div class="trust-card">
-        <div class="trust-kicker">04 · Ergebnis</div>
-        <h3>Bereit für Anfragen</h3>
-        <p>Der Fokus liegt auf einem professionellen Webauftritt, der Vertrauen schafft und Interessenten zur Kontaktaufnahme führt.</p>
+      <div class="proof-item">
+        <strong>Bereit für Anfragen</strong>
+        <span>Klare Wege zur Kontaktaufnahme und zum nächsten Schritt.</span>
       </div>
 
     </div>
-
   </div>
 
   <section>
@@ -839,49 +876,74 @@ footer {
 
       <div>
         <div class="section-tag">Leistungen</div>
-        <h2>Digitaler Auftritt mit Stil, Struktur und Wiedererkennung.</h2>
+        <h2>Alles, was dein Webauftritt wirklich braucht.</h2>
       </div>
 
       <p class="section-intro">
-        Eine gute Website muss nicht kompliziert sein. Entscheidend ist, dass sie professionell aussieht,
-        schnell verstanden wird und zu deinem Unternehmen passt. AK WebWorks verbindet klare Gestaltung,
-        saubere Seitenstruktur und verständliche Inhalte zu einem Webauftritt, der modern wirkt und trotzdem
-        seriös bleibt.
+        Deine Website soll nicht einfach nur online sein. Sie soll professionell wirken,
+        Vertrauen schaffen und dein Angebot verständlich präsentieren. Der Fokus liegt auf
+        sauberem Design, klaren Inhalten und einer Umsetzung, die auch auf mobilen Geräten funktioniert.
       </p>
 
     </div>
 
-    <div class="cards">
+    <div class="service-grid">
 
-      <a href="modelle.html" class="card">
-        <div class="card-icon">◆</div>
-        <h3>Modelle & Demos</h3>
+      <a href="modelle.html" class="service-card">
+        <div class="service-icon">◆</div>
+        <h3>Website-Erstellung</h3>
         <p>
-          Sieh dir vorbereitete Website-Richtungen an, die als Grundlage für deinen eigenen Auftritt dienen können.
-          So bekommst du schnell ein Gefühl dafür, welcher Stil zu dir passt.
+          Moderne Websites für Betriebe, Dienstleister und Selbstständige. Individuell aufgebaut,
+          übersichtlich gestaltet und passend zu deinem Unternehmen.
         </p>
-        <div class="card-link">Modelle öffnen →</div>
+        <div class="card-link">Modelle ansehen →</div>
       </a>
 
-      <a href="preise.html" class="card">
-        <div class="card-icon">◼</div>
-        <h3>Pakete & Preise</h3>
+      <a href="preise.html" class="service-card">
+        <div class="service-icon">◼</div>
+        <h3>Design & Inhalte</h3>
         <p>
-          Klare Website-Pakete ohne unnötige Verwirrung. Du siehst direkt, welche Leistung zu welchem Umfang passt
-          und kannst besser einschätzen, was du wirklich brauchst.
+          Struktur, Texte, Farben und Seitenbereiche werden so aufgebaut, dass Kunden dein Angebot
+          schnell verstehen und Vertrauen gewinnen.
         </p>
-        <div class="card-link">Preise ansehen →</div>
+        <div class="card-link">Pakete prüfen →</div>
       </a>
 
-      <a href="anfragen.html" class="card">
-        <div class="card-icon">✦</div>
-        <h3>Anfrage stellen</h3>
+      <a href="anfragen.html" class="service-card">
+        <div class="service-icon">✦</div>
+        <h3>Pflege & Erweiterung</h3>
         <p>
-          Beschreibe kurz dein Vorhaben und erhalte eine passende Einschätzung. Ideal, wenn du eine Website brauchst,
-          aber noch nicht genau weißt, welcher Umfang sinnvoll ist.
+          Auch nach der Erstellung können Inhalte angepasst, Bereiche erweitert oder neue Seiten ergänzt werden,
+          wenn dein Unternehmen weiter wächst.
         </p>
-        <div class="card-link">Anfrage starten →</div>
+        <div class="card-link">Anfrage stellen →</div>
       </a>
+
+    </div>
+
+  </section>
+
+  <section class="audience-section">
+
+    <div class="audience-box">
+
+      <div>
+        <div class="section-tag">Für wen?</div>
+        <h2>Ideal für kleine Unternehmen mit Anspruch.</h2>
+        <p>
+          Besonders sinnvoll ist eine professionelle Website, wenn dein Unternehmen seriöser wirken,
+          besser gefunden werden oder Interessenten schneller zur Anfrage führen soll.
+        </p>
+      </div>
+
+      <div class="audience-tags">
+        <span>Handwerksbetriebe</span>
+        <span>KFZ-Werkstätten</span>
+        <span>Dienstleister</span>
+        <span>Gastronomie</span>
+        <span>Selbstständige</span>
+        <span>Lokale Unternehmen</span>
+      </div>
 
     </div>
 
@@ -889,73 +951,54 @@ footer {
 
   <section>
 
-    <div class="review">
+    <div class="review-grid">
 
-      <div>
-        <div class="review-label">Kundenstimme</div>
-        <h2>So soll sich eine Website anfühlen.</h2>
-        <p class="section-intro">
-          Professionell, verständlich und passend zum eigenen Unternehmen.
-          Genau darauf ist der gesamte Aufbau ausgelegt.
-        </p>
+      <div class="reason-card">
+        <div class="review-label">Warum AK WebWorks?</div>
+
+        <div class="reason-list">
+
+          <div class="reason-item">
+            <div class="reason-dot">✓</div>
+            <div>
+              <strong>Persönlich statt anonym</strong>
+              <span>Du bekommst keinen unpersönlichen Agenturprozess, sondern eine direkte und verständliche Abstimmung.</span>
+            </div>
+          </div>
+
+          <div class="reason-item">
+            <div class="reason-dot">✓</div>
+            <div>
+              <strong>Klare Richtung</strong>
+              <span>Auch wenn du noch keine fertigen Texte hast, wird dein Angebot sinnvoll strukturiert.</span>
+            </div>
+          </div>
+
+          <div class="reason-item">
+            <div class="reason-dot">✓</div>
+            <div>
+              <strong>Professioneller Eindruck</strong>
+              <span>Die Website soll nicht überladen wirken, sondern hochwertig, seriös und leicht verständlich.</span>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <div>
+      <div class="review-card">
+        <div class="review-label">Kundenstimme</div>
         <div class="review-stars">★★★★★</div>
+
         <blockquote>
-          „Aus einer groben Idee wurde ein Webauftritt, der deutlich hochwertiger wirkt als erwartet.
-          Die Seite ist klar aufgebaut, sieht modern aus und unsere Kunden finden sofort die wichtigsten Informationen.“
+          „Unsere alte Website war unübersichtlich und wir wussten nicht genau, wie wir sie verbessern sollen.
+          AK WebWorks hat daraus einen klaren, modernen Auftritt gemacht. Besonders gut war, dass alles verständlich erklärt wurde
+          und die Seite jetzt auch auf dem Handy sauber aussieht.“
         </blockquote>
+
         <p class="review-author">
-          Beispielrezension · Lokaler Dienstleister<br>
+          Beispielhafte Kundenstimme · Lokaler Dienstleister<br>
           Website-Erstellung und Strukturberatung
         </p>
-      </div>
-
-    </div>
-
-  </section>
-
-  <section class="process">
-
-    <div class="section-head">
-
-      <div>
-        <div class="section-tag">Ablauf</div>
-        <h2>Von der Idee zur fertigen Website.</h2>
-      </div>
-
-      <p class="section-intro">
-        Damit das Projekt übersichtlich bleibt, wird der Ablauf in klare Schritte aufgeteilt.
-        So weißt du von Anfang an, was benötigt wird und wie aus deinen Informationen eine fertige Website entsteht.
-      </p>
-
-    </div>
-
-    <div class="process-grid">
-
-      <div class="process-item">
-        <div class="process-number">01</div>
-        <h3>Anfrage</h3>
-        <p>Du beschreibst kurz dein Unternehmen, dein Ziel und welche Inhalte auf die Website sollen.</p>
-      </div>
-
-      <div class="process-item">
-        <div class="process-number">02</div>
-        <h3>Konzept</h3>
-        <p>Struktur, Seitenbereiche, Stilrichtung und sinnvolle Inhalte werden sauber festgelegt.</p>
-      </div>
-
-      <div class="process-item">
-        <div class="process-number">03</div>
-        <h3>Umsetzung</h3>
-        <p>Design und technische Umsetzung werden passend für Desktop, Tablet und Smartphone erstellt.</p>
-      </div>
-
-      <div class="process-item">
-        <div class="process-number">04</div>
-        <h3>Feinschliff</h3>
-        <p>Texte, Abstände, Wirkung und Details werden geprüft, damit der Auftritt stimmig wirkt.</p>
       </div>
 
     </div>
@@ -965,11 +1008,10 @@ footer {
   <section>
 
     <div class="cta">
-      <h2>Bereit für einen Webauftritt, der Eindruck macht?</h2>
+      <h2>Lass uns deinen Webauftritt verbessern.</h2>
       <p>
-        Deine Website ist oft der erste Kontakt zwischen dir und einem potenziellen Kunden.
-        Sie sollte deshalb nicht nur existieren, sondern Vertrauen schaffen, professionell wirken
-        und Besucher gezielt zur Anfrage führen.
+        Deine Website ist oft der erste Eindruck, den ein potenzieller Kunde von dir bekommt.
+        Sorge dafür, dass dieser Eindruck professionell, klar und überzeugend ist.
       </p>
       <a href="anfragen.html" class="btn-primary">Unverbindlich anfragen</a>
     </div>
