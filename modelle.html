@@ -42,11 +42,10 @@ body {
   font-weight: 300;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 84% 8%, rgba(232,87,42,.30), transparent 30%),
-    radial-gradient(circle at 12% 20%, rgba(255,179,71,.10), transparent 27%),
-    radial-gradient(circle at 78% 62%, rgba(232,87,42,.10), transparent 34%),
-    radial-gradient(circle at 20% 88%, rgba(255,179,71,.055), transparent 26%),
-    linear-gradient(180deg, #070706 0%, #0b0a09 50%, #11100d 100%);
+    radial-gradient(circle at 82% 8%, rgba(232,87,42,.26), transparent 28%),
+    radial-gradient(circle at 18% 26%, rgba(255,179,71,.12), transparent 25%),
+    radial-gradient(circle at 70% 76%, rgba(232,87,42,.10), transparent 34%),
+    linear-gradient(180deg, #070706 0%, #0b0a09 52%, #11100d 100%);
 }
 
 body::before {
@@ -68,7 +67,7 @@ body::after {
     linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
   background-size: 76px 76px;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,.45), transparent 72%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.48), transparent 72%);
   z-index: 0;
 }
 
@@ -176,7 +175,6 @@ nav ul a.active {
 .instagram-icon {
   width: 16px;
   height: 16px;
-  display: inline-block;
 }
 
 .nav-contact {
@@ -201,15 +199,15 @@ main {
   z-index: 1;
 }
 
-.page-hero {
+.showcase-hero {
   max-width: 1280px;
+  min-height: 94vh;
   margin: 0 auto;
-  padding: 10.5rem 3rem 4.8rem;
+  padding: 10rem 3rem 5rem;
   display: grid;
-  grid-template-columns: .95fr 1.05fr;
+  grid-template-columns: .9fr 1.1fr;
   gap: 4rem;
-  align-items: end;
-  border-bottom: 1px solid var(--line-soft);
+  align-items: center;
 }
 
 .eyebrow {
@@ -238,11 +236,11 @@ h3 {
 }
 
 h1 {
-  max-width: 760px;
+  max-width: 780px;
   margin-bottom: 1.5rem;
-  font-size: clamp(3.1rem, 6.2vw, 6.7rem);
-  line-height: .92;
-  letter-spacing: -.072em;
+  font-size: clamp(3.3rem, 6.8vw, 7.2rem);
+  line-height: .9;
+  letter-spacing: -.075em;
 }
 
 h1 em {
@@ -257,69 +255,170 @@ h1 em {
   max-width: 680px;
 }
 
-.hero-preview {
-  justify-self: end;
-  width: min(100%, 520px);
-  padding-left: 2rem;
-  border-left: 1px solid rgba(248,244,238,.13);
+.hero-actions {
+  display: flex;
+  gap: .9rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
 }
 
-.preview-label {
-  color: var(--accent-soft);
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  font-size: .7rem;
-  font-weight: 900;
+.hero-link {
+  min-height: 46px;
+  padding: .85rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(248,244,238,.12);
+  background: rgba(255,255,255,.04);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: .88rem;
+  transition: .22s ease;
+}
+
+.hero-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232,87,42,.42);
+  background: rgba(232,87,42,.11);
+}
+
+.stage {
+  position: relative;
+  min-height: 540px;
+}
+
+.stage-glow {
+  position: absolute;
+  inset: -40px;
+  background:
+    radial-gradient(circle at 68% 18%, rgba(232,87,42,.18), transparent 36%),
+    radial-gradient(circle at 26% 76%, rgba(255,179,71,.10), transparent 30%);
+  filter: blur(10px);
+}
+
+.demo-card {
+  position: absolute;
+  border: 1px solid rgba(248,244,238,.12);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.085), rgba(255,255,255,.025)),
+    rgba(10,9,8,.78);
+  box-shadow: 0 34px 90px rgba(0,0,0,.34);
+  border-radius: 28px;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.demo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 0%, rgba(232,87,42,.18), transparent 42%);
+  pointer-events: none;
+}
+
+.demo-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.demo-main {
+  width: 78%;
+  min-height: 340px;
+  left: 6%;
+  top: 6%;
+}
+
+.demo-mobile {
+  width: 30%;
+  min-height: 300px;
+  right: 0;
+  bottom: 3%;
+}
+
+.demo-note {
+  width: 42%;
+  min-height: 170px;
+  left: 0;
+  bottom: 8%;
+  transform: rotate(-3deg);
+}
+
+.browser-top {
+  display: flex;
+  gap: .45rem;
+  margin-bottom: 1.2rem;
+}
+
+.browser-top span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(248,244,238,.25);
+}
+
+.fake-title {
+  height: 42px;
+  width: 72%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--white), rgba(248,244,238,.35));
   margin-bottom: 1rem;
 }
 
-.preview-list {
-  display: grid;
+.fake-title.accent {
+  width: 54%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
 }
 
-.preview-item {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: .9rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid rgba(248,244,238,.09);
+.fake-line {
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(248,244,238,.16);
+  margin-bottom: .55rem;
 }
 
-.preview-item:last-child {
-  border-bottom: none;
+.fake-line.l1 { width: 92%; }
+.fake-line.l2 { width: 74%; }
+.fake-line.l3 { width: 58%; }
+
+.fake-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .75rem;
+  margin-top: 1.5rem;
 }
 
-.preview-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 14px;
-  display: grid;
-  place-items: center;
+.fake-tile {
+  min-height: 86px;
+  border-radius: 18px;
+  border: 1px solid rgba(248,244,238,.08);
+  background: rgba(255,255,255,.045);
+}
+
+.phone-notch {
+  width: 44px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(248,244,238,.24);
+  margin: 0 auto 1.4rem;
+}
+
+.note-label {
   color: var(--accent-soft);
-  border: 1px solid rgba(248,244,238,.1);
-  background: rgba(255,255,255,.04);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: .8rem;
 }
 
-.preview-icon svg {
-  width: 19px;
-  height: 19px;
-  stroke: currentColor;
-  stroke-width: 1.9;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.note-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.55rem;
+  line-height: 1.05;
+  letter-spacing: -.045em;
 }
 
-.preview-item strong {
-  display: block;
-  font-size: .98rem;
-  margin-bottom: .18rem;
-}
-
-.preview-item span {
-  color: var(--gray);
-  font-size: .9rem;
-  line-height: 1.45;
+.note-text span {
+  color: var(--accent);
 }
 
 section {
@@ -328,24 +427,9 @@ section {
   padding: 4.5rem 3rem;
 }
 
-.clean-block {
-  position: relative;
-  border-top: 1px solid var(--line-soft);
-}
-
-.clean-block::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 3rem;
-  width: 180px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-}
-
 .section-head {
   max-width: 880px;
-  margin-bottom: 2.6rem;
+  margin-bottom: 2.7rem;
 }
 
 h2 {
@@ -362,49 +446,67 @@ h2 {
   line-height: 1.78;
 }
 
-.model-list {
+.model-mosaic {
   display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
 }
 
-.model-row {
-  display: grid;
-  grid-template-columns: 86px 1.05fr .95fr auto;
-  gap: 1.5rem;
-  align-items: start;
-  padding: 1.9rem 0;
-  border-bottom: 1px solid rgba(248,244,238,.1);
+.model-card {
+  min-height: 270px;
+  padding: 1.6rem;
+  border-radius: 28px;
+  border: 1px solid rgba(248,244,238,.1);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.022)),
+    rgba(11,10,9,.64);
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
   transition: .22s ease;
 }
 
-.model-row:first-child {
-  padding-top: 0;
+.model-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 82% 8%, rgba(232,87,42,.18), transparent 42%);
+  opacity: .8;
 }
 
-.model-row:last-child {
-  border-bottom: none;
+.model-card > * {
+  position: relative;
+  z-index: 1;
 }
 
-.model-row:hover {
-  border-bottom-color: rgba(232,87,42,.42);
+.model-card.large {
+  grid-column: span 3;
+}
+
+.model-card.medium {
+  grid-column: span 2;
+}
+
+.model-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(232,87,42,.45);
 }
 
 .model-icon {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 18px;
   display: grid;
   place-items: center;
   color: var(--accent-soft);
-  background:
-    radial-gradient(circle at 70% 20%, rgba(232,87,42,.24), transparent 48%),
-    rgba(255,255,255,.045);
+  background: rgba(255,255,255,.045);
   border: 1px solid rgba(248,244,238,.11);
+  margin-bottom: 1.3rem;
 }
 
 .model-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 23px;
+  height: 23px;
   stroke: currentColor;
   stroke-width: 1.9;
   fill: none;
@@ -412,95 +514,81 @@ h2 {
   stroke-linejoin: round;
 }
 
-.model-title h3 {
+.model-card h3 {
   font-size: 1.55rem;
   letter-spacing: -.04em;
-  margin-bottom: .45rem;
+  margin-bottom: .7rem;
 }
 
-.model-title span {
-  color: var(--muted);
-  font-size: .88rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-}
-
-.model-description {
+.model-card p {
   color: var(--gray);
-  line-height: 1.68;
-  font-size: .98rem;
-  max-width: 520px;
+  line-height: 1.65;
+  font-size: .96rem;
+  max-width: 560px;
 }
 
-.model-arrow {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
+.model-link {
+  position: absolute;
+  left: 1.6rem;
+  bottom: 1.35rem;
   color: var(--accent-soft);
-  border: 1px solid rgba(248,244,238,.1);
-  background: rgba(255,255,255,.035);
-  transition: .22s ease;
+  font-weight: 900;
+  font-size: .9rem;
 }
 
-.model-row:hover .model-arrow {
-  transform: translateX(4px);
-  border-color: rgba(232,87,42,.45);
-  background: rgba(232,87,42,.12);
+.studio-strip {
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
 }
 
-.feature-split {
+.strip-grid {
   display: grid;
-  grid-template-columns: .9fr 1.1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  align-items: start;
+  align-items: center;
 }
 
-.feature-split h2 {
-  margin-bottom: 0;
+.strip-copy p {
+  color: var(--gray);
+  line-height: 1.8;
+  font-size: 1.04rem;
 }
 
-.feature-list {
+.strip-points {
   display: grid;
   gap: 1rem;
 }
 
-.feature-item {
+.point {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: .8rem;
-  align-items: start;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(248,244,238,.08);
 }
 
-.feature-item:last-child {
+.point:last-child {
   border-bottom: none;
   padding-bottom: 0;
 }
 
-.feature-dot {
+.point-dot {
   width: 27px;
   height: 27px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  margin-top: .15rem;
   color: var(--accent-soft);
   background: rgba(232,87,42,.14);
   font-weight: 900;
-  font-size: .78rem;
 }
 
-.feature-item strong {
+.point strong {
   display: block;
   margin-bottom: .2rem;
-  font-size: .99rem;
 }
 
-.feature-item span {
+.point span {
   color: var(--gray);
   line-height: 1.55;
   font-size: .94rem;
@@ -521,22 +609,6 @@ h2 {
   background:
     radial-gradient(circle at 70% 20%, rgba(232,87,42,.26), transparent 40%),
     linear-gradient(135deg, #1c120d, #0d0c0a);
-}
-
-.cta::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-  background-size: 54px 54px;
-  opacity: .4;
-}
-
-.cta > * {
-  position: relative;
-  z-index: 1;
 }
 
 .cta h2 {
@@ -571,7 +643,6 @@ h2 {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 22px 54px rgba(232,87,42,.4);
 }
 
 footer {
@@ -606,26 +677,18 @@ footer {
 }
 
 @media (max-width: 1120px) {
-  .page-hero,
-  .feature-split {
+  .showcase-hero,
+  .strip-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
   }
 
-  .hero-preview {
-    justify-self: start;
-    padding-left: 0;
-    border-left: none;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(248,244,238,.11);
+  .stage {
+    min-height: 520px;
   }
 
-  .model-row {
-    grid-template-columns: 72px 1fr auto;
-  }
-
-  .model-description {
-    grid-column: 2 / -1;
+  .model-card.large,
+  .model-card.medium {
+    grid-column: span 3;
   }
 }
 
@@ -654,7 +717,7 @@ footer {
     gap: 1.1rem;
   }
 
-  .page-hero {
+  .showcase-hero {
     padding: 10.6rem 1.2rem 3.5rem;
   }
 
@@ -662,30 +725,47 @@ footer {
     font-size: clamp(3rem, 14vw, 4.6rem);
   }
 
-  .hero-text {
-    font-size: 1rem;
-  }
-
   section {
     padding: 3.4rem 1.2rem;
   }
 
-  .clean-block::before {
-    left: 1.2rem;
+  .stage {
+    min-height: auto;
+    display: grid;
+    gap: 1rem;
   }
 
-  .model-row {
+  .demo-card {
+    position: relative;
+    width: 100%;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    transform: none;
+  }
+
+  .demo-mobile,
+  .demo-note {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .fake-tiles {
     grid-template-columns: 1fr;
-    gap: .75rem;
-    padding: 1.55rem 0;
   }
 
-  .model-description {
+  .model-mosaic {
+    grid-template-columns: 1fr;
+  }
+
+  .model-card.large,
+  .model-card.medium {
     grid-column: auto;
   }
 
-  .model-arrow {
-    display: none;
+  .model-card {
+    min-height: 250px;
   }
 
   .cta {
@@ -712,11 +792,6 @@ footer {
   .nav-contact {
     padding: .7rem 1rem;
     font-size: .78rem;
-  }
-
-  .eyebrow {
-    font-size: .64rem;
-    letter-spacing: .12em;
   }
 
   .btn-primary {
@@ -763,106 +838,80 @@ footer {
 
 <main>
 
-  <section class="page-hero">
+  <section class="showcase-hero">
 
     <div>
       <div class="eyebrow">Modelle & Demos</div>
 
       <h1>
-        Beispiele,<br>
-        die eine Richtung<br>
-        <em>zeigen.</em>
+        Ideen,<br>
+        die deinen Auftritt<br>
+        <em>greifbar machen.</em>
       </h1>
 
       <p class="hero-text">
-        Hier findest du realistische Website-Modelle und Erweiterungen, die als Grundlage für deinen eigenen Webauftritt dienen können.
-        Nicht als starre Vorlage, sondern als Orientierung für Stil, Aufbau und Funktionen.
+        Die Modelle zeigen mögliche Richtungen für Aufbau, Funktion und Wirkung deiner Website.
+        Sie sind keine starren Vorlagen, sondern ein Ausgangspunkt für deinen eigenen Webauftritt.
       </p>
+
+      <div class="hero-actions">
+        <a href="#modelle" class="hero-link">Modelle ansehen</a>
+        <a href="preise.html" class="hero-link">Preise vergleichen</a>
+      </div>
     </div>
 
-    <div class="hero-preview">
-      <div class="preview-label">Demo-Auswahl</div>
+    <div class="stage" aria-hidden="true">
+      <div class="stage-glow"></div>
 
-      <div class="preview-list">
-
-        <div class="preview-item">
-          <div class="preview-icon">
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
-              <path d="M7 20h10"></path>
-              <path d="M10 18v2"></path>
-              <path d="M14 18v2"></path>
-            </svg>
-          </div>
-          <div>
-            <strong>Klassische Website</strong>
-            <span>Startseite, Leistungen und Kontakt.</span>
-          </div>
+      <div class="demo-card demo-main">
+        <div class="browser-top">
+          <span></span><span></span><span></span>
         </div>
-
-        <div class="preview-item">
-          <div class="preview-icon">
-            <svg viewBox="0 0 24 24">
-              <rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect>
-              <path d="M10 5h4"></path>
-              <path d="M12 18h.01"></path>
-            </svg>
-          </div>
-          <div>
-            <strong>Kunden-App</strong>
-            <span>Anfragen, Reservierung oder Terminwunsch.</span>
-          </div>
+        <div class="fake-title"></div>
+        <div class="fake-title accent"></div>
+        <div class="fake-line l1"></div>
+        <div class="fake-line l2"></div>
+        <div class="fake-line l3"></div>
+        <div class="fake-tiles">
+          <div class="fake-tile"></div>
+          <div class="fake-tile"></div>
+          <div class="fake-tile"></div>
         </div>
+      </div>
 
-        <div class="preview-item">
-          <div class="preview-icon">
-            <svg viewBox="0 0 24 24">
-              <rect x="4" y="5" width="16" height="14" rx="2"></rect>
-              <path d="M7 9h10"></path>
-              <path d="M7 13h6"></path>
-            </svg>
-          </div>
-          <div>
-            <strong>Kontaktformular</strong>
-            <span>Strukturierte Projekt- und Kundenanfragen.</span>
-          </div>
+      <div class="demo-card demo-mobile">
+        <div class="phone-notch"></div>
+        <div class="fake-title accent"></div>
+        <div class="fake-line l1"></div>
+        <div class="fake-line l2"></div>
+        <div class="fake-line l3"></div>
+      </div>
+
+      <div class="demo-card demo-note">
+        <div class="note-label">Studio Preview</div>
+        <div class="note-text">
+          Von der Idee zur <span>klaren Struktur.</span>
         </div>
-
-        <div class="preview-item">
-          <div class="preview-icon">
-            <svg viewBox="0 0 24 24">
-              <path d="M5 7.5A3.5 3.5 0 0 1 8.5 4h7A3.5 3.5 0 0 1 19 7.5v4A3.5 3.5 0 0 1 15.5 15H11l-4.5 4v-4.2A3.5 3.5 0 0 1 5 11.5z"></path>
-              <path d="M9 9.5h.01"></path>
-              <path d="M12 9.5h.01"></path>
-              <path d="M15 9.5h.01"></path>
-            </svg>
-          </div>
-          <div>
-            <strong>KI Chatbot</strong>
-            <span>Antworten auf häufige Fragen.</span>
-          </div>
-        </div>
-
       </div>
     </div>
 
   </section>
 
-  <section>
+  <section id="modelle">
 
     <div class="section-head">
       <div class="eyebrow">Auswahl</div>
-      <h2>Wähle den Einstieg, der zu deinem Vorhaben passt.</h2>
+      <h2>Welcher Einstieg passt zu deinem Vorhaben?</h2>
       <p class="section-intro">
-        Ob klassische Unternehmenswebsite, Kontaktformular, Galerie oder kleine Zusatzfunktion:
-        Die Modelle helfen dir dabei, dein Projekt besser einzuordnen und den passenden Umfang zu finden.
+        Ob klassische Website, Formular, Galerie oder kleine Zusatzfunktion:
+        Die Modelle helfen dir dabei, dein Projekt besser einzuordnen.
       </p>
     </div>
 
-    <div class="model-list">
+    <div class="model-mosaic">
 
-      <a href="website-demo.html" class="model-row">
-        <div class="model-icon" aria-hidden="true">
+      <a href="website-demo.html" class="model-card large">
+        <div class="model-icon">
           <svg viewBox="0 0 24 24">
             <rect x="3" y="4" width="18" height="14" rx="2"></rect>
             <path d="M7 20h10"></path>
@@ -870,77 +919,52 @@ footer {
             <path d="M14 18v2"></path>
           </svg>
         </div>
-        <div class="model-title">
-          <h3>Klassische Website</h3>
-          <span>Startseite · Leistungen · Kontakt</span>
-        </div>
-        <p class="model-description">
-          Eine moderne Website mit klarer Startseite, Leistungsbereich, Kontaktmöglichkeit und mobiloptimiertem Aufbau.
-          Ideal für Betriebe, Dienstleister und Selbstständige.
-        </p>
-        <div class="model-arrow">→</div>
+        <h3>Klassische Website</h3>
+        <p>Eine moderne Website mit Startseite, Leistungen, Kontaktbereich und mobiloptimiertem Aufbau.</p>
+        <div class="model-link">Demo öffnen →</div>
       </a>
 
-      <a href="app-demo.html" class="model-row">
-        <div class="model-icon" aria-hidden="true">
+      <a href="app-demo.html" class="model-card large">
+        <div class="model-icon">
           <svg viewBox="0 0 24 24">
             <rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect>
             <path d="M10 5h4"></path>
             <path d="M12 18h.01"></path>
           </svg>
         </div>
-        <div class="model-title">
-          <h3>Website + kleine Kunden-App</h3>
-          <span>Anfragen · Reservierung · Terminwunsch</span>
-        </div>
-        <p class="model-description">
-          Eine einfache Zusatzfunktion für Kundenanfragen, Reservierungen oder Terminwünsche.
-          Sinnvoll, wenn Besucher direkt eine konkrete Aktion auslösen sollen.
-        </p>
-        <div class="model-arrow">→</div>
+        <h3>Website + kleine Kunden-App</h3>
+        <p>Eine einfache Zusatzfunktion für Anfragen, Reservierungen oder Terminwünsche.</p>
+        <div class="model-link">Demo öffnen →</div>
       </a>
 
-      <a href="kontaktformular-demo.html" class="model-row">
-        <div class="model-icon" aria-hidden="true">
+      <a href="kontaktformular-demo.html" class="model-card medium">
+        <div class="model-icon">
           <svg viewBox="0 0 24 24">
             <rect x="4" y="5" width="16" height="14" rx="2"></rect>
             <path d="M7 9h10"></path>
             <path d="M7 13h6"></path>
-            <path d="M16 16l2 2 3-4"></path>
           </svg>
         </div>
-        <div class="model-title">
-          <h3>Kontaktformular</h3>
-          <span>Projektanfrage · Rückruf · Termin</span>
-        </div>
-        <p class="model-description">
-          Ein übersichtliches Anfrageformular für Kunden, Projekte, Rückrufe oder Terminwünsche.
-          Dadurch werden Anfragen strukturierter und leichter auswertbar.
-        </p>
-        <div class="model-arrow">→</div>
+        <h3>Kontaktformular</h3>
+        <p>Strukturierte Anfragen für Projekte, Rückrufe oder Termine.</p>
+        <div class="model-link">Demo öffnen →</div>
       </a>
 
-      <a href="galerie-demo.html" class="model-row">
-        <div class="model-icon" aria-hidden="true">
+      <a href="galerie-demo.html" class="model-card medium">
+        <div class="model-icon">
           <svg viewBox="0 0 24 24">
             <rect x="4" y="5" width="16" height="14" rx="2"></rect>
             <circle cx="9" cy="10" r="1.4"></circle>
             <path d="M5 17l4.5-4 3 2.5 2.5-2 4 3.5"></path>
           </svg>
         </div>
-        <div class="model-title">
-          <h3>Galerie & Leistungen</h3>
-          <span>Arbeiten · Angebote · Referenzen</span>
-        </div>
-        <p class="model-description">
-          Eine klare Darstellung von Arbeiten, Angeboten, Leistungen oder Referenzen.
-          Besonders passend für Handwerk, KFZ, Design, Gastronomie und lokale Dienstleister.
-        </p>
-        <div class="model-arrow">→</div>
+        <h3>Galerie & Leistungen</h3>
+        <p>Zeige Arbeiten, Angebote, Leistungen oder Referenzen übersichtlich.</p>
+        <div class="model-link">Demo öffnen →</div>
       </a>
 
-      <a href="chatbot-demo.html" class="model-row">
-        <div class="model-icon" aria-hidden="true">
+      <a href="chatbot-demo.html" class="model-card medium">
+        <div class="model-icon">
           <svg viewBox="0 0 24 24">
             <path d="M5 7.5A3.5 3.5 0 0 1 8.5 4h7A3.5 3.5 0 0 1 19 7.5v4A3.5 3.5 0 0 1 15.5 15H11l-4.5 4v-4.2A3.5 3.5 0 0 1 5 11.5z"></path>
             <path d="M9 9.5h.01"></path>
@@ -948,94 +972,65 @@ footer {
             <path d="M15 9.5h.01"></path>
           </svg>
         </div>
-        <div class="model-title">
-          <h3>KI Chatbot Demo</h3>
-          <span>FAQ · Hinweise · Erstinformation</span>
-        </div>
-        <p class="model-description">
-          Ein einfacher Chatbot für häufige Fragen, Weiterleitungen und erste Kundeninformationen.
-          Geeignet, wenn wiederkehrende Fragen direkt beantwortet werden sollen.
-        </p>
-        <div class="model-arrow">→</div>
-      </a>
-
-      <a href="preise.html" class="model-row">
-        <div class="model-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M4 7h16"></path>
-            <rect x="4" y="5" width="16" height="14" rx="2"></rect>
-            <path d="M8 12h3"></path>
-            <path d="M8 15h6"></path>
-            <path d="M16 12h.01"></path>
-          </svg>
-        </div>
-        <div class="model-title">
-          <h3>Pakete & Preise</h3>
-          <span>Umfang · Erstellung · Pflege</span>
-        </div>
-        <p class="model-description">
-          Die passenden Website-Pakete mit fixer Erstellung und optionaler Pflege.
-          Hier kannst du einschätzen, welcher Umfang für dein Projekt sinnvoll ist.
-        </p>
-        <div class="model-arrow">→</div>
+        <h3>KI Chatbot Demo</h3>
+        <p>Antworten auf häufige Fragen und erste Kundeninformationen.</p>
+        <div class="model-link">Demo öffnen →</div>
       </a>
 
     </div>
 
   </section>
 
-  <section class="clean-block">
+  <section class="studio-strip">
 
-    <div class="feature-split">
-
-      <div>
+    <div class="strip-grid">
+      <div class="strip-copy">
         <div class="eyebrow">Orientierung</div>
-        <h2>Keine fertige Schablone. Ein Startpunkt für dein Design.</h2>
+        <h2>Kein Baukasten. Ein Startpunkt für dein Design.</h2>
+        <p>
+          Die Demos helfen dir, schneller zu verstehen, welche Struktur und welche Funktionen für dein Unternehmen sinnvoll sein können.
+          Danach wird der Auftritt individuell auf dein Angebot angepasst.
+        </p>
       </div>
 
-      <div class="feature-list">
-
-        <div class="feature-item">
-          <div class="feature-dot">✓</div>
+      <div class="strip-points">
+        <div class="point">
+          <div class="point-dot">✓</div>
           <div>
-            <strong>Modelle zeigen die Richtung</strong>
-            <span>Die Demos dienen als Orientierung für Aufbau, Stil und sinnvolle Funktionen.</span>
+            <strong>Richtung erkennen</strong>
+            <span>Du siehst direkt, welche Art von Website zu deinem Ziel passt.</span>
           </div>
         </div>
 
-        <div class="feature-item">
-          <div class="feature-dot">✓</div>
+        <div class="point">
+          <div class="point-dot">✓</div>
           <div>
-            <strong>Anpassbar an dein Unternehmen</strong>
-            <span>Texte, Farben, Struktur und Inhalte werden auf deinen Betrieb abgestimmt.</span>
+            <strong>Inhalte planen</strong>
+            <span>Leistungen, Kontakt, Galerie oder Zusatzfunktionen lassen sich besser einordnen.</span>
           </div>
         </div>
 
-        <div class="feature-item">
-          <div class="feature-dot">✓</div>
+        <div class="point">
+          <div class="point-dot">✓</div>
           <div>
-            <strong>Einfach verständlich</strong>
-            <span>Du musst keine Technik erklären können. Entscheidend ist, was deine Website für Kunden leisten soll.</span>
+            <strong>Individuell anpassen</strong>
+            <span>Farben, Aufbau und Texte werden passend zu deinem Unternehmen entwickelt.</span>
           </div>
         </div>
-
       </div>
-
     </div>
 
   </section>
 
   <section class="cta-section">
-
     <div class="cta">
       <h2>Du weißt noch nicht, welches Modell passt?</h2>
       <p>
-        Kein Problem. Beschreibe kurz dein Unternehmen und dein Ziel.
-        Danach lässt sich gut einschätzen, ob eine einfache Website, ein Formular oder eine zusätzliche Funktion sinnvoll ist.
+        Beschreibe kurz dein Unternehmen und dein Ziel. Danach lässt sich gut einschätzen,
+        welcher Aufbau für deinen Webauftritt sinnvoll ist.
       </p>
       <a href="anfragen.html" class="btn-primary">Unverbindlich anfragen</a>
     </div>
-
   </section>
 
 </main>
