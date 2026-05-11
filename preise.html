@@ -4,25 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Preise – Network Studio</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0a0a;color:#f5f2ec;font-family:Arial,sans-serif}
 nav{padding:20px 30px;background:#111;border-bottom:1px solid #2a2a2a;display:flex;justify-content:space-between}
 a{color:#e8572a;text-decoration:none}
-.wrap{max-width:1100px;margin:auto;padding:50px 20px}
+.wrap{max-width:1150px;margin:auto;padding:50px 20px}
 h1{font-size:3rem;margin-bottom:15px}
-p{color:#b8b1a7;line-height:1.7}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:35px}
+.intro{color:#b8b1a7;line-height:1.7;max-width:750px;margin-bottom:35px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .card{background:#131310;border:1px solid #2a2a2a;border-radius:14px;padding:28px}
 .featured{border-color:#e8572a}
-.price{font-size:2.8rem;font-weight:bold;margin:20px 0;color:#fff}
+.tag{color:#e8572a;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.price{font-size:2.6rem;font-weight:bold;margin:20px 0;color:#fff}
+.period{color:#b8b1a7;margin-bottom:20px}
 ul{list-style:none;margin:20px 0}
-li{padding:10px 0;border-bottom:1px solid #292929;color:#b8b1a7}
+li{padding:10px 0;border-bottom:1px solid #292929;color:#b8b1a7;line-height:1.5}
 li:before{content:"✓ ";color:#e8572a}
 .btn{display:block;text-align:center;background:#e8572a;color:#fff;padding:14px;border-radius:8px;margin-top:20px}
+.note{margin-top:35px;color:#b8b1a7;line-height:1.7;background:#131310;border:1px solid #2a2a2a;border-radius:14px;padding:24px}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
+
 <body>
 
 <nav>
@@ -31,51 +36,76 @@ li:before{content:"✓ ";color:#e8572a}
 </nav>
 
 <div class="wrap">
+
 <h1>Preise</h1>
-<p>Wähle ein Paket passend zu deinem Betrieb.</p>
+
+<p class="intro">
+Klare Website-Pakete für lokale Betriebe. Keine unnötig komplexen Systeme,
+keine teuren Sonderlösungen. Du bekommst eine moderne Website mit eigener Domain,
+gewünschten Seiten und laufender Pflege.
+</p>
 
 <div class="grid">
+
 <div class="card">
-<h2>Starter</h2>
-<div class="price">299 €</div>
-<p>einmalig + 29 €/Monat</p>
+<div class="tag">Basis</div>
+<h2>Klassische Website</h2>
+<div class="price">349 €</div>
+<div class="period">einmalig + 29 €/Monat Pflege</div>
 <ul>
-<li>Online-Termine oder Bestellungen</li>
-<li>Mobiloptimiert</li>
-<li>Basis Dashboard</li>
-<li>Bis zu 3 Mitarbeiter</li>
+<li>Moderne Startseite</li>
+<li>Bis zu 4 Unterseiten</li>
+<li>Eigene Domain möglich</li>
+<li>Mobiloptimiertes Design</li>
+<li>Kontaktbereich oder Kontaktformular</li>
+<li>Einrichtung auf GitHub Pages oder einfachem Webhosting</li>
+<li>Kleine Text- und Bildänderungen inklusive</li>
 </ul>
 <a href="anfragen.html" class="btn">Anfragen</a>
 </div>
 
 <div class="card featured">
-<h2>Pro</h2>
-<div class="price">499 €</div>
-<p>einmalig + 49 €/Monat</p>
+<div class="tag">Empfohlen</div>
+<h2>Website + Kunden-App</h2>
+<div class="price">599 €</div>
+<div class="period">einmalig + 49 €/Monat Pflege</div>
 <ul>
-<li>Alles aus Starter</li>
-<li>Owner Dashboard</li>
-<li>Live-Bestellungen</li>
-<li>SMS-Erinnerungen</li>
-<li>Unbegrenzte Mitarbeiter</li>
+<li>Alles aus Klassische Website</li>
+<li>Eigene einfache Web-App als Zusatzseite</li>
+<li>Termin-, Anfrage- oder Bestell-Demo möglich</li>
+<li>Speicherung im Browser oder einfache Formularlösung</li>
+<li>Ideal für Friseure, kleine Werkstätten, Vereine oder Dienstleister</li>
+<li>Erweiterbare Seitenstruktur</li>
+<li>Regelmäßige Pflege und kleine Anpassungen inklusive</li>
 </ul>
 <a href="anfragen.html" class="btn">Anfragen</a>
 </div>
 
 <div class="card">
-<h2>Komplett</h2>
-<div class="price">799 €</div>
-<p>einmalig + 69 €/Monat</p>
+<div class="tag">Individuell</div>
+<h2>Website nach Wunsch</h2>
+<div class="price">ab 799 €</div>
+<div class="period">monatliche Pflege nach Umfang</div>
 <ul>
-<li>Alles aus Pro</li>
-<li>Eigene Domain</li>
-<li>KI Chatbot</li>
-<li>Inventarverwaltung</li>
-<li>Monatliche Updates</li>
+<li>Individuelles Seitenkonzept</li>
+<li>Mehrere Leistungs- oder Standortseiten</li>
+<li>Galerie, FAQ, Teamseite oder Angebotsseiten</li>
+<li>Eigene Domain und E-Mail-Einrichtung möglich</li>
+<li>Suchmaschinenfreundliche Grundstruktur</li>
+<li>Technisch einfach erweiterbar</li>
+<li>Preis abhängig vom gewünschten Umfang</li>
 </ul>
 <a href="anfragen.html" class="btn">Anfragen</a>
 </div>
+
 </div>
+
+<div class="note">
+<strong>Wichtig:</strong> Die Pakete sind bewusst einfach gehalten. Es werden keine unnötig komplexen Systeme,
+keine teuren Zahlungsanbieter, keine großen Datenbanken und keine wartungsintensiven Plattformen versprochen.
+Der Fokus liegt auf modernen, schnellen und bezahlbaren Websites für lokale Betriebe.
+</div>
+
 </div>
 
 </body>
