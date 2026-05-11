@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KI Chatbot Demo – Network Studio</title>
+<title>KI Chatbot Demo</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0a0a;color:#f5f2ec;font-family:Arial,sans-serif}
 header{padding:20px;background:#111;border-bottom:1px solid #2a2a2a}
 a{color:#e8572a;text-decoration:none}
 .wrap{max-width:900px;margin:auto;padding:40px 20px}
-.card{background:#131310;border:1px solid #2a2a2a;border-radius:16px;padding:24px}
+.card{background:#131310;border:1px solid #2a2a2a;border-radius:18px;padding:24px}
+h1{font-size:clamp(2.3rem,6vw,4rem);margin-bottom:15px}
+p{color:#b8b1a7;line-height:1.7}
 .chat{height:520px;display:flex;flex-direction:column;background:#181812;border:1px solid #333;border-radius:18px;overflow:hidden;margin-top:25px}
 .chat-head{background:#e8572a;padding:18px;font-weight:bold}
 .messages{flex:1;padding:18px;overflow:auto;display:flex;flex-direction:column;gap:12px}
@@ -33,19 +35,19 @@ button{width:70px;background:#e8572a;color:white;border:none;font-weight:bold;cu
 <div class="wrap">
 <div class="card">
 <h1>KI Chatbot Demo</h1>
-<p>Teste einen einfachen Beispiel-Chatbot für Kundenfragen.</p>
+<p>Ein einfacher Chatbot für häufige Fragen zu Preisen, Leistungen, Website-Erstellung und Kontakt.</p>
 
 <div class="quick">
 <button onclick="quick('Was kostet eine Website?')">Preisfrage</button>
-<button onclick="quick('Ich möchte einen Termin buchen')">Termin</button>
-<button onclick="quick('Welche Demos gibt es?')">Demos</button>
-<button onclick="quick('Wie schnell seid ihr fertig?')">Lieferzeit</button>
+<button onclick="quick('Welche Leistungen gibt es?')">Leistungen</button>
+<button onclick="quick('Wie schnell ist die Website fertig?')">Lieferzeit</button>
+<button onclick="quick('Wie kann ich euch kontaktieren?')">Kontakt</button>
 </div>
 
 <div class="chat">
 <div class="chat-head">Network Studio KI</div>
 <div class="messages" id="messages">
-<div class="bot">Hallo 👋 Ich bin die Demo-KI. Frag mich etwas zu Preisen, Terminen, Demos oder Lieferzeit.</div>
+<div class="bot">Hallo 👋 Ich bin die Demo-KI. Frag mich etwas zu Preisen, Leistungen, Lieferzeit oder Kontakt.</div>
 </div>
 <div class="input">
 <input id="input" placeholder="Nachricht schreiben..." onkeydown="if(event.key==='Enter')send()">
@@ -70,22 +72,19 @@ const messages=document.getElementById("messages");
 messages.innerHTML+=`<div class="user">${text}</div>`;
 
 const lower=text.toLowerCase();
-let answer="Das kann ich in dieser Demo noch nicht genau beantworten. Für eine echte Anfrage nutze bitte die Anfrage-Seite.";
+let answer="Das kann ich in dieser Demo noch nicht genau beantworten. Für Details kannst du eine Anfrage stellen.";
 
 if(lower.includes("preis")||lower.includes("kost")){
-answer='Die Pakete starten bei 299 € Einrichtung plus monatlicher Pauschale. <br><br><a href="preise.html" style="color:#ffb347">Preise öffnen →</a>';
+answer='Die Website-Pakete starten bei 349 € Einrichtung plus monatlicher Pflegepauschale. <br><br><a href="preise.html" style="color:#ffb347">Preise öffnen →</a>';
 }
-else if(lower.includes("termin")){
-answer='Für Friseure kann eine Online-Terminbuchung umgesetzt werden. <br><br><a href="friseur-demo.html" style="color:#ffb347">Termin-Demo öffnen →</a>';
+else if(lower.includes("leistung")||lower.includes("seite")){
+answer='Möglich sind klassische Websites, Kontaktformulare, Galerie-Seiten, Leistungsseiten und kleine Kunden-Apps.';
 }
-else if(lower.includes("demo")){
-answer='Es gibt Demos für Friseur, Restaurant, Dashboard, Inventar, SMS, Mitarbeiter und KI-Chatbot. <br><br><a href="modelle.html" style="color:#ffb347">Modelle öffnen →</a>';
+else if(lower.includes("schnell")||lower.includes("fertig")||lower.includes("liefer")){
+answer='Eine einfache Website kann je nach Umfang meist sehr schnell vorbereitet werden. Der genaue Zeitraum hängt von Texten, Bildern und Seitenanzahl ab.';
 }
-else if(lower.includes("liefer")||lower.includes("schnell")||lower.includes("fertig")){
-answer='Einfache Systeme können als Demo innerhalb von ca. 48 Stunden vorbereitet werden.';
-}
-else if(lower.includes("restaurant")||lower.includes("bestellung")){
-answer='Für Restaurants gibt es ein Online-Bestellsystem ohne Plattform-Provision. <br><br><a href="restaurant-demo.html" style="color:#ffb347">Restaurant-Demo öffnen →</a>';
+else if(lower.includes("kontakt")||lower.includes("anfrage")){
+answer='Du kannst direkt eine Anfrage stellen. <br><br><a href="anfragen.html" style="color:#ffb347">Anfrage öffnen →</a>';
 }
 
 setTimeout(()=>{
