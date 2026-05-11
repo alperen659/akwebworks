@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AK WebWorks – Websites, Design & Development</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 <link rel="icon" type="image/png" href="akwebworks-favicon.png">
 
 <style>
@@ -15,16 +19,16 @@
 }
 
 :root{
-  --black:#050505;
-  --dark:#0b0b0b;
-  --card:#11110f;
-  --card2:#181613;
+  --black:#070707;
+  --dark:#0d0d0b;
+  --card:#131310;
+  --card2:#191713;
   --white:#f5f2ec;
   --gray:#b8b1a7;
-  --muted:#8b8378;
-  --accent:#ff5a1f;
-  --accent2:#ff9a3d;
-  --border:rgba(255,255,255,.08);
+  --muted:#7f776d;
+  --accent:#e8572a;
+  --accent2:#ffb347;
+  --border:rgba(245,242,236,.08);
 }
 
 html{
@@ -33,11 +37,12 @@ html{
 
 body{
   background:
-    radial-gradient(circle at 70% 10%,rgba(255,90,31,.14),transparent 32%),
-    radial-gradient(circle at 20% 20%,rgba(255,255,255,.04),transparent 24%),
+    radial-gradient(circle at 75% 15%,rgba(232,87,42,.16),transparent 34%),
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.035),transparent 26%),
     var(--black);
   color:var(--white);
-  font-family:Arial, Helvetica, sans-serif;
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
   overflow-x:hidden;
 }
 
@@ -45,10 +50,10 @@ body::before{
   content:"";
   position:fixed;
   inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.025;
   pointer-events:none;
-  opacity:.035;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  z-index:999;
+  z-index:9999;
 }
 
 nav{
@@ -60,102 +65,130 @@ nav{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:18px 42px;
-  background:rgba(5,5,5,.76);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:1.35rem 3rem;
+  backdrop-filter:blur(14px);
+  background:rgba(7,7,7,.78);
+  border-bottom:1px solid rgba(245,242,236,.06);
 }
 
 .logo{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:.8rem;
   text-decoration:none;
   color:var(--white);
-  font-weight:800;
-  letter-spacing:.08em;
-  text-transform:uppercase;
 }
 
-.logo img{
+.logo-mark{
   width:42px;
   height:42px;
+  border-radius:4px;
   object-fit:cover;
-  border-radius:10px;
 }
 
-.logo span{
+.logo-text{
+  font-family:'Syne',sans-serif;
+  font-weight:800;
+  letter-spacing:-.03em;
+  font-size:1.15rem;
+}
+
+.logo-text span{
   color:var(--accent);
 }
 
 nav ul{
   display:flex;
-  gap:28px;
-  list-style:none;
   align-items:center;
+  list-style:none;
+  gap:2.4rem;
 }
 
-nav a{
+nav ul a{
   color:var(--gray);
   text-decoration:none;
-  font-size:.92rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:.76rem;
+  font-weight:700;
   transition:.2s;
 }
 
-nav a:hover{
+nav ul a:hover{
   color:var(--white);
 }
 
-.nav-btn{
+.nav-cta{
   background:var(--accent);
   color:#fff!important;
-  padding:11px 18px;
-  border-radius:10px;
-  font-weight:700;
+  padding:.65rem 1.2rem;
+  border-radius:3px;
+}
+
+.nav-cta:hover{
+  background:#d94b23;
 }
 
 .hero{
   min-height:100vh;
   max-width:1280px;
   margin:auto;
+  padding:8.5rem 3rem 4rem;
   display:grid;
   grid-template-columns:1.05fr .95fr;
-  gap:60px;
   align-items:center;
-  padding:130px 40px 70px;
+  gap:4.5rem;
+  position:relative;
 }
 
-.hero-kicker{
+.hero-content{
+  position:relative;
+  z-index:2;
+}
+
+.hero-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:.65rem;
   color:var(--accent);
   text-transform:uppercase;
-  letter-spacing:.18em;
-  font-size:.78rem;
-  font-weight:800;
-  margin-bottom:22px;
+  letter-spacing:.16em;
+  font-size:.74rem;
+  font-weight:700;
+  margin-bottom:1.8rem;
+}
+
+.hero-tag::before{
+  content:"";
+  width:28px;
+  height:1px;
+  background:var(--accent);
 }
 
 h1{
-  font-size:clamp(3.1rem,7vw,6.5rem);
-  line-height:.94;
-  letter-spacing:-.06em;
-  margin-bottom:28px;
+  font-family:'Syne',sans-serif;
+  font-size:clamp(3rem,6.5vw,6.2rem);
+  line-height:.97;
+  letter-spacing:-.055em;
+  margin-bottom:1.8rem;
 }
 
-h1 span{
+h1 em{
   color:var(--accent);
+  font-style:normal;
 }
 
-.hero-text{
-  max-width:610px;
+.hero-sub{
   color:var(--gray);
   line-height:1.85;
-  font-size:1.08rem;
-  margin-bottom:36px;
+  max-width:570px;
+  font-size:1.05rem;
+  margin-bottom:2.7rem;
 }
 
-.actions{
+.hero-btns{
   display:flex;
-  gap:16px;
+  gap:1rem;
   flex-wrap:wrap;
 }
 
@@ -165,8 +198,9 @@ h1 span{
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  padding:15px 22px;
-  border-radius:12px;
+  padding:.95rem 1.75rem;
+  border-radius:3px;
+  font-size:.9rem;
   font-weight:700;
   transition:.2s;
 }
@@ -174,13 +208,7 @@ h1 span{
 .btn-primary{
   background:var(--accent);
   color:#fff;
-  box-shadow:0 18px 45px rgba(255,90,31,.22);
-}
-
-.btn-secondary{
-  color:#fff;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.025);
+  box-shadow:0 18px 42px rgba(232,87,42,.22);
 }
 
 .btn-primary:hover,
@@ -188,99 +216,153 @@ h1 span{
   transform:translateY(-2px);
 }
 
-.hero-logo-card{
-  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
-  border:1px solid var(--border);
-  border-radius:28px;
-  padding:34px;
-  box-shadow:0 40px 100px rgba(0,0,0,.45);
-  position:relative;
-  overflow:hidden;
+.btn-secondary{
+  color:#fff;
+  border:1px solid rgba(245,242,236,.16);
+  background:rgba(245,242,236,.025);
 }
 
-.hero-logo-card::before{
+.hero-visual{
+  position:relative;
+  z-index:2;
+}
+
+.logo-panel{
+  background:
+    linear-gradient(180deg,rgba(245,242,236,.04),rgba(245,242,236,.01)),
+    var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:2rem;
+  box-shadow:0 40px 90px rgba(0,0,0,.45);
+  overflow:hidden;
+  position:relative;
+}
+
+.logo-panel::before{
   content:"";
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at top right,rgba(255,90,31,.16),transparent 42%);
+  background:radial-gradient(circle at 70% 25%,rgba(232,87,42,.18),transparent 42%);
+  pointer-events:none;
 }
 
-.hero-logo-card img{
-  position:relative;
-  z-index:1;
+.logo-panel img{
   width:100%;
   display:block;
-  border-radius:18px;
+  border-radius:8px;
+  position:relative;
+  z-index:1;
 }
+
+.panel-bar{
+  display:flex;
+  gap:.45rem;
+  margin-bottom:1.2rem;
+  position:relative;
+  z-index:2;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+}
+
+.r{background:#ff5f57}
+.y{background:#ffbd2e}
+.g{background:#28c840}
 
 .stats{
   max-width:1280px;
   margin:auto;
-  padding:0 40px 80px;
+  padding:0 3rem 5rem;
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:18px;
+  gap:1px;
+  background:rgba(245,242,236,.07);
+  border-top:1px solid rgba(245,242,236,.07);
+  border-bottom:1px solid rgba(245,242,236,.07);
 }
 
 .stat{
-  background:linear-gradient(180deg,var(--card2),var(--card));
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:24px;
+  background:var(--black);
+  padding:2rem 1.5rem;
+  text-align:center;
 }
 
-.stat strong{
-  display:block;
-  font-size:2.4rem;
-  margin-bottom:8px;
+.stat-num{
+  font-family:'Syne',sans-serif;
+  font-weight:800;
+  font-size:2.3rem;
+  letter-spacing:-.05em;
+  margin-bottom:.4rem;
 }
 
-.stat span{
+.stat-num span{
+  color:var(--accent);
+}
+
+.stat-label{
   color:var(--gray);
+  font-size:.76rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
 }
 
-.section{
+section{
   max-width:1280px;
   margin:auto;
-  padding:80px 40px;
+  padding:6rem 3rem;
 }
 
-.section-kicker{
+.section-tag{
+  display:flex;
+  align-items:center;
+  gap:.65rem;
   color:var(--accent);
   text-transform:uppercase;
-  letter-spacing:.16em;
-  font-size:.75rem;
-  font-weight:800;
-  margin-bottom:16px;
+  letter-spacing:.15em;
+  font-size:.72rem;
+  font-weight:700;
+  margin-bottom:1rem;
 }
 
-.section h2{
+.section-tag::before{
+  content:"";
+  width:24px;
+  height:1px;
+  background:var(--accent);
+}
+
+h2{
+  font-family:'Syne',sans-serif;
   font-size:clamp(2.2rem,4vw,4rem);
-  line-height:1;
-  letter-spacing:-.04em;
-  margin-bottom:18px;
+  line-height:1.04;
+  letter-spacing:-.045em;
+  margin-bottom:1.1rem;
 }
 
 .section-intro{
   color:var(--gray);
+  max-width:680px;
   line-height:1.8;
-  max-width:720px;
-  margin-bottom:44px;
+  margin-bottom:3.4rem;
 }
 
-.grid{
+.cards{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:24px;
+  gap:1.4rem;
 }
 
 .card{
   background:linear-gradient(180deg,var(--card2),var(--card));
   border:1px solid var(--border);
-  border-radius:24px;
-  padding:32px;
+  border-radius:10px;
+  padding:2rem;
   text-decoration:none;
-  color:var(--white);
+  color:inherit;
   transition:.25s;
   position:relative;
   overflow:hidden;
@@ -290,14 +372,14 @@ h1 span{
   content:"";
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at top right,rgba(255,90,31,.14),transparent 42%);
+  background:radial-gradient(circle at top right,rgba(232,87,42,.15),transparent 44%);
   opacity:0;
   transition:.25s;
 }
 
 .card:hover{
-  transform:translateY(-6px);
-  border-color:rgba(255,90,31,.45);
+  transform:translateY(-5px);
+  border-color:rgba(232,87,42,.5);
 }
 
 .card:hover::before{
@@ -309,106 +391,133 @@ h1 span{
   z-index:1;
 }
 
-.icon{
+.card-icon{
   width:56px;
   height:56px;
-  border-radius:16px;
-  background:rgba(255,90,31,.12);
+  border-radius:6px;
+  background:rgba(232,87,42,.12);
+  color:var(--accent2);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:1.8rem;
-  margin-bottom:24px;
+  font-size:1.7rem;
+  margin-bottom:1.4rem;
 }
 
 .card h3{
-  font-size:1.55rem;
-  margin-bottom:14px;
+  font-family:'Syne',sans-serif;
+  font-size:1.45rem;
+  margin-bottom:.8rem;
 }
 
 .card p{
   color:var(--gray);
   line-height:1.75;
-  margin-bottom:24px;
+  margin-bottom:1.6rem;
 }
 
 .card-link{
   color:var(--accent2);
-  font-weight:800;
+  font-weight:700;
+  font-size:.9rem;
+}
+
+.work-preview{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.4rem;
+  margin-top:4rem;
+}
+
+.preview-box{
+  background:linear-gradient(180deg,var(--card2),var(--card));
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.6rem;
+}
+
+.preview-box img{
+  width:100%;
+  border-radius:8px;
+  display:block;
 }
 
 .cta{
-  margin-top:70px;
-  background:linear-gradient(135deg,#21120c,#0f0f0d);
-  border:1px solid rgba(255,90,31,.26);
-  border-radius:30px;
-  padding:54px;
+  margin-top:5rem;
+  background:linear-gradient(135deg,#21120c,#0d0d0b);
+  border:1px solid rgba(232,87,42,.28);
+  border-radius:16px;
+  padding:3.3rem 2rem;
   text-align:center;
 }
 
 .cta h2{
-  margin-bottom:18px;
+  margin-bottom:1rem;
 }
 
 .cta p{
   color:var(--gray);
   line-height:1.8;
   max-width:720px;
-  margin:0 auto 30px;
+  margin:0 auto 2rem;
 }
 
 footer{
-  border-top:1px solid rgba(255,255,255,.06);
+  padding:2.2rem 3rem;
+  border-top:1px solid rgba(245,242,236,.06);
   color:var(--muted);
   text-align:center;
-  padding:34px 20px;
+  font-size:.84rem;
 }
 
 @media(max-width:980px){
   nav{
     flex-direction:column;
-    gap:14px;
-    padding:16px 20px;
+    gap:1rem;
+    padding:1rem 1.2rem;
   }
 
   nav ul{
-    gap:16px;
+    gap:1.2rem;
     flex-wrap:wrap;
     justify-content:center;
   }
 
   .hero{
     grid-template-columns:1fr;
-    padding-top:175px;
+    padding:10.5rem 1.2rem 3rem;
   }
 
   .stats{
     grid-template-columns:1fr 1fr;
+    padding:0 1.2rem 4rem;
   }
 
-  .grid{
+  section{
+    padding:4rem 1.2rem;
+  }
+
+  .cards,
+  .work-preview{
     grid-template-columns:1fr;
   }
 }
 
-@media(max-width:640px){
-  .hero,
-  .section,
-  .stats{
-    padding-left:20px;
-    padding-right:20px;
-  }
-
+@media(max-width:580px){
   .stats{
     grid-template-columns:1fr;
   }
 
-  .cta{
-    padding:34px 22px;
+  .logo-text{
+    font-size:1rem;
   }
 
-  .logo{
-    font-size:.9rem;
+  nav ul a{
+    font-size:.7rem;
+  }
+
+  h1{
+    font-size:3rem;
   }
 }
 </style>
@@ -418,115 +527,136 @@ footer{
 
 <nav>
 <a href="index.html" class="logo">
-<img src="akwebworks-mark.png" alt="AK WebWorks Logo">
-AK<span>WebWorks</span>
+<img src="akwebworks-favicon.png" class="logo-mark" alt="AK WebWorks">
+<div class="logo-text">AK<span>WebWorks</span></div>
 </a>
 
 <ul>
 <li><a href="modelle.html">Modelle</a></li>
 <li><a href="preise.html">Preise</a></li>
-<li><a href="anfragen.html" class="nav-btn">Anfragen</a></li>
+<li><a href="anfragen.html" class="nav-cta">Anfragen</a></li>
 </ul>
 </nav>
 
+<main>
+
 <section class="hero">
 
-<div>
-<div class="hero-kicker">Websites · Design · Development</div>
+<div class="hero-content">
+<div class="hero-tag">Websites · Design · Development</div>
 
 <h1>
-Digitale Auftritte,<br>
-die <span>professionell</span><br>
-wirken.
+Websites,<br>
+die <em>klar</em><br>
+funktionieren.
 </h1>
 
-<p class="hero-text">
+<p class="hero-sub">
 AK WebWorks erstellt moderne Websites für lokale Betriebe, Dienstleister und Unternehmen.
-Klar aufgebaut, mobil optimiert und ohne unnötig komplexe Systeme.
+Seriös im Auftritt, sauber in der Struktur und ohne unnötig komplexe Technik.
 </p>
 
-<div class="actions">
+<div class="hero-btns">
 <a href="modelle.html" class="btn-primary">Modelle ansehen</a>
 <a href="preise.html" class="btn-secondary">Preise prüfen</a>
 </div>
 </div>
 
-<div class="hero-logo-card">
-<img src="akwebworks-logo.png" alt="AK WebWorks Logo Präsentation">
+<div class="hero-visual">
+<div class="logo-panel">
+<div class="panel-bar">
+<div class="dot r"></div>
+<div class="dot y"></div>
+<div class="dot g"></div>
+</div>
+<img src="akwebworks-logo.png" alt="AK WebWorks Logo">
+</div>
 </div>
 
 </section>
 
-<section class="stats">
-
+<div class="stats">
 <div class="stat">
-<strong>klar</strong>
-<span>Strukturierte Websites ohne unnötigen Ballast</span>
+<div class="stat-num">01<span>.</span></div>
+<div class="stat-label">Klare Struktur</div>
 </div>
 
 <div class="stat">
-<strong>mobil</strong>
-<span>Optimiert für Smartphone, Tablet und Desktop</span>
+<div class="stat-num">02<span>.</span></div>
+<div class="stat-label">Mobile Optimierung</div>
 </div>
 
 <div class="stat">
-<strong>seriös</strong>
-<span>Professioneller Auftritt für Unternehmen</span>
+<div class="stat-num">03<span>.</span></div>
+<div class="stat-label">Eigene Domain</div>
 </div>
 
 <div class="stat">
-<strong>flexibel</strong>
-<span>Später einfach erweiterbar</span>
+<div class="stat-num">04<span>.</span></div>
+<div class="stat-label">Optional gepflegt</div>
+</div>
 </div>
 
-</section>
+<section>
 
-<section class="section">
+<div class="section-tag">Leistungen</div>
 
-<div class="section-kicker">Überblick</div>
-
-<h2>Alles Wichtige an einem Ort.</h2>
+<h2>
+Digitaler Auftritt ohne unnötigen Ballast.
+</h2>
 
 <p class="section-intro">
-Starte mit einer klassischen Website, erweitere sie später mit zusätzlichen Seiten
-oder nutze einfache Funktionen wie Kontaktformulare, Galerien und Anfragen.
+Der Fokus liegt auf Websites, die professionell wirken, schnell verstanden werden
+und für kleinere Unternehmen bezahlbar bleiben.
 </p>
 
-<div class="grid">
+<div class="cards">
 
 <a href="modelle.html" class="card">
-<div class="icon">⚙️</div>
+<div class="card-icon">⚙️</div>
 <h3>Modelle & Demos</h3>
-<p>Sieh dir an, welche einfachen und praxisnahen Website-Bausteine möglich sind.</p>
+<p>Sieh dir einfache, praxisnahe Website-Bausteine an, die realistisch umsetzbar bleiben.</p>
 <div class="card-link">Modelle öffnen →</div>
 </a>
 
 <a href="preise.html" class="card">
-<div class="icon">💼</div>
+<div class="card-icon">💼</div>
 <h3>Pakete & Preise</h3>
-<p>Klare Paketpreise für klassische Websites, Website Plus und individuelle Projekte.</p>
+<p>Klare Website-Pakete mit einmaliger Erstellung und optionaler Pflege.</p>
 <div class="card-link">Preise ansehen →</div>
 </a>
 
 <a href="anfragen.html" class="card">
-<div class="icon">🚀</div>
-<h3>Projekt anfragen</h3>
-<p>Beschreibe kurz dein Vorhaben und starte eine unverbindliche Anfrage.</p>
-<div class="card-link">Anfrage starten →</div>
+<div class="card-icon">🚀</div>
+<h3>Projekt starten</h3>
+<p>Beschreibe dein Vorhaben und erhalte eine passende Einschätzung für dein Projekt.</p>
+<div class="card-link">Anfrage stellen →</div>
 </a>
 
+</div>
+
+<div class="work-preview">
+<div class="preview-box">
+<img src="akwebworks-horizontal-dark.png" alt="AK WebWorks horizontales Logo">
+</div>
+
+<div class="preview-box">
+<img src="akwebworks-white-background.png" alt="AK WebWorks helles Logo">
+</div>
 </div>
 
 <div class="cta">
 <h2>Bereit für einen professionellen Webauftritt?</h2>
 <p>
-Eine gute Website muss nicht kompliziert sein. Wichtig ist, dass sie sauber wirkt,
-schnell lädt und Kunden direkt verstehen, was dein Betrieb anbietet.
+Eine gute Website muss nicht überladen sein. Entscheidend ist, dass Kunden sofort verstehen,
+wer du bist, was du anbietest und wie sie dich erreichen.
 </p>
 <a href="anfragen.html" class="btn-primary">Unverbindlich anfragen</a>
 </div>
 
 </section>
+
+</main>
 
 <footer>
 © 2026 AK WebWorks — Websites · Design · Development
