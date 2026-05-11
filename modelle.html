@@ -21,7 +21,6 @@
 
 :root {
   --black: #060605;
-  --dark: #0b0a09;
   --white: #f8f4ee;
   --gray: #c7bfb4;
   --muted: #897f73;
@@ -258,19 +257,69 @@ h1 em {
   max-width: 680px;
 }
 
-.hero-side {
-  color: var(--gray);
-  line-height: 1.78;
-  font-size: 1.02rem;
-  max-width: 520px;
+.hero-preview {
   justify-self: end;
+  width: min(100%, 520px);
+  padding-left: 2rem;
+  border-left: 1px solid rgba(248,244,238,.13);
 }
 
-.hero-side strong {
+.preview-label {
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .7rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.preview-list {
+  display: grid;
+}
+
+.preview-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .9rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(248,244,238,.09);
+}
+
+.preview-item:last-child {
+  border-bottom: none;
+}
+
+.preview-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--accent-soft);
+  border: 1px solid rgba(248,244,238,.1);
+  background: rgba(255,255,255,.04);
+}
+
+.preview-icon svg {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.preview-item strong {
   display: block;
-  color: var(--white);
-  font-size: 1rem;
-  margin-bottom: .45rem;
+  font-size: .98rem;
+  margin-bottom: .18rem;
+}
+
+.preview-item span {
+  color: var(--gray);
+  font-size: .9rem;
+  line-height: 1.45;
 }
 
 section {
@@ -563,8 +612,12 @@ footer {
     gap: 2rem;
   }
 
-  .hero-side {
+  .hero-preview {
     justify-self: start;
+    padding-left: 0;
+    border-left: none;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(248,244,238,.11);
   }
 
   .model-row {
@@ -629,17 +682,6 @@ footer {
 
   .model-description {
     grid-column: auto;
-  }
-
-  .model-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 16px;
-  }
-
-  .model-icon svg {
-    width: 22px;
-    height: 22px;
   }
 
   .model-arrow {
@@ -738,11 +780,71 @@ footer {
       </p>
     </div>
 
-    <p class="hero-side">
-      <strong>Wichtig:</strong>
-      Die Modelle sind bewusst einfach verständlich gehalten. Ziel ist nicht, dich mit Technik zu überladen,
-      sondern dir schnell zu zeigen, was für deinen Betrieb sinnvoll sein kann.
-    </p>
+    <div class="hero-preview">
+      <div class="preview-label">Demo-Auswahl</div>
+
+      <div class="preview-list">
+
+        <div class="preview-item">
+          <div class="preview-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+              <path d="M7 20h10"></path>
+              <path d="M10 18v2"></path>
+              <path d="M14 18v2"></path>
+            </svg>
+          </div>
+          <div>
+            <strong>Klassische Website</strong>
+            <span>Startseite, Leistungen und Kontakt.</span>
+          </div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect>
+              <path d="M10 5h4"></path>
+              <path d="M12 18h.01"></path>
+            </svg>
+          </div>
+          <div>
+            <strong>Kunden-App</strong>
+            <span>Anfragen, Reservierung oder Terminwunsch.</span>
+          </div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+              <path d="M7 9h10"></path>
+              <path d="M7 13h6"></path>
+            </svg>
+          </div>
+          <div>
+            <strong>Kontaktformular</strong>
+            <span>Strukturierte Projekt- und Kundenanfragen.</span>
+          </div>
+        </div>
+
+        <div class="preview-item">
+          <div class="preview-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 7.5A3.5 3.5 0 0 1 8.5 4h7A3.5 3.5 0 0 1 19 7.5v4A3.5 3.5 0 0 1 15.5 15H11l-4.5 4v-4.2A3.5 3.5 0 0 1 5 11.5z"></path>
+              <path d="M9 9.5h.01"></path>
+              <path d="M12 9.5h.01"></path>
+              <path d="M15 9.5h.01"></path>
+            </svg>
+          </div>
+          <div>
+            <strong>KI Chatbot</strong>
+            <span>Antworten auf häufige Fragen.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
   </section>
 
