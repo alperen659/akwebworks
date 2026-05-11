@@ -268,64 +268,20 @@ details.faq-item[open] .faq-icon{background:var(--blue);border-color:var(--blue)
 
 /* FOOTER */
 footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:52px;align-items:start}
-@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr 1fr}}
-@media(max-width:640px){.footer-grid{grid-template-columns:1fr 1fr;gap:30px}}
-@media(max-width:400px){.footer-grid{grid-template-columns:1fr}}
+.footer-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:36px;margin-bottom:44px;align-items:start}
+@media(max-width:900px){.footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}}
+@media(max-width:420px){.footer-grid{grid-template-columns:1fr}}
 .footer-grid h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 16px;display:block}
 .footer-grid ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
 .footer-grid a{color:var(--ink-s);font-size:14px;display:inline-block}
 .footer-grid a:hover{color:var(--blue)}
 .footer-brand .logo{margin-bottom:14px}
 .footer-brand .logo .logo-text{color:var(--ink)}
-.footer-brand p{color:var(--ink-s);font-size:14px;max-width:32ch;margin:0;line-height:1.65}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;border-top:1px solid var(--line-s);font-size:12.5px;color:var(--muted);flex-wrap:wrap;gap:12px}
-.footer-bottom a{color:var(--muted)}
-.footer-bottom a:hover{color:var(--blue)}
-
-/* MODAL */
-.modal-overlay{
-  position:fixed;inset:0;z-index:9000;
-  background:rgba(13,18,32,.72);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  display:flex;align-items:flex-start;justify-content:center;
-  padding:40px 20px;overflow-y:auto;
-  opacity:0;pointer-events:none;
-  transition:opacity .3s ease;
-}
-.modal-overlay.is-open{opacity:1;pointer-events:all}
-.modal{
-  background:var(--bg-3);border:1px solid var(--line);border-radius:var(--rx);
-  padding:44px 48px;width:100%;max-width:560px;position:relative;
-  box-shadow:0 24px 80px rgba(15,22,40,.18);
-  transform:translateY(16px) scale(.98);
-  transition:transform .35s var(--ease);
-  margin:auto;
-}
-@media(max-width:600px){.modal{padding:30px 22px}}
-.modal-overlay.is-open .modal{transform:translateY(0) scale(1)}
-.modal::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);border-radius:var(--rx) var(--rx) 0 0}
-.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg-2);border:1px solid var(--line);color:var(--muted);cursor:pointer;display:grid;place-items:center;font-size:18px;line-height:1;transition:all .2s;font-family:sans-serif}
-.modal-close:hover{color:var(--ink);border-color:var(--ink-s);background:var(--bg-4)}
-.modal h2{font-size:1.65rem;margin-bottom:6px}
-.modal .modal-sub{color:var(--ink-s);font-size:14.5px;margin-bottom:28px}
-
-.booking-form{display:flex;flex-direction:column;gap:18px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:500px){.form-row{grid-template-columns:1fr}}
-.form-group{display:flex;flex-direction:column;gap:6px}
-.form-group label{font-size:13px;font-weight:600;color:var(--ink-s);letter-spacing:.02em}
-.form-group input,.form-group select,.form-group textarea{background:var(--bg);border:1.5px solid var(--line);color:var(--ink);font-family:var(--sans);font-size:14.5px;padding:11px 14px;border-radius:var(--r);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
-.form-group input::placeholder,.form-group textarea::placeholder{color:var(--muted)}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,91,212,.10)}
-.form-group textarea{resize:vertical;min-height:110px}
-.form-group select{cursor:pointer;background-color:var(--bg)}
-.form-submit{width:100%;justify-content:center;font-size:15px;padding:15px;margin-top:6px}
-.form-note{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
-.form-success{display:none;text-align:center;padding:30px 20px}
-.form-success .sicon{width:56px;height:56px;background:rgba(22,163,74,.08);border:1.5px solid var(--ok);border-radius:50%;display:grid;place-items:center;margin:0 auto 18px;font-size:24px;color:var(--ok)}
-.form-success h3{font-size:1.3rem;margin-bottom:10px}
-.form-success p{color:var(--ink-s);font-size:15px}
+.footer-brand p{color:var(--ink-s);font-size:14px;margin:0;line-height:1.65}
+.footer-bottom{display:flex;justify-content:center;align-items:center;padding-top:24px;border-top:1px solid var(--line-s);font-size:12.5px;color:var(--muted);text-align:center}
+.ig-link{display:inline-flex;align-items:center;gap:7px;color:var(--ink-s);font-size:14px}
+.ig-link:hover{color:var(--blue)}
+.ig-icon{width:16px;height:16px;flex-shrink:0;vertical-align:-2px}
 
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
@@ -353,7 +309,7 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
     </div>
     <div class="nav-right">
       <a href="tel:+4915123456789" class="nav-phone">+49 151 234 56789</a>
-      <button class="btn btn-primary" onclick="openModal()">Beratung buchen <span class="arrow">→</span></button>
+      <a href="kontakt.html" class="btn btn-primary">Beratung buchen <span class="arrow">→</span></a>
     </div>
   </div>
 </nav>
@@ -366,7 +322,7 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         <h1>Websites, die<br><span class="blue">Anfragen bringen</span><br><span class="dim">— nicht nur gut aussehen.</span></h1>
         <p class="lede" style="margin-top:28px;">Als gelernter Fachinformatiker baue ich hochwertige Websites für Handwerk, Dienstleister und kleine Unternehmen. Klar geplant, sauber gebaut, persönlich begleitet — ohne Agenturpreise, ohne Baukasten-Optik.</p>
         <div class="hero-btns">
-          <button class="btn btn-primary" onclick="openModal()">Kostenlose Beratung buchen <span class="arrow">→</span></button>
+          <a href="kontakt.html" class="btn btn-primary">Kostenlose Beratung buchen <span class="arrow">→</span></a>
           <a href="#preise" class="btn btn-outline">Pakete ansehen</a>
         </div>
       </div>
@@ -460,21 +416,21 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         <p class="descr">Für kleine Betriebe und Dienstleister, die professionell sichtbar werden möchten.</p>
         <div class="pnum">599 €</div><div class="pnote">EINMALIG · ZZGL. MWST.</div>
         <ul><li>Startseite + bis zu 4 Unterseiten</li><li>Mobiloptimiertes, modernes Design</li><li>Leistungen, Über uns, Kontakt</li><li>Kontaktformular (DSGVO-konform)</li><li>Impressum &amp; Datenschutz inkl.</li><li>Eigene Domain anbindbar</li></ul>
-        <button class="btn btn-outline" onclick="openModal()">Paket wählen <span class="arrow">→</span></button>
+        <a href="kontakt.html" class="btn btn-outline">Paket wählen <span class="arrow">→</span></a>
       </div>
       <div class="price-card featured reveal reveal-d1">
         <span class="tag">★ BELIEBTESTE WAHL</span><h3>Website Plus</h3>
         <p class="descr">Für Unternehmen, die mehr Struktur, mehr Inhalte und zusätzliche Funktionen brauchen.</p>
         <div class="pnum">999 €</div><div class="pnote">EINMALIG · ZZGL. MWST.</div>
         <ul><li>Alles aus Klassische Website</li><li>Bis zu 5+ Unterseiten &amp; Bereiche</li><li>Galerie, FAQ oder Referenzen</li><li>Anfrage- oder Reservierungsfunktion</li><li>Lokales SEO-Setup + Google Maps</li><li>Erweiterte Seitenstruktur</li><li>Premium-Support</li></ul>
-        <button class="btn btn-primary" onclick="openModal()">Paket wählen <span class="arrow">→</span></button>
+        <a href="kontakt.html" class="btn btn-primary">Paket wählen <span class="arrow">→</span></a>
       </div>
       <div class="price-card reveal reveal-d2">
         <span class="tag">INDIVIDUELL</span><h3>Website nach Wunsch</h3>
         <p class="descr">Für größere Projekte mit besonderem Aufbau, mehreren Standorten oder Spezialfunktionen.</p>
         <div class="pnum">ab 1.599 €</div><div class="pnote">JE NACH UMFANG · ZZGL. MWST.</div>
         <ul><li>Maßgeschneidertes Seitenkonzept</li><li>Mehrere Standort- oder Leistungsseiten</li><li>Individuelle Zusatzfunktionen</li><li>Mehrsprachigkeit möglich</li><li>Erweiterte SEO-Optimierung</li><li>Technisch flexibel skalierbar</li><li>Erweitertes Marketing möglich</li></ul>
-        <button class="btn btn-outline" onclick="openModal()">Anfragen <span class="arrow">→</span></button>
+        <a href="kontakt.html" class="btn btn-outline">Anfragen <span class="arrow">→</span></a>
       </div>
     </div>
     <div class="care-box reveal">
@@ -577,7 +533,7 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
       <h2>30 Minuten.<br>Kostenfrei. Unverbindlich.</h2>
       <p>Wir sprechen über dein Unternehmen und dein Ziel — und schauen, ob und welches Paket Sinn ergibt. Wenn nicht, sage ich dir das ehrlich.</p>
       <div class="cta-btns">
-        <button class="btn btn-primary" onclick="openModal()">Termin anfragen <span class="arrow">→</span></button>
+        <a href="kontakt.html" class="btn btn-primary">Termin anfragen <span class="arrow">→</span></a>
         <a href="mailto:hallo@akwebworks.de" class="btn btn-outline">Per E-Mail schreiben</a>
       </div>
       <div class="cta-meta">
@@ -593,7 +549,7 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="#" class="logo">
+        <a href="index.html" class="logo">
           <img src="logo.png" alt="AK WebWorks" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
           <span class="logo-fallback" style="display:none;">AK</span>
           <span class="logo-text" style="color:var(--ink);">WebWorks</span>
@@ -614,8 +570,16 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         <ul>
           <li><a href="tel:+4915123456789">+49 151 234 56789</a></li>
           <li><a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a></li>
-          <li><a href="#">@ak.webworks</a></li>
-          <li><a href="#">Bielefeld, OWL</a></li>
+          <li>
+            <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="ig-link">
+              <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4.5"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+              ak.webworks
+            </a>
+          </li>
         </ul>
       </div>
       <div>
@@ -623,87 +587,24 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         <ul>
           <li><a href="impressum.html">Impressum</a></li>
           <li><a href="datenschutz.html">Datenschutz</a></li>
-          <li><a href="#">AGB</a></li>
-          <li><a href="#">Cookies</a></li>
+          <li><a href="agb.html">AGB</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 AK WebWorks — Alperen Ali Kati · Bielefeld</span>
-      <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></span>
+      <span>© 2026 AK WebWorks — Alle Rechte vorbehalten.</span>
     </div>
   </div>
 </footer>
 
-<!-- MODAL — Formspree: Ersetze DEINE_FORMSPREE_ID -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <button class="modal-close" id="modalClose" aria-label="Schließen">&#x2715;</button>
-    <div id="formWrap">
-      <span class="eyebrow" style="margin-bottom:16px;display:inline-flex;">Beratungsanfrage</span>
-      <h2 id="modalTitle" style="font-size:1.65rem;margin-bottom:6px;">Kostenloses Erstgespräch</h2>
-      <p class="modal-sub">Füll das Formular aus — ich melde mich innerhalb von 24 h bei dir.</p>
-      <form class="booking-form" id="bookingForm" action="https://formspree.io/f/DEINE_FORMSPREE_ID" method="POST">
-        <div class="form-row">
-          <div class="form-group"><label for="fname">Dein Name *</label><input type="text" id="fname" name="name" placeholder="Max Mustermann" required /></div>
-          <div class="form-group"><label for="fcompany">Unternehmen / Branche</label><input type="text" id="fcompany" name="unternehmen" placeholder="KFZ-Werkstatt Muster" /></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label for="femail">E-Mail *</label><input type="email" id="femail" name="email" placeholder="max@beispiel.de" required /></div>
-          <div class="form-group"><label for="fphone">Telefon</label><input type="tel" id="fphone" name="telefon" placeholder="+49 151 ..." /></div>
-        </div>
-        <div class="form-group">
-          <label for="fpackage">Interessantes Paket</label>
-          <select id="fpackage" name="paket">
-            <option value="">Noch nicht sicher</option>
-            <option value="basis">Basis — 599 €</option>
-            <option value="plus">Website Plus — 999 €</option>
-            <option value="individuell">Individuell — ab 1.599 €</option>
-            <option value="pflege">Nur Pflege-Paket</option>
-          </select>
-        </div>
-        <div class="form-group"><label for="fmessage">Dein Projekt / Wünsche</label><textarea id="fmessage" name="nachricht" placeholder="Kurze Beschreibung deines Projekts, Ziele oder offene Fragen..."></textarea></div>
-        <input type="text" name="_gotcha" style="display:none" />
-        <input type="hidden" name="_subject" value="Neue Beratungsanfrage — AK WebWorks" />
-        <button type="submit" class="btn btn-primary form-submit">Anfrage senden <span class="arrow">→</span></button>
-        <p class="form-note">* Pflichtfelder · Deine Daten werden nicht weitergegeben.</p>
-      </form>
-    </div>
-    <div class="form-success" id="formSuccess">
-      <div class="sicon">✓</div>
-      <h3>Anfrage erhalten!</h3>
-      <p>Danke für deine Nachricht. Ich melde mich innerhalb von 24 Stunden bei dir — meistens schon früher.</p>
-    </div>
-  </div>
-</div>
-
 <script>
 const navEl = document.getElementById('navbar');
 window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 20); }, { passive: true });
-
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
 }, { threshold: 0.07 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-const overlay = document.getElementById('modalOverlay');
-function openModal() { overlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
-function closeModal() { overlay.classList.remove('is-open'); document.body.style.overflow = ''; }
-document.getElementById('modalClose').addEventListener('click', closeModal);
-overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-const bookingForm = document.getElementById('bookingForm');
-bookingForm.addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const btn = bookingForm.querySelector('.form-submit');
-  btn.innerHTML = 'Wird gesendet…'; btn.disabled = true;
-  try {
-    const res = await fetch(bookingForm.action, { method: 'POST', body: new FormData(bookingForm), headers: { 'Accept': 'application/json' } });
-    if (res.ok) { document.getElementById('formWrap').style.display = 'none'; document.getElementById('formSuccess').style.display = 'block'; }
-    else { btn.innerHTML = 'Fehler — bitte per E-Mail schreiben'; btn.disabled = false; }
-  } catch { btn.innerHTML = 'Fehler — bitte per E-Mail schreiben'; btn.disabled = false; }
-});
 </script>
 </body>
 </html>
