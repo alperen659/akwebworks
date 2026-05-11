@@ -31,7 +31,6 @@
   --accent-soft: #ffb347;
   --border: rgba(248,244,238,.12);
   --card: rgba(255,255,255,.055);
-  --card-strong: rgba(255,255,255,.085);
 }
 
 html {
@@ -44,9 +43,9 @@ body {
   font-weight: 300;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 80% 8%, rgba(232,87,42,.25), transparent 32%),
-    radial-gradient(circle at 18% 18%, rgba(255,179,71,.12), transparent 28%),
-    linear-gradient(180deg, #080807 0%, #0d0c0a 48%, #11100d 100%);
+    radial-gradient(circle at 84% 10%, rgba(232,87,42,.24), transparent 30%),
+    radial-gradient(circle at 14% 18%, rgba(255,179,71,.10), transparent 26%),
+    linear-gradient(180deg, #080807 0%, #0d0c0a 52%, #11100d 100%);
 }
 
 body::before {
@@ -54,7 +53,7 @@ body::before {
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: .026;
+  opacity: .024;
   pointer-events: none;
   z-index: 9999;
 }
@@ -71,7 +70,7 @@ nav {
   z-index: 100;
   padding: 1.05rem 3rem;
   backdrop-filter: blur(18px);
-  background: rgba(7,7,7,.74);
+  background: rgba(7,7,7,.76);
   border-bottom: 1px solid rgba(248,244,238,.08);
 }
 
@@ -115,7 +114,7 @@ nav ul {
   align-items: center;
   justify-content: center;
   list-style: none;
-  gap: 2.15rem;
+  gap: 2.2rem;
 }
 
 nav ul a {
@@ -134,36 +133,45 @@ nav ul a:hover {
 
 .nav-contact {
   justify-self: end;
-  color: var(--white);
+  color: #fff;
   text-decoration: none;
-  border: 1px solid rgba(248,244,238,.15);
-  background: rgba(248,244,238,.045);
-  padding: .72rem 1.2rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  padding: .78rem 1.25rem;
   border-radius: 999px;
   font-size: .82rem;
   font-weight: 800;
+  box-shadow: 0 14px 32px rgba(232,87,42,.24);
   transition: .2s ease;
 }
 
 .nav-contact:hover {
   transform: translateY(-2px);
-  border-color: rgba(232,87,42,.55);
-  background: rgba(232,87,42,.15);
+  box-shadow: 0 18px 42px rgba(232,87,42,.34);
 }
 
 .hero {
-  min-height: 92vh;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 9.2rem 3rem 3.8rem;
-  display: grid;
-  grid-template-columns: .95fr 1.05fr;
+  padding: 10rem 3rem 4.5rem;
+  min-height: 76vh;
+  display: flex;
   align-items: center;
-  gap: 4rem;
   position: relative;
 }
 
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 3rem;
+  right: 3rem;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(248,244,238,.18), transparent);
+}
+
 .hero-content {
+  width: 100%;
+  max-width: 1040px;
   position: relative;
   z-index: 2;
 }
@@ -194,8 +202,8 @@ h3 {
 }
 
 h1 {
-  max-width: 700px;
-  font-size: clamp(3.2rem, 6.8vw, 6.8rem);
+  max-width: 980px;
+  font-size: clamp(3.2rem, 6.6vw, 6.9rem);
   line-height: .94;
   letter-spacing: -.067em;
   margin-bottom: 1.7rem;
@@ -209,122 +217,55 @@ h1 em {
 
 .hero-sub {
   color: var(--gray);
-  line-height: 1.85;
-  max-width: 610px;
-  font-size: 1.06rem;
-  margin-bottom: 2.25rem;
-}
-
-.hero-btns {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.btn-primary,
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  min-height: 48px;
-  padding: .95rem 1.7rem;
-  border-radius: 999px;
-  font-size: .9rem;
-  font-weight: 800;
-  transition: .22s ease;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  color: #fff;
-  box-shadow: 0 18px 45px rgba(232,87,42,.28);
-}
-
-.btn-secondary {
-  color: var(--white);
-  border: 1px solid rgba(248,244,238,.17);
-  background: rgba(248,244,238,.035);
-}
-
-.btn-primary:hover,
-.btn-secondary:hover {
-  transform: translateY(-2px);
+  line-height: 1.82;
+  max-width: 760px;
+  font-size: 1.08rem;
+  margin-bottom: 1.7rem;
 }
 
 .hero-note {
-  margin-top: 1.45rem;
-  color: var(--muted);
-  font-size: .92rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-top: 2.1rem;
 }
 
-.hero-visual {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
+.hero-note span {
+  display: inline-flex;
   align-items: center;
-}
-
-.hero-logo-wrap {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-logo-wrap::before {
-  content: "";
-  position: absolute;
-  width: min(72vw, 560px);
-  height: min(72vw, 560px);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, rgba(232,87,42,.18), transparent 62%),
-    radial-gradient(circle, rgba(255,179,71,.08), transparent 70%);
-  filter: blur(2px);
-  z-index: -1;
-}
-
-.hero-logo-image {
-  width: min(100%, 680px);
-  display: block;
-  object-fit: contain;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  filter: drop-shadow(0 34px 58px rgba(0,0,0,.45));
+  min-height: 38px;
+  padding: .65rem .9rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(248,244,238,.1);
+  color: var(--white);
+  font-size: .88rem;
+  font-weight: 700;
 }
 
 .quick-proof {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 3rem 5rem;
+  padding: 3.2rem 3rem 3rem;
 }
 
 .quick-proof-inner {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: .9rem;
-  padding: 1rem;
-  border-radius: 24px;
-  background: rgba(255,255,255,.035);
-  border: 1px solid rgba(248,244,238,.09);
 }
 
 .proof-item {
-  padding: 1.2rem 1.25rem;
+  padding: 1.25rem;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
-  border: 1px solid rgba(248,244,238,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.068), rgba(255,255,255,.026));
+  border: 1px solid rgba(248,244,238,.09);
 }
 
 .proof-item strong {
   display: block;
   font-family: 'Syne', sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.04rem;
   letter-spacing: -.025em;
   margin-bottom: .35rem;
 }
@@ -333,21 +274,18 @@ h1 em {
   display: block;
   color: var(--gray);
   font-size: .9rem;
-  line-height: 1.55;
+  line-height: 1.52;
 }
 
 section {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 4.9rem 3rem;
+  padding: 3.8rem 3rem;
 }
 
 .section-head {
-  display: grid;
-  grid-template-columns: .72fr 1.28fr;
-  gap: 3.5rem;
-  align-items: start;
-  margin-bottom: 2.7rem;
+  max-width: 920px;
+  margin-bottom: 2.4rem;
 }
 
 .section-tag {
@@ -370,55 +308,54 @@ section {
 }
 
 h2 {
-  font-size: clamp(2.2rem, 4vw, 4.15rem);
-  line-height: 1.03;
+  font-size: clamp(2.2rem, 3.8vw, 4rem);
+  line-height: 1.04;
   letter-spacing: -.052em;
   text-align: left;
+  margin-bottom: 1rem;
 }
 
 .section-intro {
   color: var(--gray);
-  line-height: 1.85;
+  line-height: 1.8;
   font-size: 1.04rem;
-  max-width: none;
-  width: 100%;
-  padding-top: 2.15rem;
+  max-width: 820px;
 }
 
 .service-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
+  gap: 1.1rem;
 }
 
 .service-card {
   background:
-    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.03)),
+    linear-gradient(180deg, rgba(255,255,255,.068), rgba(255,255,255,.026)),
     var(--dark-soft);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 2rem;
+  border-radius: 22px;
+  padding: 1.55rem;
   text-decoration: none;
   color: inherit;
   transition: .25s ease;
   position: relative;
   overflow: hidden;
-  min-height: 260px;
+  min-height: 205px;
 }
 
 .service-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(232,87,42,.2), transparent 45%);
+  background: radial-gradient(circle at top right, rgba(232,87,42,.16), transparent 46%);
   opacity: 0;
   transition: .25s ease;
 }
 
 .service-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(232,87,42,.52);
-  box-shadow: 0 24px 60px rgba(0,0,0,.32);
+  transform: translateY(-5px);
+  border-color: rgba(232,87,42,.48);
+  box-shadow: 0 22px 54px rgba(0,0,0,.28);
 }
 
 .service-card:hover::before {
@@ -430,143 +367,100 @@ h2 {
   z-index: 1;
 }
 
-.service-icon {
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-  background: rgba(232,87,42,.13);
-  color: var(--accent-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.45rem;
-  margin-bottom: 1.25rem;
-}
-
 .service-card h3 {
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   letter-spacing: -.035em;
-  margin-bottom: .8rem;
+  margin-bottom: .7rem;
 }
 
 .service-card p {
   color: var(--gray);
-  line-height: 1.72;
-  margin-bottom: 1.4rem;
+  line-height: 1.66;
+  margin-bottom: 1.15rem;
+  font-size: .97rem;
 }
 
 .card-link {
   color: var(--accent-soft);
   font-weight: 800;
-  font-size: .9rem;
+  font-size: .88rem;
 }
 
-.audience-section {
-  padding-top: 3.2rem;
+.compact-section {
+  padding-top: 2.2rem;
 }
 
-.audience-box {
+.split-box {
   display: grid;
-  grid-template-columns: .9fr 1.1fr;
-  gap: 3rem;
+  grid-template-columns: .95fr 1.05fr;
+  gap: 2.5rem;
   align-items: center;
   border-radius: 28px;
-  padding: 3rem;
+  padding: 2.6rem;
   background:
-    radial-gradient(circle at 12% 18%, rgba(232,87,42,.16), transparent 34%),
-    linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+    radial-gradient(circle at 12% 18%, rgba(232,87,42,.14), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.068), rgba(255,255,255,.025));
   border: 1px solid rgba(248,244,238,.11);
 }
 
-.audience-box p {
+.split-box p {
   color: var(--gray);
-  line-height: 1.82;
-  font-size: 1.03rem;
-  margin-top: 1rem;
+  line-height: 1.78;
+  font-size: 1.02rem;
 }
 
 .audience-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: .8rem;
+  gap: .75rem;
   justify-content: flex-end;
 }
 
 .audience-tags span {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
-  padding: .75rem 1rem;
+  min-height: 42px;
+  padding: .7rem .95rem;
   border-radius: 999px;
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(248,244,238,.1);
   color: var(--white);
   font-weight: 700;
-  font-size: .92rem;
+  font-size: .9rem;
 }
 
-.review-grid {
+.trust-row {
   display: grid;
-  grid-template-columns: .8fr 1.2fr;
-  gap: 1.2rem;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 1.1rem;
   align-items: stretch;
 }
 
-.review-card,
-.reason-card {
-  border-radius: 26px;
+.reason-card,
+.review-card {
+  border-radius: 24px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)),
+    linear-gradient(180deg, rgba(255,255,255,.068), rgba(255,255,255,.026)),
     var(--dark-soft);
   border: 1px solid rgba(248,244,238,.11);
-  padding: 2.3rem;
-}
-
-.review-label {
-  color: var(--accent-soft);
-  text-transform: uppercase;
-  letter-spacing: .15em;
-  font-size: .72rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-}
-
-.review-stars {
-  color: var(--accent-soft);
-  font-size: 1.28rem;
-  letter-spacing: .1em;
-  margin-bottom: 1.1rem;
-}
-
-.review-card blockquote {
-  color: var(--white);
-  font-size: clamp(1.18rem, 2vw, 1.55rem);
-  line-height: 1.52;
-  letter-spacing: -.02em;
-  font-weight: 500;
-}
-
-.review-author {
-  margin-top: 1.2rem;
-  color: var(--gray);
-  line-height: 1.65;
+  padding: 2rem;
 }
 
 .reason-list {
   display: grid;
-  gap: .95rem;
+  gap: .9rem;
 }
 
 .reason-item {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: .8rem;
+  gap: .75rem;
   align-items: start;
 }
 
 .reason-dot {
-  width: 28px;
-  height: 28px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background: rgba(232,87,42,.14);
   color: var(--accent-soft);
@@ -575,42 +469,100 @@ h2 {
   justify-content: center;
   font-weight: 900;
   margin-top: .15rem;
+  font-size: .78rem;
 }
 
 .reason-item strong {
   display: block;
-  margin-bottom: .2rem;
-  font-size: 1rem;
+  margin-bottom: .18rem;
+  font-size: .98rem;
 }
 
 .reason-item span {
   display: block;
   color: var(--gray);
-  line-height: 1.58;
-  font-size: .95rem;
+  line-height: 1.55;
+  font-size: .93rem;
+}
+
+.review-label {
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  font-size: .72rem;
+  font-weight: 800;
+  margin-bottom: .9rem;
+}
+
+.review-stars {
+  color: var(--accent-soft);
+  font-size: 1.18rem;
+  letter-spacing: .1em;
+  margin-bottom: 1rem;
+}
+
+.review-card blockquote {
+  color: var(--white);
+  font-size: clamp(1.1rem, 1.7vw, 1.38rem);
+  line-height: 1.52;
+  letter-spacing: -.018em;
+  font-weight: 500;
+}
+
+.review-author {
+  margin-top: 1rem;
+  color: var(--gray);
+  line-height: 1.6;
+  font-size: .94rem;
+}
+
+.final-section {
+  padding-top: 2.8rem;
 }
 
 .cta {
   background:
-    radial-gradient(circle at 70% 20%, rgba(232,87,42,.22), transparent 42%),
+    radial-gradient(circle at 72% 20%, rgba(232,87,42,.22), transparent 42%),
     linear-gradient(135deg, #1c130e, #0d0c0a);
   border: 1px solid rgba(232,87,42,.3);
   border-radius: 30px;
-  padding: 4rem 2.4rem;
+  padding: 3.5rem 2.4rem;
   text-align: center;
 }
 
 .cta h2 {
   text-align: center;
-  margin-bottom: 1rem;
+  max-width: 760px;
+  margin: 0 auto 1rem;
 }
 
 .cta p {
   color: var(--gray);
-  line-height: 1.8;
-  max-width: 760px;
-  margin: 0 auto 2rem;
-  font-size: 1.03rem;
+  line-height: 1.75;
+  max-width: 720px;
+  margin: 0 auto 1.9rem;
+  font-size: 1.02rem;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  min-height: 48px;
+  padding: .95rem 1.7rem;
+  border-radius: 999px;
+  font-size: .9rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  box-shadow: 0 18px 45px rgba(232,87,42,.28);
+  transition: .22s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 52px rgba(232,87,42,.35);
 }
 
 footer {
@@ -623,33 +575,17 @@ footer {
 
 @media (max-width: 1080px) {
   .hero {
-    grid-template-columns: 1fr;
     min-height: auto;
-    padding-top: 10rem;
-    gap: 2.8rem;
-  }
-
-  .hero-content {
-    max-width: 850px;
-  }
-
-  .hero-logo-image {
-    width: min(100%, 560px);
+    padding-top: 9.5rem;
   }
 
   .quick-proof-inner {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .section-head,
-  .audience-box,
-  .review-grid {
+  .split-box,
+  .trust-row {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .section-intro {
-    padding-top: 0;
   }
 
   .audience-tags {
@@ -664,7 +600,7 @@ footer {
 
   .nav-inner {
     grid-template-columns: 1fr;
-    gap: .9rem;
+    gap: .85rem;
     justify-items: center;
   }
 
@@ -678,16 +614,17 @@ footer {
     flex-wrap: wrap;
   }
 
-  .nav-contact {
-    display: none;
+  .hero {
+    padding: 9.2rem 1.2rem 3rem;
   }
 
-  .hero {
-    padding: 9.4rem 1.2rem 3.2rem;
+  .hero::after {
+    left: 1.2rem;
+    right: 1.2rem;
   }
 
   h1 {
-    font-size: clamp(3rem, 15vw, 4.5rem);
+    font-size: clamp(3rem, 14vw, 4.55rem);
   }
 
   .hero-sub {
@@ -695,11 +632,11 @@ footer {
   }
 
   .quick-proof {
-    padding: 0 1.2rem 3.8rem;
+    padding: 2.6rem 1.2rem 2.4rem;
   }
 
   section {
-    padding: 4rem 1.2rem;
+    padding: 3.4rem 1.2rem;
   }
 
   .service-grid {
@@ -710,15 +647,15 @@ footer {
     min-height: auto;
   }
 
-  .audience-box {
+  .split-box {
     padding: 2rem;
     border-radius: 24px;
   }
 
-  .review-card,
-  .reason-card {
-    padding: 2rem;
-    border-radius: 24px;
+  .reason-card,
+  .review-card {
+    padding: 1.7rem;
+    border-radius: 22px;
   }
 
   .cta {
@@ -744,6 +681,11 @@ footer {
     gap: .9rem;
   }
 
+  .nav-contact {
+    padding: .7rem 1rem;
+    font-size: .78rem;
+  }
+
   .hero-tag,
   .section-tag,
   .review-label {
@@ -751,28 +693,26 @@ footer {
     letter-spacing: .12em;
   }
 
-  .hero-btns {
-    flex-direction: column;
-    align-items: stretch;
+  .hero-note {
+    gap: .55rem;
   }
 
-  .btn-primary,
-  .btn-secondary {
+  .hero-note span {
     width: 100%;
-  }
-
-  .hero-logo-image {
-    width: min(100%, 440px);
+    justify-content: center;
   }
 
   .quick-proof-inner {
     grid-template-columns: 1fr;
-    padding: .75rem;
   }
 
   .audience-tags span {
     width: 100%;
     justify-content: center;
+  }
+
+  .btn-primary {
+    width: 100%;
   }
 
   footer {
@@ -795,7 +735,6 @@ footer {
     <ul>
       <li><a href="modelle.html">Modelle</a></li>
       <li><a href="preise.html">Preise</a></li>
-      <li><a href="anfragen.html">Anfragen</a></li>
     </ul>
 
     <a href="anfragen.html" class="nav-contact">Anfrage stellen</a>
@@ -814,9 +753,8 @@ footer {
       </div>
 
       <h1>
-        Websites,<br>
-        die Vertrauen<br>
-        <em>schaffen.</em>
+        Websites, die<br>
+        Vertrauen <em>schaffen.</em>
       </h1>
 
       <p class="hero-sub">
@@ -825,21 +763,12 @@ footer {
         warum sie bei dir richtig sind.
       </p>
 
-      <div class="hero-btns">
-        <a href="anfragen.html" class="btn-primary">Website anfragen</a>
-        <a href="modelle.html" class="btn-secondary">Modelle ansehen</a>
+      <div class="hero-note">
+        <span>Kein Baukasten-Look</span>
+        <span>Keine unnötige Fachsprache</span>
+        <span>Ein seriöser Auftritt mit Wiedererkennung</span>
       </div>
 
-      <p class="hero-note">
-        Kein Baukasten-Look. Keine unnötige Fachsprache. Ein Auftritt, der seriös wirkt.
-      </p>
-
-    </div>
-
-    <div class="hero-visual">
-      <div class="hero-logo-wrap">
-        <img src="akwebworks-logo.png" class="hero-logo-image" alt="AK WebWorks Logo">
-      </div>
     </div>
 
   </section>
@@ -854,7 +783,7 @@ footer {
 
       <div class="proof-item">
         <strong>Modernes Design</strong>
-        <span>Hochwertiger Auftritt statt zufälliger Baukasten-Look.</span>
+        <span>Hochwertiger Auftritt statt zufälliger Standardoptik.</span>
       </div>
 
       <div class="proof-item">
@@ -873,24 +802,18 @@ footer {
   <section>
 
     <div class="section-head">
-
-      <div>
-        <div class="section-tag">Leistungen</div>
-        <h2>Alles, was dein Webauftritt wirklich braucht.</h2>
-      </div>
-
+      <div class="section-tag">Leistungen</div>
+      <h2>Alles, was dein Webauftritt wirklich braucht.</h2>
       <p class="section-intro">
         Deine Website soll nicht einfach nur online sein. Sie soll professionell wirken,
         Vertrauen schaffen und dein Angebot verständlich präsentieren. Der Fokus liegt auf
         sauberem Design, klaren Inhalten und einer Umsetzung, die auch auf mobilen Geräten funktioniert.
       </p>
-
     </div>
 
     <div class="service-grid">
 
       <a href="modelle.html" class="service-card">
-        <div class="service-icon">◆</div>
         <h3>Website-Erstellung</h3>
         <p>
           Moderne Websites für Betriebe, Dienstleister und Selbstständige. Individuell aufgebaut,
@@ -900,7 +823,6 @@ footer {
       </a>
 
       <a href="preise.html" class="service-card">
-        <div class="service-icon">◼</div>
         <h3>Design & Inhalte</h3>
         <p>
           Struktur, Texte, Farben und Seitenbereiche werden so aufgebaut, dass Kunden dein Angebot
@@ -910,48 +832,50 @@ footer {
       </a>
 
       <a href="anfragen.html" class="service-card">
-        <div class="service-icon">✦</div>
         <h3>Pflege & Erweiterung</h3>
         <p>
           Auch nach der Erstellung können Inhalte angepasst, Bereiche erweitert oder neue Seiten ergänzt werden,
           wenn dein Unternehmen weiter wächst.
         </p>
-        <div class="card-link">Anfrage stellen →</div>
+        <div class="card-link">Mehr erfahren →</div>
       </a>
 
     </div>
 
   </section>
 
-  <section class="audience-section">
+  <section class="compact-section">
 
-    <div class="audience-box">
+    <div class="split-box">
 
       <div>
         <div class="section-tag">Für wen?</div>
         <h2>Ideal für kleine Unternehmen mit Anspruch.</h2>
+      </div>
+
+      <div>
         <p>
           Besonders sinnvoll ist eine professionelle Website, wenn dein Unternehmen seriöser wirken,
           besser gefunden werden oder Interessenten schneller zur Anfrage führen soll.
         </p>
-      </div>
 
-      <div class="audience-tags">
-        <span>Handwerksbetriebe</span>
-        <span>KFZ-Werkstätten</span>
-        <span>Dienstleister</span>
-        <span>Gastronomie</span>
-        <span>Selbstständige</span>
-        <span>Lokale Unternehmen</span>
+        <div class="audience-tags" style="margin-top:1.4rem;">
+          <span>Handwerksbetriebe</span>
+          <span>KFZ-Werkstätten</span>
+          <span>Dienstleister</span>
+          <span>Gastronomie</span>
+          <span>Selbstständige</span>
+          <span>Lokale Unternehmen</span>
+        </div>
       </div>
 
     </div>
 
   </section>
 
-  <section>
+  <section class="compact-section">
 
-    <div class="review-grid">
+    <div class="trust-row">
 
       <div class="reason-card">
         <div class="review-label">Warum AK WebWorks?</div>
@@ -962,7 +886,7 @@ footer {
             <div class="reason-dot">✓</div>
             <div>
               <strong>Persönlich statt anonym</strong>
-              <span>Du bekommst keinen unpersönlichen Agenturprozess, sondern eine direkte und verständliche Abstimmung.</span>
+              <span>Direkte Abstimmung statt unpersönlichem Agenturprozess.</span>
             </div>
           </div>
 
@@ -970,7 +894,7 @@ footer {
             <div class="reason-dot">✓</div>
             <div>
               <strong>Klare Richtung</strong>
-              <span>Auch wenn du noch keine fertigen Texte hast, wird dein Angebot sinnvoll strukturiert.</span>
+              <span>Auch ohne fertige Texte wird dein Angebot sinnvoll strukturiert.</span>
             </div>
           </div>
 
@@ -978,7 +902,7 @@ footer {
             <div class="reason-dot">✓</div>
             <div>
               <strong>Professioneller Eindruck</strong>
-              <span>Die Website soll nicht überladen wirken, sondern hochwertig, seriös und leicht verständlich.</span>
+              <span>Hochwertig, seriös und leicht verständlich statt überladen.</span>
             </div>
           </div>
 
@@ -996,8 +920,7 @@ footer {
         </blockquote>
 
         <p class="review-author">
-          Beispielhafte Kundenstimme · Lokaler Dienstleister<br>
-          Website-Erstellung und Strukturberatung
+          Beispielhafte Kundenstimme · Lokaler Dienstleister
         </p>
       </div>
 
@@ -1005,7 +928,7 @@ footer {
 
   </section>
 
-  <section>
+  <section class="final-section">
 
     <div class="cta">
       <h2>Lass uns deinen Webauftritt verbessern.</h2>
