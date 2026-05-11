@@ -340,12 +340,27 @@ h2 {
   border-bottom-color: rgba(232,87,42,.42);
 }
 
-.model-number {
-  font-family: 'Syne', sans-serif;
-  color: var(--accent);
-  font-size: 2.1rem;
-  font-weight: 800;
-  letter-spacing: -.055em;
+.model-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  color: var(--accent-soft);
+  background:
+    radial-gradient(circle at 70% 20%, rgba(232,87,42,.24), transparent 48%),
+    rgba(255,255,255,.045);
+  border: 1px solid rgba(248,244,238,.11);
+}
+
+.model-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .model-title h3 {
@@ -616,8 +631,15 @@ footer {
     grid-column: auto;
   }
 
-  .model-number {
-    font-size: 1.55rem;
+  .model-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+  }
+
+  .model-icon svg {
+    width: 22px;
+    height: 22px;
   }
 
   .model-arrow {
@@ -738,7 +760,14 @@ footer {
     <div class="model-list">
 
       <a href="website-demo.html" class="model-row">
-        <div class="model-number">01</div>
+        <div class="model-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+            <path d="M7 20h10"></path>
+            <path d="M10 18v2"></path>
+            <path d="M14 18v2"></path>
+          </svg>
+        </div>
         <div class="model-title">
           <h3>Klassische Website</h3>
           <span>Startseite · Leistungen · Kontakt</span>
@@ -751,7 +780,13 @@ footer {
       </a>
 
       <a href="app-demo.html" class="model-row">
-        <div class="model-number">02</div>
+        <div class="model-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="7" y="2.5" width="10" height="19" rx="2.5"></rect>
+            <path d="M10 5h4"></path>
+            <path d="M12 18h.01"></path>
+          </svg>
+        </div>
         <div class="model-title">
           <h3>Website + kleine Kunden-App</h3>
           <span>Anfragen · Reservierung · Terminwunsch</span>
@@ -764,7 +799,14 @@ footer {
       </a>
 
       <a href="kontaktformular-demo.html" class="model-row">
-        <div class="model-number">03</div>
+        <div class="model-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+            <path d="M7 9h10"></path>
+            <path d="M7 13h6"></path>
+            <path d="M16 16l2 2 3-4"></path>
+          </svg>
+        </div>
         <div class="model-title">
           <h3>Kontaktformular</h3>
           <span>Projektanfrage · Rückruf · Termin</span>
@@ -777,7 +819,13 @@ footer {
       </a>
 
       <a href="galerie-demo.html" class="model-row">
-        <div class="model-number">04</div>
+        <div class="model-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+            <circle cx="9" cy="10" r="1.4"></circle>
+            <path d="M5 17l4.5-4 3 2.5 2.5-2 4 3.5"></path>
+          </svg>
+        </div>
         <div class="model-title">
           <h3>Galerie & Leistungen</h3>
           <span>Arbeiten · Angebote · Referenzen</span>
@@ -790,7 +838,14 @@ footer {
       </a>
 
       <a href="chatbot-demo.html" class="model-row">
-        <div class="model-number">05</div>
+        <div class="model-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 7.5A3.5 3.5 0 0 1 8.5 4h7A3.5 3.5 0 0 1 19 7.5v4A3.5 3.5 0 0 1 15.5 15H11l-4.5 4v-4.2A3.5 3.5 0 0 1 5 11.5z"></path>
+            <path d="M9 9.5h.01"></path>
+            <path d="M12 9.5h.01"></path>
+            <path d="M15 9.5h.01"></path>
+          </svg>
+        </div>
         <div class="model-title">
           <h3>KI Chatbot Demo</h3>
           <span>FAQ · Hinweise · Erstinformation</span>
@@ -803,7 +858,15 @@ footer {
       </a>
 
       <a href="preise.html" class="model-row">
-        <div class="model-number">06</div>
+        <div class="model-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 7h16"></path>
+            <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+            <path d="M8 12h3"></path>
+            <path d="M8 15h6"></path>
+            <path d="M16 12h.01"></path>
+          </svg>
+        </div>
         <div class="model-title">
           <h3>Pakete & Preise</h3>
           <span>Umfang · Erstellung · Pflege</span>
