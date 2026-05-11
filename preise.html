@@ -3,294 +3,749 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Preise – Network Studio</title>
+
+<title>Preise – AK WebWorks</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png" href="akwebworks-favicon.png">
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-:root{
-  --black:#070707;
-  --card:#131310;
-  --card2:#181814;
-  --white:#f5f2ec;
-  --gray:#b8b1a7;
-  --accent:#e8572a;
-  --accent2:#ffb347;
-  --border:#2a2a2a;
+:root {
+  --black: #060605;
+  --dark: #0b0a09;
+  --white: #f8f4ee;
+  --gray: #c7bfb4;
+  --muted: #897f73;
+  --accent: #e8572a;
+  --accent-dark: #c9411c;
+  --accent-soft: #ffb347;
+  --line: rgba(248,244,238,.13);
+  --line-soft: rgba(248,244,238,.075);
 }
 
-body{
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
   background:
-    radial-gradient(circle at top center,rgba(232,87,42,.12),transparent 38%),
-    var(--black);
-  color:var(--white);
-  font-family:Arial,sans-serif;
+    radial-gradient(circle at 84% 8%, rgba(232,87,42,.30), transparent 30%),
+    radial-gradient(circle at 12% 20%, rgba(255,179,71,.10), transparent 27%),
+    radial-gradient(circle at 78% 62%, rgba(232,87,42,.10), transparent 34%),
+    radial-gradient(circle at 20% 88%, rgba(255,179,71,.055), transparent 26%),
+    linear-gradient(180deg, #070706 0%, #0b0a09 50%, #11100d 100%);
 }
 
-nav{
-  padding:18px 28px;
-  background:rgba(10,10,10,.88);
-  border-bottom:1px solid rgba(255,255,255,.05);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:100;
-  backdrop-filter:blur(12px);
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .024;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
-a{
-  color:var(--accent);
-  text-decoration:none;
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 76px 76px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.45), transparent 72%);
+  z-index: 0;
 }
 
-.wrap{
-  max-width:1180px;
-  margin:auto;
-  padding:42px 20px 60px;
+a {
+  color: inherit;
 }
 
-.hero{
-  text-align:center;
-  max-width:850px;
-  margin:0 auto 42px;
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  padding: 1.05rem 3rem;
+  border-bottom: 1px solid rgba(248,244,238,.08);
+  background: rgba(6,6,5,.76);
+  backdrop-filter: blur(18px);
 }
 
-.hero-tag{
-  color:var(--accent);
-  text-transform:uppercase;
-  letter-spacing:.14em;
-  font-size:.72rem;
-  margin-bottom:14px;
-  font-weight:bold;
+.nav-inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
 }
 
-h1{
-  font-size:clamp(2.2rem,5vw,4rem);
-  line-height:1.02;
-  margin-bottom:18px;
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  justify-self: start;
+  text-decoration: none;
 }
 
-.hero p{
-  color:var(--gray);
-  line-height:1.75;
-  font-size:.98rem;
+.logo-mark {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-  align-items:stretch;
+.logo-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -.035em;
 }
 
-.card{
-  background:linear-gradient(180deg,var(--card2),var(--card));
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:26px;
-  display:flex;
-  flex-direction:column;
-  min-height:100%;
-  position:relative;
-  overflow:hidden;
+.logo-text span {
+  color: var(--accent);
 }
 
-.card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at top right,rgba(232,87,42,.12),transparent 45%);
-  opacity:.7;
-  pointer-events:none;
+nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  gap: 2.25rem;
 }
 
-.card>*{
-  position:relative;
-  z-index:1;
+nav ul a {
+  text-decoration: none;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .74rem;
+  font-weight: 800;
+  transition: .22s ease;
 }
 
-.featured{
-  border-color:var(--accent);
-  box-shadow:0 0 0 1px rgba(232,87,42,.22),0 25px 70px rgba(0,0,0,.3);
+nav ul a:hover,
+nav ul a.active {
+  color: var(--white);
 }
 
-.tag{
-  color:var(--accent);
-  font-size:.72rem;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-  margin-bottom:12px;
-  font-weight:bold;
+.nav-actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
 }
 
-h2{
-  font-size:1.32rem;
-  line-height:1.25;
-  margin-bottom:12px;
+.instagram-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  text-decoration: none;
+  color: var(--white);
+  font-size: .82rem;
+  font-weight: 800;
+  padding: .76rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid rgba(248,244,238,.14);
+  background: rgba(255,255,255,.045);
+  transition: .22s ease;
 }
 
-.subtitle{
-  color:var(--gray);
-  line-height:1.65;
-  min-height:74px;
-  font-size:.95rem;
+.instagram-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232,87,42,.45);
+  background: rgba(232,87,42,.12);
 }
 
-.price{
-  font-size:2.6rem;
-  font-weight:bold;
-  margin:22px 0 6px;
+.instagram-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
 }
 
-.period{
-  color:var(--gray);
-  margin-bottom:22px;
-  line-height:1.5;
-  font-size:.92rem;
+.nav-contact {
+  text-decoration: none;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 800;
+  padding: .78rem 1.25rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 16px 36px rgba(232,87,42,.28);
+  transition: .22s ease;
 }
 
-ul{
-  list-style:none;
-  margin-bottom:20px;
+.nav-contact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 46px rgba(232,87,42,.38);
 }
 
-li{
-  display:grid;
-  grid-template-columns:16px 1fr;
-  gap:8px;
-  padding:9px 0;
-  border-bottom:1px solid rgba(255,255,255,.06);
-  color:#d8d1c6;
-  line-height:1.45;
-  font-size:.92rem;
+main {
+  position: relative;
+  z-index: 1;
 }
 
-li::before{
-  content:"✓";
-  color:var(--accent);
-  font-weight:bold;
+.page-hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10.5rem 3rem 4.8rem;
+  display: grid;
+  grid-template-columns: .95fr 1.05fr;
+  gap: 4rem;
+  align-items: end;
+  border-bottom: 1px solid var(--line-soft);
 }
 
-.spacer{
-  flex:1;
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.45rem;
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: .17em;
+  font-size: .72rem;
+  font-weight: 800;
 }
 
-.btn{
-  display:block;
-  text-align:center;
-  background:var(--accent);
-  color:#fff;
-  padding:13px;
-  border-radius:10px;
-  font-weight:bold;
-  margin-top:auto;
-  transition:.2s;
-  font-size:.95rem;
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: var(--accent-soft);
 }
 
-.btn:hover{
-  transform:translateY(-2px);
-  background:#f05a2a;
+h1,
+h2,
+h3 {
+  font-family: 'Syne', sans-serif;
 }
 
-.care-section{
-  margin-top:40px;
-  background:linear-gradient(180deg,var(--card2),var(--card));
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:32px;
-  text-align:center;
+h1 {
+  max-width: 820px;
+  margin-bottom: 1.5rem;
+  font-size: clamp(3.1rem, 6.2vw, 6.7rem);
+  line-height: .92;
+  letter-spacing: -.072em;
 }
 
-.care-section h3{
-  font-size:1.8rem;
-  margin-bottom:12px;
+h1 em {
+  color: var(--accent);
+  font-style: normal;
 }
 
-.care-section p{
-  color:var(--gray);
-  line-height:1.75;
-  max-width:720px;
-  margin:0 auto 24px;
-  font-size:.95rem;
+.hero-text {
+  color: var(--gray);
+  font-size: 1.08rem;
+  line-height: 1.82;
+  max-width: 690px;
 }
 
-.care-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
+.hero-side {
+  color: var(--gray);
+  line-height: 1.78;
+  font-size: 1.02rem;
+  max-width: 520px;
+  justify-self: end;
 }
 
-.care-card{
-  background:#0f0f0f;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:18px;
-  padding:22px;
+.hero-side strong {
+  display: block;
+  color: var(--white);
+  font-size: 1rem;
+  margin-bottom: .45rem;
 }
 
-.care-card h4{
-  margin-bottom:10px;
+section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4.5rem 3rem;
 }
 
-.care-price{
-  font-size:1.7rem;
-  font-weight:bold;
-  color:var(--accent2);
-  margin-bottom:10px;
+.clean-block {
+  position: relative;
+  border-top: 1px solid var(--line-soft);
 }
 
-.care-card p{
-  color:var(--gray);
-  line-height:1.6;
-  font-size:.9rem;
+.clean-block::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 3rem;
+  width: 180px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
 }
 
-.note{
-  margin:34px auto 0;
-  max-width:980px;
-  color:var(--gray);
-  line-height:1.8;
-  background:rgba(19,19,16,.85);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:24px;
-  text-align:center;
-  font-size:.92rem;
+.section-head {
+  max-width: 880px;
+  margin-bottom: 2.8rem;
 }
 
-.note strong{
-  color:var(--white);
+h2 {
+  font-size: clamp(2.2rem, 4.2vw, 4.5rem);
+  line-height: .98;
+  letter-spacing: -.064em;
+  margin-bottom: 1rem;
 }
 
-.small{
-  margin-top:14px;
-  font-size:.84rem;
-  color:#8c8478;
-  line-height:1.7;
+.section-intro {
+  max-width: 780px;
+  color: var(--gray);
+  font-size: 1.04rem;
+  line-height: 1.78;
 }
 
-@media(max-width:980px){
+.price-list {
+  display: grid;
+}
 
-  nav{
-    flex-direction:column;
-    gap:10px;
+.price-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 190px 1.45fr auto;
+  gap: 1.4rem;
+  align-items: start;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(248,244,238,.1);
+  position: relative;
+}
+
+.price-row:first-child {
+  padding-top: 0;
+}
+
+.price-row:last-child {
+  border-bottom: none;
+}
+
+.price-row.featured::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  right: -1rem;
+  top: .7rem;
+  bottom: .7rem;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 78% 20%, rgba(232,87,42,.18), transparent 34%),
+    rgba(255,255,255,.025);
+  border: 1px solid rgba(232,87,42,.18);
+  z-index: -1;
+}
+
+.price-number {
+  font-family: 'Syne', sans-serif;
+  color: var(--accent);
+  font-size: 2.05rem;
+  font-weight: 800;
+  letter-spacing: -.055em;
+}
+
+.package-title h3 {
+  font-size: 1.55rem;
+  letter-spacing: -.04em;
+  margin-bottom: .45rem;
+}
+
+.package-title span {
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.price-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.25rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -.055em;
+  color: var(--white);
+}
+
+.price-period {
+  display: block;
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.5;
+  margin-top: .45rem;
+  font-weight: 600;
+}
+
+.package-details {
+  color: var(--gray);
+  line-height: 1.65;
+  font-size: .96rem;
+}
+
+.package-details ul {
+  list-style: none;
+  display: grid;
+  gap: .55rem;
+}
+
+.package-details li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: .45rem;
+}
+
+.package-details li::before {
+  content: "✓";
+  color: var(--accent-soft);
+  font-weight: 900;
+}
+
+.row-link {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--accent-soft);
+  border: 1px solid rgba(248,244,238,.1);
+  background: rgba(255,255,255,.035);
+  text-decoration: none;
+  transition: .22s ease;
+}
+
+.price-row:hover .row-link {
+  transform: translateX(4px);
+  border-color: rgba(232,87,42,.45);
+  background: rgba(232,87,42,.12);
+}
+
+.care-grid {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.care-list {
+  display: grid;
+}
+
+.care-row {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 1.5rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid rgba(248,244,238,.1);
+}
+
+.care-row:first-child {
+  padding-top: 0;
+}
+
+.care-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.care-row h3 {
+  font-size: 1.25rem;
+  letter-spacing: -.035em;
+  margin-bottom: .35rem;
+}
+
+.care-row p {
+  color: var(--gray);
+  line-height: 1.65;
+  font-size: .95rem;
+}
+
+.care-price {
+  font-family: 'Syne', sans-serif;
+  color: var(--accent-soft);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -.045em;
+  text-align: right;
+}
+
+.info-split {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.info-split h2 {
+  margin-bottom: 0;
+}
+
+.info-text {
+  color: var(--gray);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.info-text strong {
+  color: var(--white);
+}
+
+.info-text p + p {
+  margin-top: 1rem;
+}
+
+.cta-section {
+  padding-top: 3rem;
+  padding-bottom: 4.8rem;
+}
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  border-radius: 34px;
+  padding: 4rem 2.4rem;
+  text-align: center;
+  border: 1px solid rgba(232,87,42,.32);
+  background:
+    radial-gradient(circle at 70% 20%, rgba(232,87,42,.26), transparent 40%),
+    linear-gradient(135deg, #1c120d, #0d0c0a);
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 54px 54px;
+  opacity: .4;
+}
+
+.cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.cta h2 {
+  max-width: 820px;
+  margin: 0 auto 1rem;
+  text-align: center;
+}
+
+.cta p {
+  max-width: 720px;
+  margin: 0 auto 2rem;
+  color: var(--gray);
+  line-height: 1.75;
+  font-size: 1.03rem;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: .98rem 1.8rem;
+  border-radius: 999px;
+  color: #fff;
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 18px 45px rgba(232,87,42,.32);
+  transition: .22s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 54px rgba(232,87,42,.4);
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  padding: 2.2rem 3rem;
+  border-top: 1px solid rgba(248,244,238,.07);
+  color: var(--muted);
+  text-align: center;
+  font-size: .84rem;
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .9rem;
+  flex-wrap: wrap;
+}
+
+.footer-instagram {
+  color: var(--gray);
+  text-decoration: none;
+  font-weight: 800;
+  transition: .22s ease;
+}
+
+.footer-instagram:hover {
+  color: var(--accent-soft);
+}
+
+@media (max-width: 1120px) {
+  .page-hero,
+  .care-grid,
+  .info-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .grid,
-  .care-grid{
-    grid-template-columns:1fr;
+  .hero-side {
+    justify-self: start;
   }
 
-  .subtitle{
-    min-height:auto;
+  .price-row {
+    grid-template-columns: 72px 1fr 170px auto;
   }
 
+  .package-details {
+    grid-column: 2 / -1;
+  }
+}
+
+@media (max-width: 860px) {
+  nav {
+    padding: .95rem 1.2rem;
+  }
+
+  .nav-inner {
+    grid-template-columns: 1fr;
+    gap: .85rem;
+    justify-items: center;
+  }
+
+  .logo,
+  .nav-actions {
+    justify-self: center;
+  }
+
+  .nav-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav ul {
+    gap: 1.1rem;
+  }
+
+  .page-hero {
+    padding: 10.6rem 1.2rem 3.5rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 14vw, 4.6rem);
+  }
+
+  .hero-text {
+    font-size: 1rem;
+  }
+
+  section {
+    padding: 3.4rem 1.2rem;
+  }
+
+  .clean-block::before {
+    left: 1.2rem;
+  }
+
+  .price-row {
+    grid-template-columns: 1fr;
+    gap: .85rem;
+    padding: 1.75rem 0;
+  }
+
+  .price-row.featured::before {
+    left: -.75rem;
+    right: -.75rem;
+  }
+
+  .package-details {
+    grid-column: auto;
+  }
+
+  .price-number {
+    font-size: 1.55rem;
+  }
+
+  .price-value {
+    font-size: 2rem;
+  }
+
+  .row-link {
+    display: none;
+  }
+
+  .care-row {
+    grid-template-columns: 1fr;
+    gap: .5rem;
+  }
+
+  .care-price {
+    text-align: left;
+  }
+
+  .cta {
+    padding: 3rem 1.3rem;
+    border-radius: 26px;
+  }
+}
+
+@media (max-width: 560px) {
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+  }
+
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  nav ul a {
+    font-size: .68rem;
+  }
+
+  .instagram-btn,
+  .nav-contact {
+    padding: .7rem 1rem;
+    font-size: .78rem;
+  }
+
+  .eyebrow {
+    font-size: .64rem;
+    letter-spacing: .12em;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+
+  footer {
+    padding: 1.8rem 1.2rem;
+  }
 }
 </style>
 </head>
@@ -298,212 +753,254 @@ li::before{
 <body>
 
 <nav>
-<a href="index.html">← Startseite</a>
-<a href="anfragen.html">Anfragen</a>
+  <div class="nav-inner">
+
+    <a href="index.html" class="logo" aria-label="AK WebWorks Startseite">
+      <img src="akwebworks-favicon.png" class="logo-mark" alt="AK WebWorks Logo">
+      <div class="logo-text">AK<span>WebWorks</span></div>
+    </a>
+
+    <ul>
+      <li><a href="modelle.html">Modelle</a></li>
+      <li><a href="preise.html" class="active">Preise</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="https://www.instagram.com/ak.webworks" class="instagram-btn" target="_blank" rel="noopener noreferrer" aria-label="AK WebWorks auf Instagram öffnen">
+        <svg class="instagram-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+        </svg>
+        Instagram
+      </a>
+
+      <a href="anfragen.html" class="nav-contact">Anfrage stellen</a>
+    </div>
+
+  </div>
 </nav>
 
-<div class="wrap">
+<main>
 
-<div class="hero">
+  <section class="page-hero">
 
-<div class="hero-tag">
-Pakete & Preise
-</div>
+    <div>
+      <div class="eyebrow">Pakete & Preise</div>
 
-<h1>
-Professionelle Websites für lokale Betriebe.
-</h1>
+      <h1>
+        Klare Preise<br>
+        für moderne<br>
+        <em>Websites.</em>
+      </h1>
 
-<p>
-Moderne Websites mit eigener Domain, klarem Design und einfacher Struktur.<br>
-Ohne unnötig komplexe Systeme — dafür schnell, übersichtlich und professionell umgesetzt.
-</p>
+      <p class="hero-text">
+        Professionelle Websites für lokale Betriebe, Dienstleister und kleine Unternehmen.
+        Ohne unnötig komplexe Systeme, dafür mit klarem Design, sauberer Struktur und mobiloptimierter Umsetzung.
+      </p>
+    </div>
 
-</div>
+    <p class="hero-side">
+      <strong>Einsteigerfreundlich geplant:</strong>
+      Die Pakete sind bewusst übersichtlich gehalten. Du zahlst nicht für überdimensionierte Systeme,
+      sondern für einen Webauftritt, der seriös wirkt und verständlich aufgebaut ist.
+    </p>
 
-<div class="grid">
+  </section>
 
-<div class="card">
+  <section>
 
-<div class="tag">
-Basis
-</div>
+    <div class="section-head">
+      <div class="eyebrow">Website-Pakete</div>
+      <h2>Wähle den Umfang, der zu deinem Unternehmen passt.</h2>
+      <p class="section-intro">
+        Die Preise dienen als klare Orientierung. Wenn dein Projekt besondere Anforderungen hat,
+        wird der tatsächliche Umfang vorab transparent abgestimmt.
+      </p>
+    </div>
 
-<h2>
-Klassische Website
-</h2>
+    <div class="price-list">
 
-<p class="subtitle">
-Für kleine Betriebe, Dienstleister oder Vereine,
-die professionell online sichtbar sein möchten.
-</p>
+      <div class="price-row">
+        <div class="price-number">01</div>
 
-<div class="price">
-699 €
-</div>
+        <div class="package-title">
+          <h3>Klassische Website</h3>
+          <span>Basis</span>
+        </div>
 
-<div class="period">
-einmalige Erstellung
-</div>
+        <div>
+          <div class="price-value">599 €</div>
+          <span class="price-period">einmalige Erstellung</span>
+        </div>
 
-<ul>
-<li><span>Startseite plus bis zu 4 Unterseiten</span></li>
-<li><span>Modernes und mobiloptimiertes Design</span></li>
-<li><span>Leistungen, Über uns, Kontakt oder Galerie</span></li>
-<li><span>Kontaktformular möglich</span></li>
-<li><span>Impressum-Seite inklusive</span></li>
-<li><span>Einbindung eigener Bilder und Inhalte</span></li>
-<li><span>Eigene Domain kann verbunden werden</span></li>
-</ul>
+        <div class="package-details">
+          <ul>
+            <li>Startseite plus bis zu 4 Unterseiten</li>
+            <li>Modernes und mobiloptimiertes Design</li>
+            <li>Leistungen, Über uns, Kontakt oder Galerie</li>
+            <li>Kontaktformular möglich</li>
+            <li>Impressum-Seite inklusive</li>
+            <li>Einbindung eigener Bilder und Inhalte</li>
+            <li>Eigene Domain kann verbunden werden</li>
+          </ul>
+        </div>
 
-<div class="spacer"></div>
+        <a href="anfragen.html" class="row-link" aria-label="Klassische Website anfragen">→</a>
+      </div>
 
-<a href="anfragen.html" class="btn">
-Anfragen
-</a>
+      <div class="price-row featured">
+        <div class="price-number">02</div>
 
-</div>
+        <div class="package-title">
+          <h3>Website Plus</h3>
+          <span>Empfohlen</span>
+        </div>
 
-<div class="card featured">
+        <div>
+          <div class="price-value">999 €</div>
+          <span class="price-period">einmalige Erstellung</span>
+        </div>
 
-<div class="tag">
-Empfohlen
-</div>
+        <div class="package-details">
+          <ul>
+            <li>Alles aus Klassische Website</li>
+            <li>Mehr Unterseiten und Inhalte</li>
+            <li>Galerie, FAQ oder Referenzbereiche</li>
+            <li>Einfache Anfrage- oder Reservierungsfunktion</li>
+            <li>Impressum-Seite inklusive</li>
+            <li>Erweiterbare Seitenstruktur</li>
+            <li>Vorbereitung für spätere Erweiterungen</li>
+          </ul>
+        </div>
 
-<h2>
-Website Plus
-</h2>
+        <a href="anfragen.html" class="row-link" aria-label="Website Plus anfragen">→</a>
+      </div>
 
-<p class="subtitle">
-Für Unternehmen, die mehr Inhalte, mehr Struktur
-und zusätzliche Funktionen benötigen.
-</p>
+      <div class="price-row">
+        <div class="price-number">03</div>
 
-<div class="price">
-1.199 €
-</div>
+        <div class="package-title">
+          <h3>Website nach Wunsch</h3>
+          <span>Individuell</span>
+        </div>
 
-<div class="period">
-einmalige Erstellung
-</div>
+        <div>
+          <div class="price-value">ab 1.599 €</div>
+          <span class="price-period">je nach Umfang</span>
+        </div>
 
-<ul>
-<li><span>Alles aus Klassische Website</span></li>
-<li><span>Mehr Unterseiten und Inhalte</span></li>
-<li><span>Galerie, FAQ oder Referenzbereiche</span></li>
-<li><span>Einfache Anfrage- oder Reservierungsfunktion</span></li>
-<li><span>Impressum-Seite inklusive</span></li>
-<li><span>Erweiterbare Seitenstruktur</span></li>
-<li><span>Vorbereitung für spätere Erweiterungen</span></li>
-</ul>
+        <div class="package-details">
+          <ul>
+            <li>Individuelles Seitenkonzept</li>
+            <li>Mehrere Leistungs- oder Standortseiten</li>
+            <li>Aufwendigere Inhaltsbereiche</li>
+            <li>Individuelle Zusatzfunktionen möglich</li>
+            <li>Impressum-Seite inklusive</li>
+            <li>Technisch flexibel erweiterbar</li>
+            <li>Preis abhängig vom tatsächlichen Umfang</li>
+          </ul>
+        </div>
 
-<div class="spacer"></div>
+        <a href="anfragen.html" class="row-link" aria-label="Website nach Wunsch anfragen">→</a>
+      </div>
 
-<a href="anfragen.html" class="btn">
-Anfragen
-</a>
+    </div>
 
-</div>
+  </section>
 
-<div class="card">
+  <section class="clean-block">
 
-<div class="tag">
-Individuell
-</div>
+    <div class="care-grid">
 
-<h2>
-Website nach Wunsch
-</h2>
+      <div>
+        <div class="eyebrow">Optionale Pflege</div>
+        <h2>Betreuung, wenn deine Website weiter wachsen soll.</h2>
+        <p class="section-intro">
+          Die laufende Pflege ist optional und kann zu jedem Paket dazugebucht werden.
+          Ideal für kleinere Änderungen, neue Bilder, Texte oder technische Aktualisierungen.
+        </p>
+      </div>
 
-<p class="subtitle">
-Für größere oder individuellere Projekte
-mit besonderem Aufbau oder erweitertem Umfang.
-</p>
+      <div class="care-list">
 
-<div class="price">
-ab 1.900 €
-</div>
+        <div class="care-row">
+          <div>
+            <h3>Basis Pflege</h3>
+            <p>Kleine Text- und Bildänderungen sowie allgemeine Betreuung für kleinere Websites.</p>
+          </div>
+          <div class="care-price">29 €/Monat</div>
+        </div>
 
-<div class="period">
-je nach Umfang
-</div>
+        <div class="care-row">
+          <div>
+            <h3>Plus Pflege</h3>
+            <p>Regelmäßige Anpassungen, neue Inhalte und Betreuung größerer Seitenbereiche.</p>
+          </div>
+          <div class="care-price">59 €/Monat</div>
+        </div>
 
-<ul>
-<li><span>Individuelles Seitenkonzept</span></li>
-<li><span>Mehrere Leistungs- oder Standortseiten</span></li>
-<li><span>Aufwendigere Inhaltsbereiche</span></li>
-<li><span>Individuelle Zusatzfunktionen möglich</span></li>
-<li><span>Impressum-Seite inklusive</span></li>
-<li><span>Technisch flexibel erweiterbar</span></li>
-<li><span>Preis abhängig vom tatsächlichen Umfang</span></li>
-</ul>
+        <div class="care-row">
+          <div>
+            <h3>Individuelle Pflege</h3>
+            <p>Für größere Websites oder umfangreichere Änderungswünsche mit individuellem Bedarf.</p>
+          </div>
+          <div class="care-price">nach Aufwand</div>
+        </div>
 
-<div class="spacer"></div>
+      </div>
 
-<a href="anfragen.html" class="btn">
-Anfragen
-</a>
+    </div>
 
-</div>
+  </section>
 
-</div>
+  <section class="clean-block">
 
-<div class="care-section">
+    <div class="info-split">
 
-<h3>
-Optionale Pflege & Betreuung
-</h3>
+      <div>
+        <div class="eyebrow">Weitere Informationen</div>
+        <h2>Transparent bleiben, unabhängig bleiben.</h2>
+      </div>
 
-<p>
-Die laufende Pflege ist optional und kann zu jedem Paket dazugebucht werden.
-Ideal für kleinere Änderungen, neue Bilder, Texte oder technische Aktualisierungen.
-</p>
+      <div class="info-text">
+        <p>
+          <strong>Domains, E-Mail-Postfächer oder externes Hosting</strong> werden vom jeweiligen Kunden selbst getragen.
+          Dadurch bleibt die Website unabhängig und vollständig im Besitz des Unternehmens.
+        </p>
 
-<div class="care-grid">
+        <p>
+          Die Angebote sind bewusst auf moderne, übersichtliche und wartungsarme Websites ausgelegt.
+          Keine unnötig komplexen Systeme, keine großen Datenbanken und keine überdimensionierten Plattformen.
+        </p>
+      </div>
 
-<div class="care-card">
-<h4>Basis Pflege</h4>
-<div class="care-price">39 €/Monat</div>
-<p>
-Kleine Text- und Bildänderungen sowie allgemeine Betreuung für kleinere Websites.
-</p>
-</div>
+    </div>
 
-<div class="care-card">
-<h4>Plus Pflege</h4>
-<div class="care-price">69 €/Monat</div>
-<p>
-Regelmäßige Anpassungen, neue Inhalte und Betreuung größerer Seitenbereiche.
-</p>
-</div>
+  </section>
 
-<div class="care-card">
-<h4>Individuelle Pflege</h4>
-<div class="care-price">nach Aufwand</div>
-<p>
-Für größere Websites oder umfangreichere Änderungswünsche mit individuellem Bedarf.
-</p>
-</div>
+  <section class="cta-section">
 
-</div>
+    <div class="cta">
+      <h2>Du willst wissen, welches Paket passt?</h2>
+      <p>
+        Beschreibe kurz dein Unternehmen, dein Ziel und den gewünschten Umfang.
+        Danach lässt sich einschätzen, welches Paket für deinen Webauftritt sinnvoll ist.
+      </p>
+      <a href="anfragen.html" class="btn-primary">Unverbindlich anfragen</a>
+    </div>
 
-</div>
+  </section>
 
-<div class="note">
+</main>
 
-<strong>Weitere Informationen</strong>
-
-<div class="small">
-Die Kosten für Domains, E-Mail-Postfächer oder externes Hosting werden vom jeweiligen Kunden selbst getragen.
-Dadurch bleibt die Website jederzeit unabhängig und vollständig im Besitz des Unternehmens.
-<br><br>
-Die Angebote sind bewusst auf moderne, übersichtliche und wartungsarme Websites ausgelegt.
-Keine unnötig komplexen Systeme, keine großen Datenbanken und keine überdimensionierten Plattformen.
-</div>
-
-</div>
-
-</div>
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 AK WebWorks — Websites · Design · Development</span>
+    <span>·</span>
+    <a href="https://www.instagram.com/ak.webworks" class="footer-instagram" target="_blank" rel="noopener noreferrer">@ak.webworks</a>
+  </div>
+</footer>
 
 </body>
 </html>
