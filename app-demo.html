@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kunden-App Demo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#0a0a0a;color:#f5f2ec}
+header{padding:20px;background:#111;border-bottom:1px solid #2a2a2a}
+a{color:#e8572a;text-decoration:none}
+.wrap{max-width:900px;margin:auto;padding:45px 20px}
+.card{background:#131310;border:1px solid #2a2a2a;border-radius:18px;padding:26px;margin-bottom:20px}
+h1{font-size:clamp(2.3rem,6vw,4rem);margin-bottom:15px}
+p{color:#b8b1a7;line-height:1.7}
+input,select,textarea,button{width:100%;padding:14px;margin-top:12px;border-radius:8px;border:1px solid #333;background:#0f0f0f;color:white}
+button{background:#e8572a;border:none;font-weight:bold;cursor:pointer}
+.result{display:none;color:#28c840;margin-top:15px}
+.list{margin-top:20px}
+.item{padding:14px;border-bottom:1px solid #333}
+</style>
+</head>
+<body>
+
+<header>
+<a href="modelle.html">← Zurück zu Modelle</a>
+</header>
+
+<div class="wrap">
+
+<div class="card">
+<h1>Kleine Kunden-App</h1>
+<p>Diese Demo zeigt eine einfache Anfrage-App. Kunden können eine Anfrage absenden. Die Anfrage wird im Browser gespeichert und darunter angezeigt.</p>
+</div>
+
+<div class="card">
+<h2>Anfrage erstellen</h2>
+<input id="name" placeholder="Name">
+<select id="type">
+<option>Rückruf gewünscht</option>
+<option>Terminwunsch</option>
+<option>Allgemeine Anfrage</option>
+<option>Angebot gewünscht</option>
+</select>
+<textarea id="msg" placeholder="Nachricht"></textarea>
+<button onclick="saveRequest()">Anfrage speichern</button>
+<div id="ok" class="result">Anfrage gespeichert.</div>
+</div>
+
+<div class="card">
+<h2>Gespeicherte Demo-Anfragen</h2>
+<div id="list" class="list"></div>
+</div>
+
+</div>
+
+<script>
+function saveRequest(){
+const item={
+name:document.getElementById("name").value||"Demo Kunde",
+type:document.getElementById("type").value,
+msg:document.getElementById("msg").value||"Keine Nachricht angegeben",
+time:new Date().toLocaleString("de-DE")
+};
+const data=JSON.parse(localStorage.getItem("demoRequests"))||[];
+data.push(item);
+localStorage.setItem("demoRequests",JSON.stringify(data));
+document.getElementById("ok").style.display="block";
+loadRequests();
+}
+
+function loadRequests(){
+const data=JSON.parse(localStorage.getItem("demoRequests"))||[];
+const list=document.getElementById("list");
+if(data.length===0){
+list.innerHTML="<p>Noch keine Demo-Anfragen vorhanden.</p>";
+return;
+}
+list.innerHTML=data.map(x=>`
+<div class="item">
+<strong>${x.type}</strong><br>
+${x.name}<br>
+${x.msg}<br>
+<small>${x.time}</small>
+</div>
+`).join("");
+}
+loadRequests();
+</script>
+
+</body>
+</html>
