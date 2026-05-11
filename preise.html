@@ -313,173 +313,205 @@ h2 {
   line-height: 1.78;
 }
 
-.price-list {
+.price-grid {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  align-items: stretch;
 }
 
-.price-row {
-  display: grid;
-  grid-template-columns: 90px 1fr 190px 1.45fr auto;
-  gap: 1.4rem;
-  align-items: start;
-  padding: 2rem 0;
-  border-bottom: 1px solid rgba(248,244,238,.1);
+.price-card {
   position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 2rem;
+  border-radius: 28px;
+  border: 1px solid rgba(248,244,238,.11);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.024)),
+    rgba(11,10,9,.72);
+  box-shadow: 0 24px 70px rgba(0,0,0,.20);
 }
 
-.price-row:first-child {
-  padding-top: 0;
-}
-
-.price-row:last-child {
-  border-bottom: none;
-}
-
-.price-row.featured::before {
+.price-card::before {
   content: "";
   position: absolute;
-  left: -1rem;
-  right: -1rem;
-  top: .7rem;
-  bottom: .7rem;
-  border-radius: 24px;
+  inset: 0;
+  background: radial-gradient(circle at 85% 8%, rgba(232,87,42,.15), transparent 38%);
+  pointer-events: none;
+}
+
+.price-card.featured {
+  border-color: rgba(232,87,42,.48);
+  box-shadow:
+    0 0 0 1px rgba(232,87,42,.12),
+    0 30px 80px rgba(0,0,0,.30);
+}
+
+.price-card.featured::before {
   background:
-    radial-gradient(circle at 78% 20%, rgba(232,87,42,.18), transparent 34%),
-    rgba(255,255,255,.025);
-  border: 1px solid rgba(232,87,42,.18);
-  z-index: -1;
+    radial-gradient(circle at 85% 8%, rgba(232,87,42,.26), transparent 42%),
+    linear-gradient(135deg, rgba(232,87,42,.08), transparent 46%);
 }
 
-.price-number {
-  font-family: 'Syne', sans-serif;
-  color: var(--accent);
-  font-size: 2.05rem;
-  font-weight: 800;
-  letter-spacing: -.055em;
+.price-card > * {
+  position: relative;
+  z-index: 1;
 }
 
-.package-title h3 {
-  font-size: 1.55rem;
-  letter-spacing: -.04em;
-  margin-bottom: .45rem;
-}
-
-.package-title span {
-  color: var(--muted);
-  font-size: .78rem;
-  font-weight: 800;
+.package-label {
+  color: var(--accent-soft);
+  font-size: .72rem;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: .1em;
+  letter-spacing: .14em;
+  margin-bottom: 1rem;
+}
+
+.price-card h3 {
+  font-size: 1.6rem;
+  line-height: 1.08;
+  letter-spacing: -.045em;
+  margin-bottom: .75rem;
+}
+
+.package-subtitle {
+  color: var(--gray);
+  line-height: 1.65;
+  font-size: .96rem;
+  min-height: 78px;
 }
 
 .price-value {
   font-family: 'Syne', sans-serif;
-  font-size: 2.25rem;
+  font-size: clamp(2.5rem, 4vw, 3.4rem);
   line-height: 1;
   font-weight: 800;
-  letter-spacing: -.055em;
+  letter-spacing: -.06em;
   color: var(--white);
+  margin-top: 1.6rem;
 }
 
 .price-period {
   display: block;
   color: var(--muted);
-  font-size: .88rem;
+  font-size: .9rem;
   line-height: 1.5;
-  margin-top: .45rem;
+  margin-top: .4rem;
+  margin-bottom: 1.3rem;
   font-weight: 600;
 }
 
-.package-details {
-  color: var(--gray);
-  line-height: 1.65;
-  font-size: .96rem;
-}
-
-.package-details ul {
+.package-list {
   list-style: none;
   display: grid;
-  gap: .55rem;
+  gap: .65rem;
+  margin-bottom: 1.5rem;
 }
 
-.package-details li {
+.package-list li {
   display: grid;
   grid-template-columns: 18px 1fr;
-  gap: .45rem;
+  gap: .48rem;
+  color: var(--gray);
+  line-height: 1.5;
+  font-size: .93rem;
+  padding-bottom: .65rem;
+  border-bottom: 1px solid rgba(248,244,238,.07);
 }
 
-.package-details li::before {
+.package-list li::before {
   content: "✓";
   color: var(--accent-soft);
   font-weight: 900;
 }
 
-.row-link {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  color: var(--accent-soft);
-  border: 1px solid rgba(248,244,238,.1);
-  background: rgba(255,255,255,.035);
+.card-spacer {
+  flex: 1;
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: auto;
+  padding: .9rem 1.2rem;
+  border-radius: 999px;
   text-decoration: none;
+  color: #fff;
+  font-size: .9rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 16px 38px rgba(232,87,42,.25);
   transition: .22s ease;
 }
 
-.price-row:hover .row-link {
-  transform: translateX(4px);
-  border-color: rgba(232,87,42,.45);
-  background: rgba(232,87,42,.12);
+.card-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 46px rgba(232,87,42,.34);
 }
 
-.care-grid {
+.care-split {
   display: grid;
-  grid-template-columns: .9fr 1.1fr;
+  grid-template-columns: .85fr 1.15fr;
   gap: 4rem;
   align-items: start;
 }
 
-.care-list {
+.care-grid {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }
 
-.care-row {
-  display: grid;
-  grid-template-columns: 1fr 180px;
-  gap: 1.5rem;
-  padding: 1.4rem 0;
-  border-bottom: 1px solid rgba(248,244,238,.1);
+.care-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+  padding: 1.7rem;
+  border-radius: 24px;
+  border: 1px solid rgba(248,244,238,.1);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.022)),
+    rgba(11,10,9,.62);
 }
 
-.care-row:first-child {
-  padding-top: 0;
+.care-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 85% 10%, rgba(255,179,71,.13), transparent 42%);
+  pointer-events: none;
 }
 
-.care-row:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
+.care-card > * {
+  position: relative;
+  z-index: 1;
 }
 
-.care-row h3 {
-  font-size: 1.25rem;
+.care-card h3 {
+  font-size: 1.22rem;
   letter-spacing: -.035em;
-  margin-bottom: .35rem;
-}
-
-.care-row p {
-  color: var(--gray);
-  line-height: 1.65;
-  font-size: .95rem;
+  margin-bottom: .8rem;
 }
 
 .care-price {
   font-family: 'Syne', sans-serif;
   color: var(--accent-soft);
-  font-size: 1.55rem;
+  font-size: 1.85rem;
+  line-height: 1;
   font-weight: 800;
-  letter-spacing: -.045em;
-  text-align: right;
+  letter-spacing: -.05em;
+  margin-bottom: 1rem;
+}
+
+.care-card p {
+  color: var(--gray);
+  line-height: 1.62;
+  font-size: .94rem;
 }
 
 .info-split {
@@ -608,7 +640,7 @@ footer {
 
 @media (max-width: 1120px) {
   .page-hero,
-  .care-grid,
+  .care-split,
   .info-split {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -618,12 +650,13 @@ footer {
     justify-self: start;
   }
 
-  .price-row {
-    grid-template-columns: 72px 1fr 170px auto;
+  .price-grid,
+  .care-grid {
+    grid-template-columns: 1fr;
   }
 
-  .package-details {
-    grid-column: 2 / -1;
+  .package-subtitle {
+    min-height: auto;
   }
 }
 
@@ -672,40 +705,10 @@ footer {
     left: 1.2rem;
   }
 
-  .price-row {
-    grid-template-columns: 1fr;
-    gap: .85rem;
-    padding: 1.75rem 0;
-  }
-
-  .price-row.featured::before {
-    left: -.75rem;
-    right: -.75rem;
-  }
-
-  .package-details {
-    grid-column: auto;
-  }
-
-  .price-number {
-    font-size: 1.55rem;
-  }
-
-  .price-value {
-    font-size: 2rem;
-  }
-
-  .row-link {
-    display: none;
-  }
-
-  .care-row {
-    grid-template-columns: 1fr;
-    gap: .5rem;
-  }
-
-  .care-price {
-    text-align: left;
+  .price-card,
+  .care-card {
+    padding: 1.55rem;
+    border-radius: 24px;
   }
 
   .cta {
@@ -739,7 +742,8 @@ footer {
     letter-spacing: .12em;
   }
 
-  .btn-primary {
+  .btn-primary,
+  .card-link {
     width: 100%;
   }
 
@@ -819,91 +823,88 @@ footer {
       </p>
     </div>
 
-    <div class="price-list">
+    <div class="price-grid">
 
-      <div class="price-row">
-        <div class="price-number">01</div>
+      <article class="price-card">
+        <div class="package-label">Basis</div>
 
-        <div class="package-title">
-          <h3>Klassische Website</h3>
-          <span>Basis</span>
-        </div>
+        <h3>Klassische Website</h3>
 
-        <div>
-          <div class="price-value">599 €</div>
-          <span class="price-period">einmalige Erstellung</span>
-        </div>
+        <p class="package-subtitle">
+          Für kleine Betriebe, Dienstleister oder Vereine, die professionell online sichtbar sein möchten.
+        </p>
 
-        <div class="package-details">
-          <ul>
-            <li>Startseite plus bis zu 4 Unterseiten</li>
-            <li>Modernes und mobiloptimiertes Design</li>
-            <li>Leistungen, Über uns, Kontakt oder Galerie</li>
-            <li>Kontaktformular möglich</li>
-            <li>Impressum-Seite inklusive</li>
-            <li>Einbindung eigener Bilder und Inhalte</li>
-            <li>Eigene Domain kann verbunden werden</li>
-          </ul>
-        </div>
+        <div class="price-value">599 €</div>
+        <span class="price-period">einmalige Erstellung</span>
 
-        <a href="anfragen.html" class="row-link" aria-label="Klassische Website anfragen">→</a>
-      </div>
+        <ul class="package-list">
+          <li>Startseite plus bis zu 4 Unterseiten</li>
+          <li>Modernes und mobiloptimiertes Design</li>
+          <li>Leistungen, Über uns, Kontakt oder Galerie</li>
+          <li>Kontaktformular möglich</li>
+          <li>Impressum-Seite inklusive</li>
+          <li>Einbindung eigener Bilder und Inhalte</li>
+          <li>Eigene Domain kann verbunden werden</li>
+        </ul>
 
-      <div class="price-row featured">
-        <div class="price-number">02</div>
+        <div class="card-spacer"></div>
 
-        <div class="package-title">
-          <h3>Website Plus</h3>
-          <span>Empfohlen</span>
-        </div>
+        <a href="anfragen.html" class="card-link">Paket anfragen</a>
+      </article>
 
-        <div>
-          <div class="price-value">999 €</div>
-          <span class="price-period">einmalige Erstellung</span>
-        </div>
+      <article class="price-card featured">
+        <div class="package-label">Empfohlen</div>
 
-        <div class="package-details">
-          <ul>
-            <li>Alles aus Klassische Website</li>
-            <li>Mehr Unterseiten und Inhalte</li>
-            <li>Galerie, FAQ oder Referenzbereiche</li>
-            <li>Einfache Anfrage- oder Reservierungsfunktion</li>
-            <li>Impressum-Seite inklusive</li>
-            <li>Erweiterbare Seitenstruktur</li>
-            <li>Vorbereitung für spätere Erweiterungen</li>
-          </ul>
-        </div>
+        <h3>Website Plus</h3>
 
-        <a href="anfragen.html" class="row-link" aria-label="Website Plus anfragen">→</a>
-      </div>
+        <p class="package-subtitle">
+          Für Unternehmen, die mehr Inhalte, mehr Struktur und zusätzliche Funktionen benötigen.
+        </p>
 
-      <div class="price-row">
-        <div class="price-number">03</div>
+        <div class="price-value">999 €</div>
+        <span class="price-period">einmalige Erstellung</span>
 
-        <div class="package-title">
-          <h3>Website nach Wunsch</h3>
-          <span>Individuell</span>
-        </div>
+        <ul class="package-list">
+          <li>Alles aus Klassische Website</li>
+          <li>Mehr Unterseiten und Inhalte</li>
+          <li>Galerie, FAQ oder Referenzbereiche</li>
+          <li>Einfache Anfrage- oder Reservierungsfunktion</li>
+          <li>Impressum-Seite inklusive</li>
+          <li>Erweiterbare Seitenstruktur</li>
+          <li>Vorbereitung für spätere Erweiterungen</li>
+        </ul>
 
-        <div>
-          <div class="price-value">ab 1.599 €</div>
-          <span class="price-period">je nach Umfang</span>
-        </div>
+        <div class="card-spacer"></div>
 
-        <div class="package-details">
-          <ul>
-            <li>Individuelles Seitenkonzept</li>
-            <li>Mehrere Leistungs- oder Standortseiten</li>
-            <li>Aufwendigere Inhaltsbereiche</li>
-            <li>Individuelle Zusatzfunktionen möglich</li>
-            <li>Impressum-Seite inklusive</li>
-            <li>Technisch flexibel erweiterbar</li>
-            <li>Preis abhängig vom tatsächlichen Umfang</li>
-          </ul>
-        </div>
+        <a href="anfragen.html" class="card-link">Paket anfragen</a>
+      </article>
 
-        <a href="anfragen.html" class="row-link" aria-label="Website nach Wunsch anfragen">→</a>
-      </div>
+      <article class="price-card">
+        <div class="package-label">Individuell</div>
+
+        <h3>Website nach Wunsch</h3>
+
+        <p class="package-subtitle">
+          Für größere oder individuellere Projekte mit besonderem Aufbau oder erweitertem Umfang.
+        </p>
+
+        <div class="price-value">ab 1.599 €</div>
+        <span class="price-period">je nach Umfang</span>
+
+        <ul class="package-list">
+          <li>Individuelles Seitenkonzept</li>
+          <li>Mehrere Leistungs- oder Standortseiten</li>
+          <li>Aufwendigere Inhaltsbereiche</li>
+          <li>Individuelle Zusatzfunktionen möglich</li>
+          <li>Impressum-Seite inklusive</li>
+          <li>Technisch flexibel erweiterbar</li>
+          <li>Preis abhängig vom tatsächlichen Umfang</li>
+        </ul>
+
+        <div class="card-spacer"></div>
+
+        <a href="anfragen.html" class="card-link">Paket anfragen</a>
+      </article>
 
     </div>
 
@@ -911,7 +912,7 @@ footer {
 
   <section class="clean-block">
 
-    <div class="care-grid">
+    <div class="care-split">
 
       <div>
         <div class="eyebrow">Optionale Pflege</div>
@@ -922,31 +923,31 @@ footer {
         </p>
       </div>
 
-      <div class="care-list">
+      <div class="care-grid">
 
-        <div class="care-row">
-          <div>
-            <h3>Basis Pflege</h3>
-            <p>Kleine Text- und Bildänderungen sowie allgemeine Betreuung für kleinere Websites.</p>
-          </div>
+        <article class="care-card">
+          <h3>Basis Pflege</h3>
           <div class="care-price">29 €/Monat</div>
-        </div>
+          <p>
+            Kleine Text- und Bildänderungen sowie allgemeine Betreuung für kleinere Websites.
+          </p>
+        </article>
 
-        <div class="care-row">
-          <div>
-            <h3>Plus Pflege</h3>
-            <p>Regelmäßige Anpassungen, neue Inhalte und Betreuung größerer Seitenbereiche.</p>
-          </div>
+        <article class="care-card">
+          <h3>Plus Pflege</h3>
           <div class="care-price">59 €/Monat</div>
-        </div>
+          <p>
+            Regelmäßige Anpassungen, neue Inhalte und Betreuung größerer Seitenbereiche.
+          </p>
+        </article>
 
-        <div class="care-row">
-          <div>
-            <h3>Individuelle Pflege</h3>
-            <p>Für größere Websites oder umfangreichere Änderungswünsche mit individuellem Bedarf.</p>
-          </div>
+        <article class="care-card">
+          <h3>Individuelle Pflege</h3>
           <div class="care-price">nach Aufwand</div>
-        </div>
+          <p>
+            Für größere Websites oder umfangreichere Änderungswünsche mit individuellem Bedarf.
+          </p>
+        </article>
 
       </div>
 
