@@ -3,93 +3,885 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modelle – Network Studio</title>
+
+<title>Modelle – AK WebWorks</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png" href="akwebworks-favicon.png">
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#0a0a0a;color:#f5f2ec;font-family:Arial,sans-serif}
-nav{padding:20px 30px;background:#111;border-bottom:1px solid #2a2a2a;display:flex;justify-content:space-between;align-items:center}
-.logo{color:#fff;text-decoration:none;font-weight:bold;font-size:1.2rem}
-.logo span{color:#e8572a}
-nav ul{display:flex;gap:20px;list-style:none}
-a{color:#e8572a;text-decoration:none}
-nav ul a{color:#b8b1a7}
-.wrap{max-width:1200px;margin:auto;padding:50px 20px}
-h1{font-size:clamp(2.5rem,6vw,4rem);margin-bottom:15px}
-.intro{color:#b8b1a7;line-height:1.7;max-width:760px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:35px}
-.card{background:#131310;border:1px solid #2a2a2a;border-radius:18px;padding:30px;color:#fff;text-decoration:none;transition:.2s}
-.card:hover{border-color:#e8572a;transform:translateY(-4px)}
-.icon{font-size:3rem;margin-bottom:18px}
-.card h2{margin-bottom:10px}
-.card p{color:#b8b1a7;line-height:1.7;margin-bottom:18px}
-.link{color:#ffb347;font-weight:bold}
-@media(max-width:850px){nav{flex-direction:column;gap:14px}nav ul{flex-wrap:wrap;justify-content:center}.grid{grid-template-columns:1fr}}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --black: #060605;
+  --dark: #0b0a09;
+  --white: #f8f4ee;
+  --gray: #c7bfb4;
+  --muted: #897f73;
+  --accent: #e8572a;
+  --accent-dark: #c9411c;
+  --accent-soft: #ffb347;
+  --line: rgba(248,244,238,.13);
+  --line-soft: rgba(248,244,238,.075);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 84% 8%, rgba(232,87,42,.30), transparent 30%),
+    radial-gradient(circle at 12% 20%, rgba(255,179,71,.10), transparent 27%),
+    radial-gradient(circle at 78% 62%, rgba(232,87,42,.10), transparent 34%),
+    radial-gradient(circle at 20% 88%, rgba(255,179,71,.055), transparent 26%),
+    linear-gradient(180deg, #070706 0%, #0b0a09 50%, #11100d 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .024;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 76px 76px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.45), transparent 72%);
+  z-index: 0;
+}
+
+a {
+  color: inherit;
+}
+
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  padding: 1.05rem 3rem;
+  border-bottom: 1px solid rgba(248,244,238,.08);
+  background: rgba(6,6,5,.76);
+  backdrop-filter: blur(18px);
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  justify-self: start;
+  text-decoration: none;
+}
+
+.logo-mark {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.logo-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+.logo-text span {
+  color: var(--accent);
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  gap: 2.25rem;
+}
+
+nav ul a {
+  text-decoration: none;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .74rem;
+  font-weight: 800;
+  transition: .22s ease;
+}
+
+nav ul a:hover,
+nav ul a.active {
+  color: var(--white);
+}
+
+.nav-actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.instagram-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  text-decoration: none;
+  color: var(--white);
+  font-size: .82rem;
+  font-weight: 800;
+  padding: .76rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid rgba(248,244,238,.14);
+  background: rgba(255,255,255,.045);
+  transition: .22s ease;
+}
+
+.instagram-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232,87,42,.45);
+  background: rgba(232,87,42,.12);
+}
+
+.instagram-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+
+.nav-contact {
+  text-decoration: none;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 800;
+  padding: .78rem 1.25rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 16px 36px rgba(232,87,42,.28);
+  transition: .22s ease;
+}
+
+.nav-contact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 46px rgba(232,87,42,.38);
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.page-hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10.5rem 3rem 4.8rem;
+  display: grid;
+  grid-template-columns: .95fr 1.05fr;
+  gap: 4rem;
+  align-items: end;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.45rem;
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: .17em;
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: var(--accent-soft);
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Syne', sans-serif;
+}
+
+h1 {
+  max-width: 760px;
+  margin-bottom: 1.5rem;
+  font-size: clamp(3.1rem, 6.2vw, 6.7rem);
+  line-height: .92;
+  letter-spacing: -.072em;
+}
+
+h1 em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.hero-text {
+  color: var(--gray);
+  font-size: 1.08rem;
+  line-height: 1.82;
+  max-width: 680px;
+}
+
+.hero-side {
+  color: var(--gray);
+  line-height: 1.78;
+  font-size: 1.02rem;
+  max-width: 520px;
+  justify-self: end;
+}
+
+.hero-side strong {
+  display: block;
+  color: var(--white);
+  font-size: 1rem;
+  margin-bottom: .45rem;
+}
+
+section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4.5rem 3rem;
+}
+
+.clean-block {
+  position: relative;
+  border-top: 1px solid var(--line-soft);
+}
+
+.clean-block::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 3rem;
+  width: 180px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.section-head {
+  max-width: 880px;
+  margin-bottom: 2.6rem;
+}
+
+h2 {
+  font-size: clamp(2.2rem, 4.2vw, 4.5rem);
+  line-height: .98;
+  letter-spacing: -.064em;
+  margin-bottom: 1rem;
+}
+
+.section-intro {
+  max-width: 780px;
+  color: var(--gray);
+  font-size: 1.04rem;
+  line-height: 1.78;
+}
+
+.model-list {
+  display: grid;
+}
+
+.model-row {
+  display: grid;
+  grid-template-columns: 86px 1.05fr .95fr auto;
+  gap: 1.5rem;
+  align-items: start;
+  padding: 1.9rem 0;
+  border-bottom: 1px solid rgba(248,244,238,.1);
+  text-decoration: none;
+  transition: .22s ease;
+}
+
+.model-row:first-child {
+  padding-top: 0;
+}
+
+.model-row:last-child {
+  border-bottom: none;
+}
+
+.model-row:hover {
+  border-bottom-color: rgba(232,87,42,.42);
+}
+
+.model-number {
+  font-family: 'Syne', sans-serif;
+  color: var(--accent);
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -.055em;
+}
+
+.model-title h3 {
+  font-size: 1.55rem;
+  letter-spacing: -.04em;
+  margin-bottom: .45rem;
+}
+
+.model-title span {
+  color: var(--muted);
+  font-size: .88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.model-description {
+  color: var(--gray);
+  line-height: 1.68;
+  font-size: .98rem;
+  max-width: 520px;
+}
+
+.model-arrow {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--accent-soft);
+  border: 1px solid rgba(248,244,238,.1);
+  background: rgba(255,255,255,.035);
+  transition: .22s ease;
+}
+
+.model-row:hover .model-arrow {
+  transform: translateX(4px);
+  border-color: rgba(232,87,42,.45);
+  background: rgba(232,87,42,.12);
+}
+
+.feature-split {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.feature-split h2 {
+  margin-bottom: 0;
+}
+
+.feature-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.feature-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .8rem;
+  align-items: start;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(248,244,238,.08);
+}
+
+.feature-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.feature-dot {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-top: .15rem;
+  color: var(--accent-soft);
+  background: rgba(232,87,42,.14);
+  font-weight: 900;
+  font-size: .78rem;
+}
+
+.feature-item strong {
+  display: block;
+  margin-bottom: .2rem;
+  font-size: .99rem;
+}
+
+.feature-item span {
+  color: var(--gray);
+  line-height: 1.55;
+  font-size: .94rem;
+}
+
+.cta-section {
+  padding-top: 3rem;
+  padding-bottom: 4.8rem;
+}
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  border-radius: 34px;
+  padding: 4rem 2.4rem;
+  text-align: center;
+  border: 1px solid rgba(232,87,42,.32);
+  background:
+    radial-gradient(circle at 70% 20%, rgba(232,87,42,.26), transparent 40%),
+    linear-gradient(135deg, #1c120d, #0d0c0a);
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 54px 54px;
+  opacity: .4;
+}
+
+.cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.cta h2 {
+  max-width: 820px;
+  margin: 0 auto 1rem;
+  text-align: center;
+}
+
+.cta p {
+  max-width: 720px;
+  margin: 0 auto 2rem;
+  color: var(--gray);
+  line-height: 1.75;
+  font-size: 1.03rem;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: .98rem 1.8rem;
+  border-radius: 999px;
+  color: #fff;
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 18px 45px rgba(232,87,42,.32);
+  transition: .22s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 54px rgba(232,87,42,.4);
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  padding: 2.2rem 3rem;
+  border-top: 1px solid rgba(248,244,238,.07);
+  color: var(--muted);
+  text-align: center;
+  font-size: .84rem;
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .9rem;
+  flex-wrap: wrap;
+}
+
+.footer-instagram {
+  color: var(--gray);
+  text-decoration: none;
+  font-weight: 800;
+  transition: .22s ease;
+}
+
+.footer-instagram:hover {
+  color: var(--accent-soft);
+}
+
+@media (max-width: 1120px) {
+  .page-hero,
+  .feature-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-side {
+    justify-self: start;
+  }
+
+  .model-row {
+    grid-template-columns: 72px 1fr auto;
+  }
+
+  .model-description {
+    grid-column: 2 / -1;
+  }
+}
+
+@media (max-width: 860px) {
+  nav {
+    padding: .95rem 1.2rem;
+  }
+
+  .nav-inner {
+    grid-template-columns: 1fr;
+    gap: .85rem;
+    justify-items: center;
+  }
+
+  .logo,
+  .nav-actions {
+    justify-self: center;
+  }
+
+  .nav-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav ul {
+    gap: 1.1rem;
+  }
+
+  .page-hero {
+    padding: 10.6rem 1.2rem 3.5rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 14vw, 4.6rem);
+  }
+
+  .hero-text {
+    font-size: 1rem;
+  }
+
+  section {
+    padding: 3.4rem 1.2rem;
+  }
+
+  .clean-block::before {
+    left: 1.2rem;
+  }
+
+  .model-row {
+    grid-template-columns: 1fr;
+    gap: .75rem;
+    padding: 1.55rem 0;
+  }
+
+  .model-description {
+    grid-column: auto;
+  }
+
+  .model-number {
+    font-size: 1.55rem;
+  }
+
+  .model-arrow {
+    display: none;
+  }
+
+  .cta {
+    padding: 3rem 1.3rem;
+    border-radius: 26px;
+  }
+}
+
+@media (max-width: 560px) {
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+  }
+
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  nav ul a {
+    font-size: .68rem;
+  }
+
+  .instagram-btn,
+  .nav-contact {
+    padding: .7rem 1rem;
+    font-size: .78rem;
+  }
+
+  .eyebrow {
+    font-size: .64rem;
+    letter-spacing: .12em;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+
+  footer {
+    padding: 1.8rem 1.2rem;
+  }
+}
 </style>
 </head>
+
 <body>
 
 <nav>
-<a href="index.html" class="logo">Network<span>.</span>Studio</a>
-<ul>
-<li><a href="modelle.html">Modelle</a></li>
-<li><a href="preise.html">Preise</a></li>
-<li><a href="anfragen.html">Anfragen</a></li>
-</ul>
+  <div class="nav-inner">
+
+    <a href="index.html" class="logo" aria-label="AK WebWorks Startseite">
+      <img src="akwebworks-favicon.png" class="logo-mark" alt="AK WebWorks Logo">
+      <div class="logo-text">AK<span>WebWorks</span></div>
+    </a>
+
+    <ul>
+      <li><a href="modelle.html" class="active">Modelle</a></li>
+      <li><a href="preise.html">Preise</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="https://www.instagram.com/ak.webworks" class="instagram-btn" target="_blank" rel="noopener noreferrer" aria-label="AK WebWorks auf Instagram öffnen">
+        <svg class="instagram-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+        </svg>
+        Instagram
+      </a>
+
+      <a href="anfragen.html" class="nav-contact">Anfrage stellen</a>
+    </div>
+
+  </div>
 </nav>
 
-<div class="wrap">
-<h1>Modelle & Demos</h1>
-<p class="intro">
-Hier findest du einfache, realistische Website-Modelle, die ohne unnötig komplexe Systeme umgesetzt werden können.
-Der Fokus liegt auf modernen Websites, Kontaktmöglichkeiten, Präsentation und kleinen Zusatzfunktionen.
-</p>
+<main>
 
-<div class="grid">
+  <section class="page-hero">
 
-<a href="website-demo.html" class="card">
-<div class="icon">🌐</div>
-<h2>Klassische Website</h2>
-<p>Eine moderne Website mit Startseite, Leistungen, Kontaktbereich und mobiloptimiertem Design.</p>
-<div class="link">Demo testen →</div>
-</a>
+    <div>
+      <div class="eyebrow">Modelle & Demos</div>
 
-<a href="app-demo.html" class="card">
-<div class="icon">📱</div>
-<h2>Website + kleine Kunden-App</h2>
-<p>Eine einfache Zusatz-App für Anfragen, Reservierungen oder Terminwünsche ohne komplexes Backend.</p>
-<div class="link">Demo testen →</div>
-</a>
+      <h1>
+        Beispiele,<br>
+        die eine Richtung<br>
+        <em>zeigen.</em>
+      </h1>
 
-<a href="kontaktformular-demo.html" class="card">
-<div class="icon">✉️</div>
-<h2>Kontaktformular</h2>
-<p>Ein einfaches Anfrageformular für Kunden, Projekte, Rückrufe oder Terminwünsche.</p>
-<div class="link">Demo testen →</div>
-</a>
+      <p class="hero-text">
+        Hier findest du realistische Website-Modelle und Erweiterungen, die als Grundlage für deinen eigenen Webauftritt dienen können.
+        Nicht als starre Vorlage, sondern als Orientierung für Stil, Aufbau und Funktionen.
+      </p>
+    </div>
 
-<a href="galerie-demo.html" class="card">
-<div class="icon">🖼️</div>
-<h2>Galerie & Leistungen</h2>
-<p>Eine übersichtliche Darstellung von Arbeiten, Angeboten, Leistungen oder Referenzen.</p>
-<div class="link">Demo testen →</div>
-</a>
+    <p class="hero-side">
+      <strong>Wichtig:</strong>
+      Die Modelle sind bewusst einfach verständlich gehalten. Ziel ist nicht, dich mit Technik zu überladen,
+      sondern dir schnell zu zeigen, was für deinen Betrieb sinnvoll sein kann.
+    </p>
 
-<a href="chatbot-demo.html" class="card">
-<div class="icon">🤖</div>
-<h2>KI Chatbot Demo</h2>
-<p>Ein einfacher Chatbot für häufige Fragen, Weiterleitungen und erste Kundeninformationen.</p>
-<div class="link">Demo testen →</div>
-</a>
+  </section>
 
-<a href="preise.html" class="card">
-<div class="icon">💼</div>
-<h2>Pakete & Preise</h2>
-<p>Die passenden Website-Pakete mit fixer Einrichtung und monatlicher Pflegepauschale.</p>
-<div class="link">Preise ansehen →</div>
-</a>
+  <section>
 
-</div>
-</div>
+    <div class="section-head">
+      <div class="eyebrow">Auswahl</div>
+      <h2>Wähle den Einstieg, der zu deinem Vorhaben passt.</h2>
+      <p class="section-intro">
+        Ob klassische Unternehmenswebsite, Kontaktformular, Galerie oder kleine Zusatzfunktion:
+        Die Modelle helfen dir dabei, dein Projekt besser einzuordnen und den passenden Umfang zu finden.
+      </p>
+    </div>
+
+    <div class="model-list">
+
+      <a href="website-demo.html" class="model-row">
+        <div class="model-number">01</div>
+        <div class="model-title">
+          <h3>Klassische Website</h3>
+          <span>Startseite · Leistungen · Kontakt</span>
+        </div>
+        <p class="model-description">
+          Eine moderne Website mit klarer Startseite, Leistungsbereich, Kontaktmöglichkeit und mobiloptimiertem Aufbau.
+          Ideal für Betriebe, Dienstleister und Selbstständige.
+        </p>
+        <div class="model-arrow">→</div>
+      </a>
+
+      <a href="app-demo.html" class="model-row">
+        <div class="model-number">02</div>
+        <div class="model-title">
+          <h3>Website + kleine Kunden-App</h3>
+          <span>Anfragen · Reservierung · Terminwunsch</span>
+        </div>
+        <p class="model-description">
+          Eine einfache Zusatzfunktion für Kundenanfragen, Reservierungen oder Terminwünsche.
+          Sinnvoll, wenn Besucher direkt eine konkrete Aktion auslösen sollen.
+        </p>
+        <div class="model-arrow">→</div>
+      </a>
+
+      <a href="kontaktformular-demo.html" class="model-row">
+        <div class="model-number">03</div>
+        <div class="model-title">
+          <h3>Kontaktformular</h3>
+          <span>Projektanfrage · Rückruf · Termin</span>
+        </div>
+        <p class="model-description">
+          Ein übersichtliches Anfrageformular für Kunden, Projekte, Rückrufe oder Terminwünsche.
+          Dadurch werden Anfragen strukturierter und leichter auswertbar.
+        </p>
+        <div class="model-arrow">→</div>
+      </a>
+
+      <a href="galerie-demo.html" class="model-row">
+        <div class="model-number">04</div>
+        <div class="model-title">
+          <h3>Galerie & Leistungen</h3>
+          <span>Arbeiten · Angebote · Referenzen</span>
+        </div>
+        <p class="model-description">
+          Eine klare Darstellung von Arbeiten, Angeboten, Leistungen oder Referenzen.
+          Besonders passend für Handwerk, KFZ, Design, Gastronomie und lokale Dienstleister.
+        </p>
+        <div class="model-arrow">→</div>
+      </a>
+
+      <a href="chatbot-demo.html" class="model-row">
+        <div class="model-number">05</div>
+        <div class="model-title">
+          <h3>KI Chatbot Demo</h3>
+          <span>FAQ · Hinweise · Erstinformation</span>
+        </div>
+        <p class="model-description">
+          Ein einfacher Chatbot für häufige Fragen, Weiterleitungen und erste Kundeninformationen.
+          Geeignet, wenn wiederkehrende Fragen direkt beantwortet werden sollen.
+        </p>
+        <div class="model-arrow">→</div>
+      </a>
+
+      <a href="preise.html" class="model-row">
+        <div class="model-number">06</div>
+        <div class="model-title">
+          <h3>Pakete & Preise</h3>
+          <span>Umfang · Erstellung · Pflege</span>
+        </div>
+        <p class="model-description">
+          Die passenden Website-Pakete mit fixer Erstellung und optionaler Pflege.
+          Hier kannst du einschätzen, welcher Umfang für dein Projekt sinnvoll ist.
+        </p>
+        <div class="model-arrow">→</div>
+      </a>
+
+    </div>
+
+  </section>
+
+  <section class="clean-block">
+
+    <div class="feature-split">
+
+      <div>
+        <div class="eyebrow">Orientierung</div>
+        <h2>Keine fertige Schablone. Ein Startpunkt für dein Design.</h2>
+      </div>
+
+      <div class="feature-list">
+
+        <div class="feature-item">
+          <div class="feature-dot">✓</div>
+          <div>
+            <strong>Modelle zeigen die Richtung</strong>
+            <span>Die Demos dienen als Orientierung für Aufbau, Stil und sinnvolle Funktionen.</span>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-dot">✓</div>
+          <div>
+            <strong>Anpassbar an dein Unternehmen</strong>
+            <span>Texte, Farben, Struktur und Inhalte werden auf deinen Betrieb abgestimmt.</span>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-dot">✓</div>
+          <div>
+            <strong>Einfach verständlich</strong>
+            <span>Du musst keine Technik erklären können. Entscheidend ist, was deine Website für Kunden leisten soll.</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="cta-section">
+
+    <div class="cta">
+      <h2>Du weißt noch nicht, welches Modell passt?</h2>
+      <p>
+        Kein Problem. Beschreibe kurz dein Unternehmen und dein Ziel.
+        Danach lässt sich gut einschätzen, ob eine einfache Website, ein Formular oder eine zusätzliche Funktion sinnvoll ist.
+      </p>
+      <a href="anfragen.html" class="btn-primary">Unverbindlich anfragen</a>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 AK WebWorks — Websites · Design · Development</span>
+    <span>·</span>
+    <a href="https://www.instagram.com/ak.webworks" class="footer-instagram" target="_blank" rel="noopener noreferrer">@ak.webworks</a>
+  </div>
+</footer>
 
 </body>
 </html>
