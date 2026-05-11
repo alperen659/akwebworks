@@ -74,7 +74,7 @@ nav.top.scrolled{box-shadow:0 4px 40px rgba(13,18,32,.22)}
 .contact-card a:hover{color:var(--blue)}
 .contact-card .ig-row{display:inline-flex;align-items:center;gap:7px;color:var(--ink-s);font-size:15px}
 .contact-card .ig-row:hover{color:var(--blue)}
-.contact-card svg{width:16px;height:16px;flex-shrink:0;vertical-align:-2px}
+.contact-card svg{width:16px!important;height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
 
 .hours-list{display:flex;flex-direction:column;gap:8px}
 .hours-row{display:flex;justify-content:space-between;font-size:14.5px;padding-bottom:8px;border-bottom:1px solid var(--line-s)}
@@ -128,7 +128,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
 .footer-bottom{display:flex;justify-content:center;align-items:center;padding-top:24px;border-top:1px solid var(--line-s);font-size:12.5px;color:var(--muted);text-align:center}
 .ig-link{display:inline-flex;align-items:center;gap:7px;color:var(--ink-s);font-size:14px}
 .ig-link:hover{color:var(--blue)}
-.ig-icon{width:16px;height:16px;flex-shrink:0;vertical-align:-2px}
+.ig-icon{width:16px!important;height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
 </style>
 </head>
 <body>
@@ -204,14 +204,11 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
           <h2>Kostenloses Erstgespräch</h2>
           <p class="form-sub">Füll das Formular aus — ich melde mich innerhalb von 24 h bei dir.</p>
 
-          <!-- =====================================================
-               FORMSPREE: Ersetze DEINE_FORMSPREE_ID mit deiner ID
-               von formspree.io, z.B.: xkgnpwqr
-               → action="https://formspree.io/f/xkgnpwqr"
-          ====================================================== -->
+          <!-- Statische Lösung ohne Backend: Das Formular öffnet eine vorbereitete E-Mail. -->
           <form class="booking-form" id="bookingForm"
-                action="https://formspree.io/f/xgodrqja"
-                method="POST">
+                action="mailto:hallo@akwebworks.de"
+                method="POST"
+                enctype="text/plain">
 
             <div class="form-row">
               <div class="form-group">
@@ -263,8 +260,8 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
 
         <div class="form-success" id="formSuccess">
           <div class="sicon">✓</div>
-          <h3>Anfrage erhalten!</h3>
-          <p>Danke für deine Nachricht. Ich melde mich innerhalb von 24 Stunden bei dir — meistens schon früher.</p>
+          <h3>E-Mail wurde vorbereitet!</h3>
+          <p>Dein E-Mail-Programm öffnet sich mit der ausgefüllten Anfrage. Bitte dort noch auf Senden klicken.</p>
           <a href="index.html" class="btn btn-outline">Zurück zur Startseite</a>
         </div>
       </div>
@@ -327,27 +324,28 @@ const navEl = document.getElementById('navbar');
 window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 20); }, { passive: true });
 
 const bookingForm = document.getElementById('bookingForm');
-bookingForm.addEventListener('submit', async function(e) {
+bookingForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  const btn = bookingForm.querySelector('.form-submit');
-  btn.innerHTML = 'Wird gesendet…'; btn.disabled = true;
-  try {
-    const res = await fetch(bookingForm.action, {
-      method: 'POST',
-      body: new FormData(bookingForm),
-      headers: { 'Accept': 'application/json' }
-    });
-    if (res.ok) {
-      document.getElementById('formWrap').style.display = 'none';
-      document.getElementById('formSuccess').style.display = 'block';
-    } else {
-      btn.innerHTML = 'Fehler — bitte per E-Mail schreiben';
-      btn.disabled = false;
-    }
-  } catch {
-    btn.innerHTML = 'Fehler — bitte per E-Mail schreiben';
-    btn.disabled = false;
-  }
+
+  const formData = new FormData(bookingForm);
+  const subject = 'Neue Beratungsanfrage — AK WebWorks';
+  const body = [
+    'Neue Beratungsanfrage über akwebworks.de',
+    '',
+    'Name: ' + (formData.get('name') || ''),
+    'Unternehmen / Branche: ' + (formData.get('unternehmen') || ''),
+    'E-Mail: ' + (formData.get('email') || ''),
+    'Telefon: ' + (formData.get('telefon') || ''),
+    'Paket: ' + (formData.get('paket') || 'Noch nicht sicher'),
+    '',
+    'Nachricht:',
+    formData.get('nachricht') || ''
+  ].join('\n');
+
+  window.location.href = 'mailto:hallo@akwebworks.de?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
 });
 </script>
 </body>

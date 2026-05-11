@@ -106,7 +106,7 @@ section.hero{padding:100px 0 115px}
 /* MARQUEE */
 .trust{background:var(--bg-dark);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);overflow:hidden}
 .trust-row{display:flex;padding:16px 0;animation:marquee 40s linear infinite;white-space:nowrap}
-.trust-item{display:inline-flex;align-items:center;gap:32px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,242,247,.3);padding:0 32px}
+.trust-item{display:inline-flex;align-items:center;gap:32px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,242,247,.62);padding:0 32px}
 .trust-item::after{content:"·";color:var(--blue-l);font-size:20px;line-height:1;margin-left:32px}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -268,7 +268,7 @@ details.faq-item[open] .faq-icon{background:var(--blue);border-color:var(--blue)
 
 /* FOOTER */
 footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)}
-.footer-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:36px;margin-bottom:44px;align-items:start}
+.footer-grid{display:grid!important;grid-template-columns:minmax(0,1.8fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:36px;margin-bottom:44px;align-items:start}
 @media(max-width:900px){.footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}}
 @media(max-width:420px){.footer-grid{grid-template-columns:1fr}}
 .footer-grid h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 16px;display:block}
@@ -281,7 +281,7 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
 .footer-bottom{display:flex;justify-content:center;align-items:center;padding-top:24px;border-top:1px solid var(--line-s);font-size:12.5px;color:var(--muted);text-align:center}
 .ig-link{display:inline-flex;align-items:center;gap:7px;color:var(--ink-s);font-size:14px}
 .ig-link:hover{color:var(--blue)}
-.ig-icon{width:16px;height:16px;flex-shrink:0;vertical-align:-2px}
+.ig-icon{width:16px!important;height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
 
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
@@ -552,17 +552,17 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         <a href="index.html" class="logo">
           <img src="logo.png" alt="AK WebWorks" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
           <span class="logo-fallback" style="display:none;">AK</span>
-          <span class="logo-text" style="color:var(--ink);">WebWorks</span>
+          <span class="logo-text">WebWorks</span>
         </a>
         <p>Hochwertige Websites für lokale Unternehmen. Aus Bielefeld. Mit echtem Code.</p>
       </div>
       <div>
         <h5>Leistungen</h5>
         <ul>
-          <li><a href="#preise">Pakete</a></li>
-          <li><a href="#ablauf">Ablauf</a></li>
-          <li><a href="#">Referenzen</a></li>
-          <li><a href="#">Pflege</a></li>
+          <li><a href="index.html#preise">Pakete</a></li>
+          <li><a href="index.html#ablauf">Ablauf</a></li>
+          <li><a href="index.html#">Referenzen</a></li>
+          <li><a href="index.html#">Pflege</a></li>
         </ul>
       </div>
       <div>
@@ -572,11 +572,7 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
           <li><a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a></li>
           <li>
             <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="ig-link">
-              <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <circle cx="12" cy="12" r="4.5"/>
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-              </svg>
+              <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
               ak.webworks
             </a>
           </li>
@@ -585,7 +581,7 @@ footer{padding:72px 0 36px;border-top:1px solid var(--line);background:var(--bg)
       <div>
         <h5>Rechtliches</h5>
         <ul>
-          <li><a href="impressum.html">Impressum</a></li>
+          <li><a href="impressum.html" style="color:var(--blue);">Impressum</a></li>
           <li><a href="datenschutz.html">Datenschutz</a></li>
           <li><a href="agb.html">AGB</a></li>
           <li><a href="kontakt.html">Kontakt</a></li>
