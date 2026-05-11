@@ -21,7 +21,6 @@
 
 :root {
   --black: #060605;
-  --dark: #0b0a09;
   --white: #f8f4ee;
   --gray: #c7bfb4;
   --muted: #897f73;
@@ -257,19 +256,57 @@ h1 em {
   max-width: 690px;
 }
 
-.hero-side {
-  color: var(--gray);
-  line-height: 1.78;
-  font-size: 1.02rem;
-  max-width: 520px;
+.step-preview {
   justify-self: end;
+  width: min(100%, 520px);
+  padding-left: 2rem;
+  border-left: 1px solid rgba(248,244,238,.13);
 }
 
-.hero-side strong {
+.preview-label {
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .7rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.step-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .9rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(248,244,238,.09);
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+.step-number {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--accent-soft);
+  border: 1px solid rgba(248,244,238,.1);
+  background: rgba(255,255,255,.04);
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+}
+
+.step-item strong {
   display: block;
-  color: var(--white);
-  font-size: 1rem;
-  margin-bottom: .45rem;
+  font-size: .98rem;
+  margin-bottom: .18rem;
+}
+
+.step-item span {
+  color: var(--gray);
+  font-size: .9rem;
+  line-height: 1.45;
 }
 
 section {
@@ -424,10 +461,6 @@ textarea {
   font-family: 'DM Sans', sans-serif;
   font-size: .95rem;
   transition: .2s ease;
-}
-
-select {
-  cursor: pointer;
 }
 
 textarea {
@@ -607,8 +640,12 @@ footer {
     gap: 2rem;
   }
 
-  .hero-side {
+  .step-preview {
     justify-self: start;
+    padding-left: 0;
+    border-left: none;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(248,244,238,.11);
   }
 
   .form-info {
@@ -766,11 +803,33 @@ footer {
       </p>
     </div>
 
-    <p class="hero-side">
-      <strong>Unverbindlich starten:</strong>
-      Du musst noch keine fertigen Texte, Bilder oder genaue Seitenstruktur haben.
-      Eine grobe Idee reicht aus, um den nächsten sinnvollen Schritt zu planen.
-    </p>
+    <div class="step-preview">
+      <div class="preview-label">Ablauf</div>
+
+      <div class="step-item">
+        <div class="step-number">01</div>
+        <div>
+          <strong>Kurz beschreiben</strong>
+          <span>Unternehmen, Ziel und gewünschte Inhalte nennen.</span>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">02</div>
+        <div>
+          <strong>Umfang einschätzen</strong>
+          <span>Passendes Paket oder individuelle Lösung einordnen.</span>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">03</div>
+        <div>
+          <strong>Rückmeldung erhalten</strong>
+          <span>Danach wird klar, was sinnvoll und realistisch ist.</span>
+        </div>
+      </div>
+    </div>
 
   </section>
 
