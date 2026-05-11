@@ -315,7 +315,7 @@ h2 {
 
 .price-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.2rem;
   align-items: stretch;
 }
@@ -371,7 +371,7 @@ h2 {
 }
 
 .price-card h3 {
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   line-height: 1.08;
   letter-spacing: -.045em;
   margin-bottom: .75rem;
@@ -386,12 +386,13 @@ h2 {
 
 .price-value {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(2.5rem, 4vw, 3.4rem);
+  font-size: clamp(2.35rem, 3.25vw, 2.95rem);
   line-height: 1;
   font-weight: 800;
-  letter-spacing: -.06em;
+  letter-spacing: -.055em;
   color: var(--white);
   margin-top: 1.6rem;
+  white-space: nowrap;
 }
 
 .price-period {
@@ -399,7 +400,7 @@ h2 {
   color: var(--muted);
   font-size: .9rem;
   line-height: 1.5;
-  margin-top: .4rem;
+  margin-top: .45rem;
   margin-bottom: 1.3rem;
   font-weight: 600;
 }
@@ -456,14 +457,14 @@ h2 {
 
 .care-split {
   display: grid;
-  grid-template-columns: .85fr 1.15fr;
+  grid-template-columns: .82fr 1.18fr;
   gap: 4rem;
   align-items: start;
 }
 
 .care-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -471,7 +472,7 @@ h2 {
   position: relative;
   overflow: hidden;
   min-height: 100%;
-  padding: 1.7rem;
+  padding: 1.45rem;
   border-radius: 24px;
   border: 1px solid rgba(248,244,238,.1);
   background:
@@ -493,25 +494,32 @@ h2 {
 }
 
 .care-card h3 {
-  font-size: 1.22rem;
+  font-size: 1.12rem;
+  line-height: 1.18;
   letter-spacing: -.035em;
-  margin-bottom: .8rem;
+  margin-bottom: .85rem;
 }
 
 .care-price {
   font-family: 'Syne', sans-serif;
   color: var(--accent-soft);
-  font-size: 1.85rem;
-  line-height: 1;
+  font-size: clamp(1.25rem, 1.75vw, 1.55rem);
+  line-height: 1.05;
   font-weight: 800;
-  letter-spacing: -.05em;
+  letter-spacing: -.045em;
   margin-bottom: 1rem;
+  white-space: normal;
+  overflow-wrap: normal;
+}
+
+.care-price.nowrap {
+  white-space: nowrap;
 }
 
 .care-card p {
   color: var(--gray);
   line-height: 1.62;
-  font-size: .94rem;
+  font-size: .92rem;
 }
 
 .info-split {
@@ -658,6 +666,14 @@ footer {
   .package-subtitle {
     min-height: auto;
   }
+
+  .price-value {
+    font-size: clamp(2.45rem, 8vw, 3rem);
+  }
+
+  .care-price {
+    font-size: 1.65rem;
+  }
 }
 
 @media (max-width: 860px) {
@@ -709,6 +725,14 @@ footer {
   .care-card {
     padding: 1.55rem;
     border-radius: 24px;
+  }
+
+  .price-value {
+    white-space: normal;
+  }
+
+  .care-price.nowrap {
+    white-space: normal;
   }
 
   .cta {
@@ -927,7 +951,7 @@ footer {
 
         <article class="care-card">
           <h3>Basis Pflege</h3>
-          <div class="care-price">29 €/Monat</div>
+          <div class="care-price nowrap">29 €/Monat</div>
           <p>
             Kleine Text- und Bildänderungen sowie allgemeine Betreuung für kleinere Websites.
           </p>
@@ -935,7 +959,7 @@ footer {
 
         <article class="care-card">
           <h3>Plus Pflege</h3>
-          <div class="care-price">59 €/Monat</div>
+          <div class="care-price nowrap">59 €/Monat</div>
           <p>
             Regelmäßige Anpassungen, neue Inhalte und Betreuung größerer Seitenbereiche.
           </p>
