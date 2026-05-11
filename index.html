@@ -1,371 +1,330 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AK Webworks | Professionelles Webdesign & Digitale Lösungen</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0f172a; /* Deep Navy */
-            --accent: #2563eb;  /* Modern Blue */
-            --text: #334155;
-            --light: #f8fafc;
-            --white: #ffffff;
-            --transition: all 0.3s ease;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AK WebWorks — Professionelles Webdesign & Digitale Lösungen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-elev: #f8fafc;
+    --ink: #0f172a;        /* Deep Navy */
+    --ink-soft: #475569;
+    --muted: #94a3b8;
+    --line: #e2e8f0;
+    --accent: #2563eb;     /* Modern Business Blue */
+    --accent-soft: #dbeafe;
+    --serif: "Fraunces", serif;
+    --sans: "Inter", system-ui, sans-serif;
+    --mono: "JetBrains Mono", monospace;
+    --maxw: 1200px;
+  }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+  }
 
-        html {
-            scroll-behavior: smooth;
-        }
+  .container { max-width: var(--maxw); margin: 0 auto; padding: 0 30px; position: relative; }
+  a { color: inherit; text-decoration: none; transition: all 0.2s; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background-color: var(--white);
-        }
+  /* ---------- Typography ---------- */
+  h1, h2, h3, h4 { font-family: var(--sans); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin: 0; }
+  h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+  h2 { font-size: clamp(2rem, 4vw, 3rem); }
+  .serif-italic { font-family: var(--serif); font-style: italic; font-weight: 400; }
+  
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+  }
+  .eyebrow::before { content: ""; width: 20px; height: 1px; background: var(--accent); }
 
-        /* --- Navigation --- */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-        }
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 28px; border-radius: 8px;
+    font-weight: 600; font-size: 15px; cursor: pointer; transition: all .25s ease;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--ink); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
+  .btn-secondary { border: 1px solid var(--line); background: white; }
+  .btn-secondary:hover { border-color: var(--ink); background: var(--bg-elev); }
 
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  /* ---------- Nav ---------- */
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+  .logo { font-weight: 800; font-size: 20px; display: flex; align-items: center; gap: 10px; }
+  .logo-mark { background: var(--accent); color: white; padding: 4px 8px; border-radius: 6px; font-size: 14px; }
+  .nav-links { display: flex; gap: 30px; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+  .nav-links a:hover { color: var(--accent); }
 
-        .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary);
-            text-decoration: none;
-            letter-spacing: -1px;
-        }
+  /* ---------- Hero ---------- */
+  section.hero { padding: 100px 0; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .eyebrow { justify-content: center; } }
+  
+  .hero-meta {
+    background: var(--bg-elev); border: 1px solid var(--line);
+    padding: 30px; border-radius: 20px;
+  }
+  .meta-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .meta-item:last-child { border-bottom: none; color: var(--accent); font-weight: 600; }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-        }
+  /* ---------- Marquee ---------- */
+  .trust { background: var(--ink); color: white; padding: 20px 0; overflow: hidden; }
+  .trust-row { display: flex; gap: 60px; animation: scroll 40s linear infinite; white-space: nowrap; font-family: var(--serif); font-style: italic; font-size: 18px; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
+  /* ---------- Sections ---------- */
+  section.block { padding: 120px 0; }
+  .section-head { max-width: 700px; margin-bottom: 60px; }
+  
+  /* --- Problems & Pricing Cards --- */
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+  
+  .card {
+    padding: 40px; border-radius: 20px; background: var(--bg-elev);
+    border: 1px solid var(--line); transition: all 0.3s ease;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+  
+  .price-card.featured { background: var(--ink); color: white; border-color: var(--ink); }
+  .price-card .price { font-size: 48px; font-weight: 800; margin: 20px 0; }
+  .price-card ul { list-style: none; padding: 0; margin-bottom: 30px; }
+  .price-card ul li { margin-bottom: 12px; display: flex; gap: 10px; font-size: 15px; }
+  .price-card ul li::before { content: "→"; color: var(--accent); }
 
-        .nav-links a:hover {
-            color: var(--accent);
-        }
+  /* ---------- FAQ ---------- */
+  .faq-item { border-bottom: 1px solid var(--line); }
+  summary { padding: 25px 0; cursor: pointer; list-style: none; font-weight: 600; font-size: 20px; display: flex; justify-content: space-between; }
+  .answer { padding-bottom: 25px; color: var(--ink-soft); max-width: 800px; }
 
-        .btn-cta {
-            background: var(--accent);
-            color: var(--white) !important;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-        }
+  /* ---------- Footer ---------- */
+  footer { background: var(--bg-elev); padding: 80px 0 40px; border-top: 1px solid var(--line); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
 
-        /* --- Hero Section --- */
-        #home {
-            padding: 180px 2rem 100px;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            color: var(--primary);
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .hero-subtext {
-            font-size: 1.25rem;
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
-            color: #64748b;
-        }
-
-        /* --- Sections General --- */
-        section {
-            padding: 100px 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        /* --- Modelle/Services --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: var(--light);
-            padding: 3rem 2rem;
-            border-radius: 12px;
-            transition: var(--transition);
-            border: 1px solid transparent;
-        }
-
-        .card:hover {
-            background: var(--white);
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .card h3 {
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        /* --- Preise --- */
-        .price-card {
-            text-align: center;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 3rem 2rem;
-        }
-
-        .price-card.featured {
-            border: 2px solid var(--accent);
-            position: relative;
-        }
-
-        .price-card .amount {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 1rem 0;
-        }
-
-        .price-card ul {
-            list-style: none;
-            margin: 2rem 0;
-            text-align: left;
-        }
-
-        .price-card ul li {
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* --- Kontakt --- */
-        .contact-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--light);
-            padding: 3rem;
-            border-radius: 12px;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-family: inherit;
-        }
-
-        .submit-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .submit-btn:hover {
-            background: var(--accent);
-        }
-
-        footer {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: var(--primary);
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-        }
-    </style>
+  /* Animations */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+</style>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <a href="#home" class="logo">AK WEBWORKS</a>
-            <ul class="nav-links">
-                <li><a href="#modelle">Modelle</a></li>
-                <li><a href="#preise">Preise</a></li>
-                <li><a href="#ueber-mich">Über mich</a></li>
-                <li><a href="#anfrage" class="btn-cta">Jetzt anfragen</a></li>
-            </ul>
-        </nav>
-    </header>
+<nav class="top">
+  <div class="container nav-inner">
+    <a href="#" class="logo"><span class="logo-mark">AK</span> AK WebWorks</a>
+    <div class="nav-links">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#preise">Preise</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#termin" class="btn btn-primary" style="padding: 10px 20px;">Beratung</a>
+  </div>
+</nav>
 
-    <section id="home">
-        <h1>Moderne Websites, die Ihre Kunden begeistern.</h1>
-        <p class="hero-subtext">Vom Konzept bis zum Go-Live – ich entwickle für Sie digitale Lösungen, die nicht nur gut aussehen, sondern Ergebnisse liefern.</p>
-        <div style="display: flex; gap: 1rem; justify-content: center;">
-            <a href="#modelle" style="text-decoration: none; padding: 1rem 2rem; background: var(--primary); color: white; border-radius: 6px; font-weight: 600;">Leistungen ansehen</a>
-            <a href="#preise" style="text-decoration: none; padding: 1rem 2rem; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; font-weight: 600;">Preise prüfen</a>
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Webdesign aus Köln</span>
+        <h1>Websites, die <span class="serif-italic">überzeugen</span> & Kunden gewinnen.</h1>
+        <p style="font-size: 20px; color: var(--ink-soft); margin: 30px 0 40px;">
+            Hochwertiges Webdesign für lokale Unternehmen. Klar geplant, modern umgesetzt und persönlich betreut – ohne Agentur-Ovehead.
+        </p>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+          <a href="#termin" class="btn btn-primary">Jetzt Projekt starten</a>
+          <a href="#preise" class="btn btn-secondary">Preise ansehen</a>
         </div>
-    </section>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-item"><span>Pakete ab</span><span>599 €</span></div>
+        <div class="meta-item"><span>Lieferzeit</span><span>7–14 Tage</span></div>
+        <div class="meta-item"><span>Ratenzahlung</span><span>Möglich</span></div>
+        <div class="meta-item"><span>Status</span><span>● 2 Slots frei im Mai</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="modelle" style="background: var(--light);">
-        <div class="section-title">
-            <span>UNSERE MODELLE</span>
-            <h2>Für jeden Anspruch die richtige Lösung</h2>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <h3>Starter</h3>
-                <p>Die digitale Visitenkarte. Perfekt für den ersten Eindruck und Solo-Selbstständige.</p>
-            </div>
-            <div class="card">
-                <h3>Business</h3>
-                <p>Der Allrounder für wachsende Unternehmen inklusive SEO-Optimierung und Performance-Check.</p>
-            </div>
-            <div class="card">
-                <h3>Individual</h3>
-                <p>Maßgeschneiderte Web-Applikationen und komplexe E-Commerce Lösungen für höchste Ansprüche.</p>
-            </div>
-        </div>
-    </section>
+<div class="trust">
+  <div class="trust-row">
+    <span>Handwerksbetriebe</span> ✦ <span>Dienstleister</span> ✦ <span>Gastronomie</span> ✦ <span>Praxen</span> ✦ <span>Vereine</span> ✦ <span>KFZ-Werkstätten</span> ✦ <span>Lokale Shops</span> ✦ 
+    <span>Handwerksbetriebe</span> ✦ <span>Dienstleister</span> ✦ <span>Gastronomie</span> ✦ <span>Praxen</span> ✦ <span>Vereine</span> ✦ <span>KFZ-Werkstätten</span> ✦ <span>Lokale Shops</span>
+  </div>
+</div>
 
-    <section id="preise">
-        <div class="section-title">
-            <h2>Transparente Preise</h2>
-            <p>Qualität hat ihren Preis, aber sie muss nicht unbezahlbar sein.</p>
-        </div>
-        <div class="grid">
-            <div class="price-card">
-                <h3>Basis</h3>
-                <div class="amount">ab 499€</div>
-                <ul>
-                    <li>✓ Modernes One-Page Design</li>
-                    <li>✓ Responsive für Mobile</li>
-                    <li>✓ Kontaktformular</li>
-                    <li>✓ Rechtssicher (Impressum/Datenschutz)</li>
-                </ul>
-            </div>
-            <div class="price-card featured">
-                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 0.2rem 1rem; border-radius: 20px; font-size: 0.8rem;">EMPFOHLEN</div>
-                <h3>Pro</h3>
-                <div class="amount">ab 999€</div>
-                <ul>
-                    <li>✓ Bis zu 5 Unterseiten</li>
-                    <li>✓ Basis SEO-Konfiguration</li>
-                    <li>✓ Google Maps Integration</li>
-                    <li>✓ 1 Monat Support inklusive</li>
-                </ul>
-            </div>
-            <div class="price-card">
-                <h3>Premium</h3>
-                <div class="amount">auf Anfrage</div>
-                <ul>
-                    <li>✓ Umfangreiche Webprojekte</li>
-                    <li>✓ Full SEO Strategie</li>
-                    <li>✓ Individuelle Programmierung</li>
-                    <li>✓ Wartungsvertrag optional</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+<section class="block" id="leistungen">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Warum AK WebWorks</span>
+      <h2>Eine schwache Website kostet <span class="serif-italic">echtes Geld.</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <h3 style="margin-bottom: 15px;">Mangelndes Vertrauen</h3>
+        <p>Veraltete Designs wirken unprofessionell. Bevor ein Kunde anruft, ist er bereits bei der Konkurrenz.</p>
+      </div>
+      <div class="card reveal">
+        <h3 style="margin-bottom: 15px;">Fehlende Struktur</h3>
+        <p>Wenn niemand versteht, was du anbietest, springen Besucher nach wenigen Sekunden wieder ab.</p>
+      </div>
+      <div class="card reveal">
+        <h3 style="margin-bottom: 15px;">Keine Anfragen</h3>
+        <p>Ohne klare Handlungsaufforderungen (CTA) bleibt deine Website nur eine teure digitale Visitenkarte.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="anfrage">
-        <div class="section-title">
-            <h2>Projekt starten</h2>
-            <p>Erzählen Sie mir von Ihrem Vorhaben. Ich melde mich innerhalb von 24h bei Ihnen.</p>
+<section class="block" id="ablauf" style="background: var(--bg-elev);">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Der Prozess</span>
+        <h2>In 4 Schritten <span class="serif-italic">online.</span></h2>
+      </div>
+      <div class="grid-3">
+        <div class="reveal">
+            <span style="font-size: 40px; font-weight: 800; color: var(--accent-soft);">01</span>
+            <h4>Beratung</h4>
+            <p>Wir klären Ihre Ziele und Wünsche in einem kurzen Gespräch.</p>
         </div>
-        <div class="contact-container">
-            <form>
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" placeholder="Ihr Name">
-                </div>
-                <div class="form-group">
-                    <label>E-Mail Adresse</label>
-                    <input type="email" placeholder="ihre@mail.de">
-                </div>
-                <div class="form-group">
-                    <label>Gewünschtes Modell</label>
-                    <select style="width: 100%; padding: 1rem; border: 1px solid #cbd5e1; border-radius: 6px;">
-                        <option>Starter</option>
-                        <option>Business</option>
-                        <option>Premium / Individuell</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Nachricht</label>
-                    <textarea rows="5" placeholder="Wie kann ich Ihnen helfen?"></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Anfrage unverbindlich senden</button>
-            </form>
+        <div class="reveal">
+            <span style="font-size: 40px; font-weight: 800; color: var(--accent-soft);">02</span>
+            <h4>Konzept</h4>
+            <p>Ich erstelle Struktur und Design-Entwurf passend zu Ihrer Marke.</p>
         </div>
-    </section>
+        <div class="reveal">
+            <span style="font-size: 40px; font-weight: 800; color: var(--accent-soft);">03</span>
+            <h4>Entwicklung</h4>
+            <p>Die Website wird technisch sauber und mobiloptimiert gebaut.</p>
+        </div>
+      </div>
+    </div>
+</section>
 
-    <footer>
-        <p>&copy; 2026 AK Webworks. Alle Rechte vorbehalten.</p>
-        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">Impressum | Datenschutz</p>
-    </footer>
+<section class="block" id="preise">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Pakete</span>
+      <h2>Transparente <span class="serif-italic">Festpreise.</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="card price-card reveal">
+        <span>Basis</span>
+        <div class="price">599 €</div>
+        <ul>
+          <li>One-Page Design</li>
+          <li>Mobiloptimiert</li>
+          <li>Kontaktformular</li>
+          <li>Rechtssicher (DSGVO)</li>
+        </ul>
+        <a href="#termin" class="btn btn-secondary" style="width: 100%; justify-content: center;">Wählen</a>
+      </div>
+      <div class="card price-card featured reveal">
+        <span>Empfehlung</span>
+        <div class="price">999 €</div>
+        <ul>
+          <li>Bis zu 5 Unterseiten</li>
+          <li>Lokales SEO-Setup</li>
+          <li>Google Maps Integration</li>
+          <li>Premium-Support</li>
+        </ul>
+        <a href="#termin" class="btn btn-primary" style="width: 100%; justify-content: center; background: white; color: var(--ink);">Wählen</a>
+      </div>
+      <div class="card price-card reveal">
+        <span>Individuell</span>
+        <div class="price">ab 1599 €</div>
+        <ul>
+          <li>Maßgeschneidert</li>
+          <li>Spezialfunktionen</li>
+          <li>Mehrsprachigkeit</li>
+          <li>Erweitertes Marketing</li>
+        </ul>
+        <a href="#termin" class="btn btn-secondary" style="width: 100%; justify-content: center;">Anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq">
+    <div class="container">
+      <div class="section-head"><h2>Häufige Fragen</h2></div>
+      <div class="faq-list">
+        <details class="faq-item">
+            <summary>Wie lange dauert es? <span>+</span></summary>
+            <div class="answer">In der Regel ist Ihre Website innerhalb von 7 bis 14 Werktagen nach Bereitstellung aller Inhalte fertig.</div>
+        </details>
+        <details class="faq-item">
+            <summary>Gehört die Website mir? <span>+</span></summary>
+            <div class="answer">Ja, zu 100%. Sie sind Eigentümer der Domain und des Codes. Keine monatliche Mietfalle.</div>
+        </details>
+      </div>
+    </div>
+</section>
+
+<section class="block" id="termin" style="text-align: center;">
+    <div class="container">
+        <div style="background: var(--accent); color: white; padding: 80px 40px; border-radius: 30px;">
+            <h2 style="margin-bottom: 20px;">Bereit für neue Kunden?</h2>
+            <p style="margin-bottom: 40px; opacity: 0.9;">Lassen Sie uns unverbindlich über Ihr Projekt sprechen.</p>
+            <a href="mailto:hallo@akwebworks.de" class="btn" style="background: white; color: var(--accent);">Termin vereinbaren</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h3 style="margin-bottom: 20px;">AK WebWorks</h3>
+        <p>Digitale Exzellenz für lokale Unternehmen.</p>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+            <a href="#leistungen">Leistungen</a>
+            <a href="#preise">Preise</a>
+            <a href="#faq">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+            <a href="#">Impressum</a>
+            <a href="#">Datenschutz</a>
+        </div>
+      </div>
+    </div>
+    <div style="padding-top: 40px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted);">
+      © 2026 AK WebWorks. Alle Rechte vorbehalten.
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 
 </body>
 </html>
