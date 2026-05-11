@@ -21,7 +21,6 @@
 
 :root {
   --black: #060605;
-  --dark: #0b0a09;
   --white: #f8f4ee;
   --gray: #c7bfb4;
   --muted: #897f73;
@@ -258,19 +257,58 @@ h1 em {
   max-width: 690px;
 }
 
-.hero-side {
-  color: var(--gray);
-  line-height: 1.78;
-  font-size: 1.02rem;
-  max-width: 520px;
+.price-preview {
   justify-self: end;
+  width: min(100%, 520px);
+  padding-left: 2rem;
+  border-left: 1px solid rgba(248,244,238,.13);
 }
 
-.hero-side strong {
+.preview-label {
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .7rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.preview-price-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(248,244,238,.09);
+}
+
+.preview-price-row:last-child {
+  border-bottom: none;
+}
+
+.preview-price-row strong {
   display: block;
-  color: var(--white);
   font-size: 1rem;
-  margin-bottom: .45rem;
+  margin-bottom: .18rem;
+}
+
+.preview-price-row span {
+  color: var(--gray);
+  font-size: .9rem;
+}
+
+.preview-price {
+  font-family: 'Syne', sans-serif;
+  color: var(--accent-soft);
+  font-size: 1.25rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.preview-note {
+  margin-top: 1rem;
+  color: var(--gray);
+  line-height: 1.6;
+  font-size: .92rem;
 }
 
 section {
@@ -508,8 +546,6 @@ h2 {
   font-weight: 800;
   letter-spacing: -.045em;
   margin-bottom: 1rem;
-  white-space: normal;
-  overflow-wrap: normal;
 }
 
 .care-price.nowrap {
@@ -654,8 +690,12 @@ footer {
     gap: 2rem;
   }
 
-  .hero-side {
+  .price-preview {
     justify-self: start;
+    padding-left: 0;
+    border-left: none;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(248,244,238,.11);
   }
 
   .price-grid,
@@ -828,11 +868,37 @@ footer {
       </p>
     </div>
 
-    <p class="hero-side">
-      <strong>Einsteigerfreundlich geplant:</strong>
-      Die Pakete sind bewusst übersichtlich gehalten. Du zahlst nicht für überdimensionierte Systeme,
-      sondern für einen Webauftritt, der seriös wirkt und verständlich aufgebaut ist.
-    </p>
+    <div class="price-preview">
+      <div class="preview-label">Preisübersicht</div>
+
+      <div class="preview-price-row">
+        <div>
+          <strong>Klassische Website</strong>
+          <span>Basis für kleine Unternehmen</span>
+        </div>
+        <div class="preview-price">599 €</div>
+      </div>
+
+      <div class="preview-price-row">
+        <div>
+          <strong>Website Plus</strong>
+          <span>Empfohlen für mehr Struktur</span>
+        </div>
+        <div class="preview-price">999 €</div>
+      </div>
+
+      <div class="preview-price-row">
+        <div>
+          <strong>Website nach Wunsch</strong>
+          <span>Individuelle Umsetzung</span>
+        </div>
+        <div class="preview-price">ab 1.599 €</div>
+      </div>
+
+      <p class="preview-note">
+        Die Preise dienen als Orientierung. Der tatsächliche Umfang wird vor Projektstart transparent abgestimmt.
+      </p>
+    </div>
 
   </section>
 
