@@ -25,21 +25,21 @@
    Farbpalette: Anthrazit · Dunkelblau · Stahl
 ====================================================== */
 :root {
-  --bg:          #161922;
-  --bg-2:        #1D2230;
-  --bg-3:        #242A3A;
-  --bg-4:        #2C3346;
-  --nav-bg:      #11151D;       
-  --blue:        #2E6BE6;       /* Primär-Blau */
-  --blue-light:  #4D87FF;       /* Helles Blau */
-  --blue-dim:    #1A3D8A;       /* Gedämpftes Blau */
-  --blue-glow:   rgba(46,107,230,0.15);
-  --ink:         #FFFFFF;
-  --ink-soft:    #C3CAD8;
-  --muted:       #8A93A8;       
-  --line:        #252A3A;       /* Trennlinien */
-  --line-bright: #2E3447;       /* Sichtbarere Linie */
-  --success:     #22C55E;
+  --bg:          #F3F5F9;
+  --bg-2:        #FFFFFF;
+  --bg-3:        #FFFFFF;
+  --bg-4:        #EEF2F8;
+  --nav-bg:      rgba(255,255,255,0.88);
+  --blue:        #315ECA;
+  --blue-light:  #4A74E0;
+  --blue-dim:    #274A9C;
+  --blue-glow:   rgba(49,94,202,0.10);
+  --ink:         #111827;
+  --ink-soft:    #4B5563;
+  --muted:       #7B8496;
+  --line:        #E3E8F0;
+  --line-bright: #D6DDE8;
+  --success:     #16A34A;
   --sans:        "IBM Plex Sans", system-ui, sans-serif;
   --mono:        "IBM Plex Mono", ui-monospace, monospace;
   --maxw:        1200px;
@@ -64,12 +64,15 @@ body {
 /* Subtiles Grid-Pattern */
 body::before {
   content: "";
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background-image:
-    linear-gradient(rgba(46,107,230,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(46,107,230,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(49,94,202,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(49,94,202,0.015) 1px, transparent 1px);
   background-size: 48px 48px;
-  opacity: 1;
+  opacity: 0.45;
 }
 
 a { color: inherit; text-decoration: none; transition: all 0.2s var(--ease); }
