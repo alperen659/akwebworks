@@ -484,33 +484,43 @@ section.block{padding:110px 0}
 /* DIFF */
 .diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 @media(max-width:900px){.diff-grid{grid-template-columns:1fr;gap:44px}}
-.workflow-card{background:var(--bg-3);border:1px solid var(--line);border-radius:var(--rx);overflow:hidden;box-shadow:0 4px 30px rgba(15,22,40,.06)}
-.workflow-header{background:var(--bg-2);padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
-.workflow-header .dots{display:flex;gap:6px}
-.workflow-header .dots span{width:10px;height:10px;border-radius:50%;background:var(--line)}
-.workflow-header .dots span:nth-child(1){background:#FF5F57}
-.workflow-header .dots span:nth-child(2){background:#FFBD2E}
-.workflow-header .dots span:nth-child(3){background:#28C840}
-.workflow-header .filename{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.workflow-body{padding:20px;display:flex;flex-direction:column;gap:10px}
-.wf-line{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--r);font-family:var(--mono);font-size:13px;border:1px solid transparent}
-.wf-line.done{background:#F0FAF4;border-color:rgba(22,163,74,.2);color:var(--ink-s)}
-.wf-line.done::before{content:"✓";color:var(--ok);font-size:12px;width:16px;flex-shrink:0}
-.wf-line.active{background:var(--blue-dim);border-color:rgba(29,91,212,.3);color:var(--blue)}
-.wf-line.active::before{content:"▶";color:var(--blue);font-size:11px;width:16px;flex-shrink:0}
-.wf-line.pending{background:transparent;border-color:var(--line);color:var(--muted)}
-.wf-line.pending::before{content:"○";color:var(--muted);font-size:11px;width:16px;flex-shrink:0}
-.wf-line .step-label{flex:1}
-.wf-line .step-tag{font-size:11px;padding:2px 8px;border-radius:4px}
-.wf-line.done .step-tag{background:rgba(22,163,74,.1);color:var(--ok)}
-.wf-line.active .step-tag{background:rgba(29,91,212,.12);color:var(--blue)}
-.wf-line.pending .step-tag{background:var(--line-s);color:var(--muted)}
+
+.diff-image-wrap{
+  border-radius:var(--rx);
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:0 4px 30px rgba(15,22,40,.08);
+  background:var(--bg-3);
+}
+
+.diff-image-wrap img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
 .diff-list{list-style:none;padding:0;margin:28px 0 0;display:flex;flex-direction:column;gap:18px}
 .diff-list li{display:flex;gap:14px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line-s)}
 .diff-list li:last-child{border-bottom:none;padding-bottom:0}
 .diff-list li .ck{width:22px;height:22px;border-radius:6px;background:var(--blue-dim);border:1px solid rgba(29,91,212,.25);flex-shrink:0;display:grid;place-items:center;font-size:12px;color:var(--blue);margin-top:1px}
 .diff-list li span{color:var(--ink-s);font-size:15px}
 .diff-list li strong{color:var(--ink);font-weight:600}
+
+/* SHOWCASE IMAGE */
+.showcase-image-wrap{
+  margin-top:8px;
+  border-radius:var(--rx);
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:var(--bg-3);
+  box-shadow:0 10px 45px rgba(15,22,40,.08);
+}
+
+.showcase-image-wrap img{
+  display:block;
+  width:100%;
+  height:auto;
+}
 
 /* PRICING */
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -746,11 +756,13 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
     </div>
   </div>
 </section>
+
 <div class="trust">
   <div class="trust-row" aria-hidden="true">
     <span class="trust-item">Handwerksbetriebe</span><span class="trust-item">KFZ-Werkstätten</span><span class="trust-item">Gastronomie</span><span class="trust-item">Dienstleister</span><span class="trust-item">Selbstständige</span><span class="trust-item">Vereine</span><span class="trust-item">Praxen &amp; Kanzleien</span><span class="trust-item">Lokale Geschäfte</span><span class="trust-item">Handwerksbetriebe</span><span class="trust-item">KFZ-Werkstätten</span><span class="trust-item">Gastronomie</span><span class="trust-item">Dienstleister</span><span class="trust-item">Selbstständige</span><span class="trust-item">Vereine</span><span class="trust-item">Praxen &amp; Kanzleien</span><span class="trust-item">Lokale Geschäfte</span>
   </div>
 </div>
+
 <section class="block" id="leistungen">
   <div class="container">
     <div class="section-intro">
@@ -764,6 +776,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
     </div>
   </div>
 </section>
+
 <section class="block section-bg" id="ablauf">
   <div class="container">
     <div class="section-intro">
@@ -788,15 +801,8 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
       <p class="lede">Als gelernter Fachinformatiker kombiniere ich technisches Know-how mit modernen Werkzeugen — du bekommst saubere Technik zu einem Preis, der für kleine Unternehmen Sinn ergibt.</p>
     </div>
     <div class="diff-grid">
-      <div class="workflow-card reveal">
-        <div class="workflow-header"><div class="dots"><span></span><span></span><span></span></div><span class="filename">project-workflow.md</span></div>
-        <div class="workflow-body">
-          <div class="wf-line done"><span class="step-label">01 · brief.md — Ziele &amp; Struktur</span><span class="step-tag">done</span></div>
-          <div class="wf-line done"><span class="step-label">02 · design.system — Layout &amp; Farben</span><span class="step-tag">done</span></div>
-          <div class="wf-line active"><span class="step-label">03 · build.html — Entwicklung</span><span class="step-tag">in progress</span></div>
-          <div class="wf-line pending"><span class="step-label">04 · review.md — Feedback &amp; Fixes</span><span class="step-tag">pending</span></div>
-          <div class="wf-line pending"><span class="step-label">05 · deploy.live — Go live 🚀</span><span class="step-tag">pending</span></div>
-        </div>
+      <div class="diff-image-wrap reveal">
+        <img src="webdesign-responsive-preview.png" alt="Moderne Website-Darstellung auf Desktop und Smartphone">
       </div>
       <div class="reveal reveal-d1">
         <h3 style="font-size:1.9rem;letter-spacing:-.03em;">Technik, die wirklich funktioniert.</h3>
@@ -807,6 +813,18 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
           <li><span class="ck">✓</span><span><strong>Du behältst alles</strong> — Domain, Inhalte, Code. Kein Lock-in, keine versteckte Abhängigkeit.</span></li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="block section-bg">
+  <div class="container">
+    <div class="section-intro">
+      <div><span class="eyebrow">Beispielrichtungen</span><h2 style="margin-top:20px;">Websites, die zum Betrieb passen.</h2></div>
+      <p class="lede">Ob Handwerk, Gastronomie oder Dienstleistung: Aufbau, Bildsprache und Nutzerführung richten sich nach dem Unternehmen — nicht nach einem festen Baukasten.</p>
+    </div>
+    <div class="showcase-image-wrap reveal">
+      <img src="webdesign-projektbeispiele.png" alt="Beispielhafte Website-Mockups für verschiedene lokale Unternehmen">
     </div>
   </div>
 </section>
