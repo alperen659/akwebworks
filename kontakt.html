@@ -112,6 +112,23 @@ nav.top.scrolled{box-shadow:0 4px 40px rgba(13,18,32,.22)}
 .form-success .sicon{width:64px;height:64px;background:rgba(22,163,74,.08);border:2px solid var(--ok);border-radius:50%;display:grid;place-items:center;margin:0 auto 20px;font-size:28px;color:var(--ok)}
 .form-success h3{font-size:1.5rem;margin-bottom:12px}
 .form-success p{color:var(--ink-s);font-size:15.5px;max-width:40ch;margin:0 auto 28px}
+
+/* FOOTER */
+footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)}
+.footer-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:36px;margin-bottom:44px;align-items:start}
+@media(max-width:900px){.footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}}
+@media(max-width:420px){.footer-grid{grid-template-columns:1fr}}
+.footer-grid h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 16px;display:block}
+.footer-grid ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.footer-grid a{color:var(--ink-s);font-size:14px;display:inline-block}
+.footer-grid a:hover{color:var(--blue)}
+.footer-brand .logo{margin-bottom:14px}
+.footer-brand .logo .logo-text{color:var(--ink)}
+.footer-brand p{color:var(--ink-s);font-size:14px;margin:0;line-height:1.65}
+.footer-bottom{display:flex;justify-content:center;align-items:center;padding-top:24px;border-top:1px solid var(--line-s);font-size:12.5px;color:var(--muted);text-align:center}
+.ig-link{display:inline-flex;align-items:center;gap:7px;color:var(--ink-s);font-size:14px}
+.ig-link:hover{color:var(--blue)}
+.ig-icon{width:16px!important;height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
 </style>
 </head>
 <body>
