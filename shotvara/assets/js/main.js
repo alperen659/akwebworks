@@ -1434,12 +1434,18 @@ function killEnemy(enemy) {
 }
 
 function updateEnemies(delta, time) {
+  // Gegner-KI startet erst, wenn die Arena wirklich betreten wurde.
+  // Im Startmenü, in der Pause und bei Game Over bleibt alles eingefroren.
+  if (!hasStarted || !controls.isLocked || gameOver) {
+    return;
+  }
+
   enemies.forEach((enemy) => {
     if (enemy.mixer) {
       enemy.mixer.update(delta);
     }
 
-    if (!enemy.alive || gameOver) {
+    if (!enemy.alive) {
       return;
     }
 
