@@ -9,12 +9,53 @@ const PLAYER = {
   damping: 11,
   jumpVelocity: 7.1,
   gravity: 21,
+  maxHp: 100,
+  maxArmor: 100,
 };
 
 const ARENA = {
   halfSize: 22,
   wallHeight: 5.4,
   floorY: 0,
+};
+
+const WEAPONS = {
+  pistol: {
+    id: 'pistol',
+    slot: '1',
+    name: 'Pistole',
+    damage: 34,
+    magazineSize: 12,
+    fireDelay: 0.34,
+    reloadTime: 1.15,
+    spread: 0.007,
+    automatic: false,
+    color: 0x7fdfff,
+  },
+  mg: {
+    id: 'mg',
+    slot: '2',
+    name: 'Maschinengewehr',
+    damage: 18,
+    magazineSize: 35,
+    fireDelay: 0.095,
+    reloadTime: 1.8,
+    spread: 0.028,
+    automatic: true,
+    color: 0xffb35f,
+  },
+  sniper: {
+    id: 'sniper',
+    slot: '3',
+    name: 'Sniper',
+    damage: 100,
+    magazineSize: 5,
+    fireDelay: 0.92,
+    reloadTime: 2.35,
+    spread: 0.002,
+    automatic: false,
+    color: 0xff6b93,
+  },
 };
 
 const TARGET_SPAWNS = [
@@ -33,6 +74,12 @@ const TARGET_SPAWNS = [
 ];
 
 const TARGET_COUNT = 6;
+
+const PICKUP_POSITIONS = {
+  mg: [-16, 0.8, 0],
+  sniper: [16, 0.8, -2],
+  armor: [0, 0.8, -16],
+};
 
 const root = document.querySelector('#game-root');
 const menu = document.querySelector('#menu');
@@ -80,22 +127,33 @@ const moveVector = new THREE.Vector3();
 const forwardVector = new THREE.Vector3();
 const rightVector = new THREE.Vector3();
 
+const shotDirection = new THREE.Vector3();
+const shotRight = new THREE.Vector3();
+const shotUp = new THREE.Vector3();
+
 let verticalVelocity = 0;
 let canJump = false;
 let hasStarted = false;
+let triggerHeld = false;
+let lastShotTime = -999;
+let reloadTimeout = null;
 
-const colliders = [];
-const animatedLights = [];
-
-const raycaster = new THREE.Raycaster();
-raycaster.far = 80;
-
-const raycastMeshes = [];
-const targetMeshes = [];
-const animatedTargets = [];
-const impactEffects = [];
-
-const shotDirection = new THREE.Vector3();
+const playerState = {
+  hp: PLAYER.maxHp,
+  armor: 0,
+  currentWeaponId: 'pistol',
+  unlockedWeapons: {
+    pistol: true,
+    mg: false,
+    sniper: false,
+  },
+  ammo: {
+    pistol: WEAPONS.pistol.magazineSize,
+    mg: WEAPONS.mg.magazineSize,
+    sniper: WEAPONS.sniper.magazineSize,
+  },
+  reloading: false,
+};
 
 const stats = {
   score: 0,
@@ -103,13 +161,28 @@ const stats = {
   hits: 0,
 };
 
+const colliders = [];
+const animatedLights = [];
+const raycastMeshes = [];
+const targetMeshes = [];
+const animatedTargets = [];
+const impactEffects = [];
+const pickups = [];
+
+const raycaster = new THREE.Raycaster();
+raycaster.far = 80;
+
 const combatHud = createCombatHud();
+const statusHud = createStatusHud();
+const notification = createNotification();
 
 createLighting();
 createArena();
 createProps();
 createSpawnMarker();
 spawnInitialTargets();
+spawnPickups();
+updateAllHud();
 
 controls.addEventListener('lock', () => {
   document.body.classList.add('locked');
@@ -127,6 +200,7 @@ controls.addEventListener('unlock', () => {
     hudState.textContent = 'Pausiert';
   }
 
+  triggerHeld = false;
   keys.clear();
 });
 
@@ -140,6 +214,22 @@ window.addEventListener('keydown', (event) => {
     verticalVelocity = PLAYER.jumpVelocity;
     canJump = false;
   }
+
+  if (event.code === 'KeyR' && controls.isLocked) {
+    reloadCurrentWeapon();
+  }
+
+  if (event.code === 'Digit1') {
+    switchWeapon('pistol');
+  }
+
+  if (event.code === 'Digit2') {
+    switchWeapon('mg');
+  }
+
+  if (event.code === 'Digit3') {
+    switchWeapon('sniper');
+  }
 });
 
 window.addEventListener('keyup', (event) => {
@@ -147,8 +237,17 @@ window.addEventListener('keyup', (event) => {
 });
 
 window.addEventListener('mousedown', (event) => {
-  if (event.button === 0 && controls.isLocked) {
-    shoot();
+  if (event.button !== 0 || !controls.isLocked) {
+    return;
+  }
+
+  triggerHeld = true;
+  attemptShoot(clock.elapsedTime);
+});
+
+window.addEventListener('mouseup', (event) => {
+  if (event.button === 0) {
+    triggerHeld = false;
   }
 });
 
@@ -422,7 +521,7 @@ function createCombatHud() {
   hud.style.top = '24px';
   hud.style.right = '24px';
   hud.style.zIndex = '20';
-  hud.style.minWidth = '170px';
+  hud.style.minWidth = '180px';
   hud.style.padding = '14px 16px';
   hud.style.border = '1px solid rgba(120, 185, 255, 0.24)';
   hud.style.borderRadius = '16px';
@@ -454,6 +553,112 @@ function createCombatHud() {
   };
 }
 
+function createStatusHud() {
+  const hud = document.createElement('div');
+
+  hud.style.position = 'fixed';
+  hud.style.left = '24px';
+  hud.style.bottom = '24px';
+  hud.style.zIndex = '20';
+  hud.style.minWidth = '310px';
+  hud.style.padding = '16px 18px';
+  hud.style.border = '1px solid rgba(120, 185, 255, 0.24)';
+  hud.style.borderRadius = '18px';
+  hud.style.background = 'rgba(6, 11, 20, 0.78)';
+  hud.style.backdropFilter = 'blur(14px)';
+  hud.style.color = '#eaf4ff';
+  hud.style.fontFamily = 'inherit';
+  hud.style.fontSize = '14px';
+  hud.style.lineHeight = '1.5';
+  hud.style.boxShadow = '0 18px 45px rgba(0, 0, 0, 0.22)';
+
+  hud.innerHTML = `
+    <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; opacity:0.7; margin-bottom:8px;">
+      Ausrüstung
+    </div>
+    <div style="display:flex; justify-content:space-between; gap:18px;">
+      <span>HP</span>
+      <strong id="status-hp">100 / 100</strong>
+    </div>
+    <div style="display:flex; justify-content:space-between; gap:18px;">
+      <span>Schutz</span>
+      <strong id="status-armor">0 / 100</strong>
+    </div>
+    <div style="height:10px;"></div>
+    <div style="display:flex; justify-content:space-between; gap:18px;">
+      <span>Waffe</span>
+      <strong id="status-weapon">Pistole</strong>
+    </div>
+    <div style="display:flex; justify-content:space-between; gap:18px;">
+      <span>Magazin</span>
+      <strong id="status-ammo">12 / 12</strong>
+    </div>
+    <div style="display:flex; justify-content:space-between; gap:18px;">
+      <span>Status</span>
+      <strong id="status-reload">Bereit</strong>
+    </div>
+    <div style="height:10px;"></div>
+    <div id="status-inventory" style="font-size:13px; opacity:0.9;">
+      1 Pistole · 2 — · 3 —
+    </div>
+  `;
+
+  document.body.appendChild(hud);
+
+  return {
+    hp: hud.querySelector('#status-hp'),
+    armor: hud.querySelector('#status-armor'),
+    weapon: hud.querySelector('#status-weapon'),
+    ammo: hud.querySelector('#status-ammo'),
+    reload: hud.querySelector('#status-reload'),
+    inventory: hud.querySelector('#status-inventory'),
+  };
+}
+
+function createNotification() {
+  const note = document.createElement('div');
+
+  note.style.position = 'fixed';
+  note.style.left = '50%';
+  note.style.bottom = '130px';
+  note.style.transform = 'translateX(-50%)';
+  note.style.zIndex = '30';
+  note.style.padding = '12px 18px';
+  note.style.borderRadius = '999px';
+  note.style.background = 'rgba(8, 14, 24, 0.9)';
+  note.style.border = '1px solid rgba(130, 200, 255, 0.28)';
+  note.style.color = '#eef7ff';
+  note.style.fontFamily = 'inherit';
+  note.style.fontSize = '14px';
+  note.style.opacity = '0';
+  note.style.transition = 'opacity 180ms ease, transform 180ms ease';
+  note.style.pointerEvents = 'none';
+
+  document.body.appendChild(note);
+
+  return note;
+}
+
+let notificationTimer = null;
+
+function showNotification(text) {
+  notification.textContent = text;
+  notification.style.opacity = '1';
+  notification.style.transform = 'translateX(-50%) translateY(-4px)';
+
+  window.clearTimeout(notificationTimer);
+
+  notificationTimer = window.setTimeout(() => {
+    notification.style.opacity = '0';
+    notification.style.transform = 'translateX(-50%) translateY(0)';
+  }, 1600);
+}
+
+function updateAllHud() {
+  updateCombatHud();
+  updateStatusHud();
+}
+
 function updateCombatHud() {
   const accuracy = stats.shots === 0
     ? 0
@@ -463,6 +668,23 @@ function updateCombatHud() {
   combatHud.shots.textContent = stats.shots;
   combatHud.hits.textContent = stats.hits;
   combatHud.accuracy.textContent = `${accuracy}%`;
+}
+
+function updateStatusHud() {
+  const weapon = WEAPONS[playerState.currentWeaponId];
+  const currentAmmo = playerState.ammo[playerState.currentWeaponId];
+
+  statusHud.hp.textContent = `${playerState.hp} / ${PLAYER.maxHp}`;
+  statusHud.armor.textContent = `${playerState.armor} / ${PLAYER.maxArmor}`;
+  statusHud.weapon.textContent = weapon.name;
+  statusHud.ammo.textContent = `${currentAmmo} / ${weapon.magazineSize}`;
+  statusHud.reload.textContent = playerState.reloading ? 'Lädt nach …' : 'Bereit';
+
+  statusHud.inventory.textContent = [
+    '1 Pistole',
+    playerState.unlockedWeapons.mg ? '2 Maschinengewehr' : '2 —',
+    playerState.unlockedWeapons.sniper ? '3 Sniper' : '3 —',
+  ].join(' · ');
 }
 
 function spawnInitialTargets() {
@@ -501,6 +723,8 @@ function spawnTarget(spawn = getFreeTargetSpawn()) {
   target.userData.spawnKey = `${x}|${y}|${z}`;
   target.userData.baseY = y;
   target.userData.offset = Math.random() * Math.PI * 2;
+  target.userData.maxHp = 100;
+  target.userData.hp = 100;
 
   scene.add(target);
   raycastMeshes.push(target);
@@ -540,11 +764,209 @@ function getFreeTargetSpawn() {
   return freeSpawns[Math.floor(Math.random() * freeSpawns.length)];
 }
 
-function shoot() {
-  stats.shots += 1;
-  updateCombatHud();
+function spawnPickups() {
+  createWeaponPickup('mg', PICKUP_POSITIONS.mg);
+  createWeaponPickup('sniper', PICKUP_POSITIONS.sniper);
+  createArmorPickup(PICKUP_POSITIONS.armor);
+}
 
+function createWeaponPickup(weaponId, position) {
+  const weapon = WEAPONS[weaponId];
+  const [x, y, z] = position;
+
+  const group = new THREE.Group();
+
+  const core = new THREE.Mesh(
+    new THREE.BoxGeometry(
+      weaponId === 'sniper' ? 1.85 : 1.35,
+      0.28,
+      0.36
+    ),
+    new THREE.MeshStandardMaterial({
+      color: weapon.color,
+      emissive: weapon.color,
+      emissiveIntensity: 0.72,
+      roughness: 0.35,
+      metalness: 0.3,
+    })
+  );
+
+  const grip = new THREE.Mesh(
+    new THREE.BoxGeometry(0.28, 0.48, 0.25),
+    new THREE.MeshStandardMaterial({
+      color: 0x202936,
+      roughness: 0.8,
+      metalness: 0.12,
+    })
+  );
+
+  grip.position.set(0.12, -0.34, 0);
+
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1.0, 0.04, 14, 48),
+    new THREE.MeshBasicMaterial({
+      color: weapon.color,
+      transparent: true,
+      opacity: 0.7,
+    })
+  );
+
+  ring.rotation.x = Math.PI / 2;
+
+  group.add(core);
+  group.add(grip);
+  group.add(ring);
+  group.position.set(x, y, z);
+
+  scene.add(group);
+
+  pickups.push({
+    type: 'weapon',
+    weaponId,
+    object: group,
+    baseY: y,
+    radius: 1.35,
+    collected: false,
+    offset: Math.random() * Math.PI * 2,
+  });
+}
+
+function createArmorPickup(position) {
+  const [x, y, z] = position;
+
+  const group = new THREE.Group();
+
+  const plate = new THREE.Mesh(
+    new THREE.OctahedronGeometry(0.62, 0),
+    new THREE.MeshStandardMaterial({
+      color: 0x59a9ff,
+      emissive: 0x1a4b88,
+      emissiveIntensity: 1.1,
+      roughness: 0.28,
+      metalness: 0.24,
+    })
+  );
+
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1.0, 0.045, 14, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0x8acbff,
+      transparent: true,
+      opacity: 0.8,
+    })
+  );
+
+  ring.rotation.x = Math.PI / 2;
+
+  group.add(plate);
+  group.add(ring);
+  group.position.set(x, y, z);
+
+  scene.add(group);
+
+  pickups.push({
+    type: 'armor',
+    object: group,
+    baseY: y,
+    radius: 1.35,
+    collected: false,
+    respawnAt: 0,
+    offset: Math.random() * Math.PI * 2,
+  });
+}
+
+function switchWeapon(weaponId) {
+  if (!playerState.unlockedWeapons[weaponId]) {
+    if (weaponId !== 'pistol') {
+      showNotification('Diese Waffe wurde noch nicht eingesammelt.');
+    }
+    return;
+  }
+
+  if (playerState.currentWeaponId === weaponId) {
+    return;
+  }
+
+  cancelReload();
+  playerState.currentWeaponId = weaponId;
+  updateStatusHud();
+  showNotification(`${WEAPONS[weaponId].name} ausgerüstet.`);
+}
+
+function cancelReload() {
+  if (reloadTimeout) {
+    window.clearTimeout(reloadTimeout);
+    reloadTimeout = null;
+  }
+
+  playerState.reloading = false;
+}
+
+function reloadCurrentWeapon() {
+  if (playerState.reloading) {
+    return;
+  }
+
+  const weapon = WEAPONS[playerState.currentWeaponId];
+  const currentAmmo = playerState.ammo[playerState.currentWeaponId];
+
+  if (currentAmmo >= weapon.magazineSize) {
+    showNotification('Magazin ist bereits voll.');
+    return;
+  }
+
+  playerState.reloading = true;
+  updateStatusHud();
+  showNotification(`${weapon.name} lädt nach …`);
+
+  reloadTimeout = window.setTimeout(() => {
+    playerState.ammo[playerState.currentWeaponId] = weapon.magazineSize;
+    playerState.reloading = false;
+    reloadTimeout = null;
+    updateStatusHud();
+    showNotification(`${weapon.name} nachgeladen.`);
+  }, weapon.reloadTime * 1000);
+}
+
+function attemptShoot(time) {
+  const weapon = WEAPONS[playerState.currentWeaponId];
+
+  if (playerState.reloading) {
+    return;
+  }
+
+  if (time - lastShotTime < weapon.fireDelay) {
+    return;
+  }
+
+  if (playerState.ammo[playerState.currentWeaponId] <= 0) {
+    showNotification('Magazin leer – R zum Nachladen.');
+    return;
+  }
+
+  lastShotTime = time;
+  playerState.ammo[playerState.currentWeaponId] -= 1;
+
+  stats.shots += 1;
+  updateAllHud();
+
+  shootWithWeapon(weapon);
+}
+
+function shootWithWeapon(weapon) {
   camera.getWorldDirection(shotDirection);
+
+  shotRight.set(1, 0, 0).applyQuaternion(camera.quaternion).normalize();
+  shotUp.set(0, 1, 0).applyQuaternion(camera.quaternion).normalize();
+
+  const spreadX = (Math.random() - 0.5) * weapon.spread;
+  const spreadY = (Math.random() - 0.5) * weapon.spread;
+
+  shotDirection
+    .addScaledVector(shotRight, spreadX)
+    .addScaledVector(shotUp, spreadY)
+    .normalize();
+
   raycaster.set(camera.position, shotDirection);
 
   const intersections = raycaster.intersectObjects(raycastMeshes, false);
@@ -554,26 +976,39 @@ function shoot() {
     ? firstHit.point.clone()
     : camera.position.clone().addScaledVector(shotDirection, 70);
 
-  createTracer(camera.position.clone(), endPoint);
-  createImpactEffect(endPoint, firstHit?.object?.userData?.isTarget === true);
+  createImpactEffect(
+    endPoint,
+    firstHit?.object?.userData?.isTarget === true
+  );
+
   pulseCrosshair();
 
   if (firstHit?.object?.userData?.isTarget === true) {
-    registerTargetHit(firstHit.object, endPoint);
+    registerTargetHit(firstHit.object, endPoint, weapon);
   }
 }
 
-function registerTargetHit(target, hitPoint) {
+function registerTargetHit(target, hitPoint, weapon) {
   stats.hits += 1;
-  stats.score += 100;
+  stats.score += weapon.damage;
   updateCombatHud();
 
-  createTargetBurst(hitPoint);
-  removeTarget(target);
+  target.userData.hp -= weapon.damage;
 
-  window.setTimeout(() => {
-    spawnTarget();
-  }, 650);
+  const hpRatio = Math.max(target.userData.hp / target.userData.maxHp, 0);
+  target.material.emissiveIntensity = 0.6 + hpRatio * 0.8;
+
+  createTargetBurst(hitPoint);
+
+  if (target.userData.hp <= 0) {
+    stats.score += 50;
+    updateCombatHud();
+    removeTarget(target);
+
+    window.setTimeout(() => {
+      spawnTarget();
+    }, 650);
+  }
 }
 
 function removeTarget(target) {
@@ -598,84 +1033,6 @@ function removeTarget(target) {
     halo.geometry.dispose();
     halo.material.dispose();
   }
-}
-
-function createTracer(start, end) {
-  const direction = end.clone().sub(start);
-  const length = direction.length();
-
-  if (length <= 0.01) {
-    return;
-  }
-
-  const normalizedDirection = direction.clone().normalize();
-
-  const tracerStart = start.clone().addScaledVector(normalizedDirection, 0.65);
-  const tracerEnd = end.clone();
-  const tracerLength = tracerStart.distanceTo(tracerEnd);
-
-  if (tracerLength <= 0.01) {
-    return;
-  }
-
-  const midpoint = tracerStart.clone().lerp(tracerEnd, 0.5);
-
-  const beamGeometry = new THREE.CylinderGeometry(
-    0.035,
-    0.035,
-    tracerLength,
-    8,
-    1,
-    true
-  );
-
-  const beamMaterial = new THREE.MeshBasicMaterial({
-    color: 0x9beeff,
-    transparent: true,
-    opacity: 0.95,
-    depthWrite: false,
-  });
-
-  const beam = new THREE.Mesh(beamGeometry, beamMaterial);
-  beam.position.copy(midpoint);
-
-  beam.quaternion.setFromUnitVectors(
-    new THREE.Vector3(0, 1, 0),
-    normalizedDirection
-  );
-
-  scene.add(beam);
-
-  const glowGeometry = new THREE.CylinderGeometry(
-    0.09,
-    0.09,
-    tracerLength,
-    8,
-    1,
-    true
-  );
-
-  const glowMaterial = new THREE.MeshBasicMaterial({
-    color: 0x4ddcff,
-    transparent: true,
-    opacity: 0.22,
-    depthWrite: false,
-  });
-
-  const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-  glow.position.copy(midpoint);
-  glow.quaternion.copy(beam.quaternion);
-  scene.add(glow);
-
-  window.setTimeout(() => {
-    scene.remove(beam);
-    scene.remove(glow);
-
-    beamGeometry.dispose();
-    beamMaterial.dispose();
-    glowGeometry.dispose();
-    glowMaterial.dispose();
-  }, 85);
 }
 
 function createImpactEffect(position, isTargetHit) {
@@ -749,11 +1106,14 @@ function animate() {
   requestAnimationFrame(animate);
 
   const delta = Math.min(clock.getDelta(), 0.05);
+  const time = clock.elapsedTime;
 
-  animateLights(clock.elapsedTime);
-  animateTargets(clock.elapsedTime);
+  animateLights(time);
+  animateTargets(time);
   updateImpactEffects(delta);
   updatePlayer(delta);
+  updatePickups(time);
+  updateAutomaticFire(time);
 
   renderer.render(scene, camera);
 }
@@ -804,6 +1164,81 @@ function updateImpactEffects(delta) {
       effect.mesh.material.dispose();
       impactEffects.splice(i, 1);
     }
+  }
+}
+
+function updateAutomaticFire(time) {
+  const weapon = WEAPONS[playerState.currentWeaponId];
+
+  if (
+    controls.isLocked &&
+    triggerHeld &&
+    weapon.automatic
+  ) {
+    attemptShoot(time);
+  }
+}
+
+function updatePickups(time) {
+  pickups.forEach((pickup) => {
+    if (pickup.collected) {
+      if (
+        pickup.type === 'armor' &&
+        pickup.respawnAt > 0 &&
+        time >= pickup.respawnAt
+      ) {
+        pickup.collected = false;
+        pickup.object.visible = true;
+        pickup.respawnAt = 0;
+      }
+
+      return;
+    }
+
+    pickup.object.position.y =
+      pickup.baseY + Math.sin(time * 2 + pickup.offset) * 0.14;
+
+    pickup.object.rotation.y += 0.018;
+
+    const dx = camera.position.x - pickup.object.position.x;
+    const dz = camera.position.z - pickup.object.position.z;
+    const distance = Math.hypot(dx, dz);
+
+    if (distance <= pickup.radius) {
+      collectPickup(pickup, time);
+    }
+  });
+}
+
+function collectPickup(pickup, time) {
+  if (pickup.type === 'weapon') {
+    if (!playerState.unlockedWeapons[pickup.weaponId]) {
+      playerState.unlockedWeapons[pickup.weaponId] = true;
+      playerState.ammo[pickup.weaponId] = WEAPONS[pickup.weaponId].magazineSize;
+      playerState.currentWeaponId = pickup.weaponId;
+      pickup.collected = true;
+      pickup.object.visible = false;
+
+      cancelReload();
+      updateStatusHud();
+      showNotification(`${WEAPONS[pickup.weaponId].name} eingesammelt.`);
+    }
+
+    return;
+  }
+
+  if (pickup.type === 'armor') {
+    if (playerState.armor >= PLAYER.maxArmor) {
+      return;
+    }
+
+    playerState.armor = PLAYER.maxArmor;
+    pickup.collected = true;
+    pickup.object.visible = false;
+    pickup.respawnAt = time + 20;
+
+    updateStatusHud();
+    showNotification('Rüstung aufgenommen: 100 Schutz.');
   }
 }
 
