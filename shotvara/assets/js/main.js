@@ -6,6 +6,7 @@ import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 const PLAYER = {
   height: 1.72,
   radius: 0.42,
+  hitRadius: 0.62,
   walkSpeed: 7.6,
   acceleration: 28,
   damping: 11,
@@ -65,9 +66,21 @@ const WEAPONS = {
 const ENEMY = {
   maxHp: 100,
   count: 5,
-  height: 1.82,
-  speed: 1.55,
+  scale: 0.5,
+  patrolSpeed: 1.55,
+  chaseSpeed: 2.55,
   respawnDelay: 3200,
+
+  detectionRange: 15.5,
+  attackRange: 13.5,
+  preferredRange: 8.5,
+
+  shotDamage: 16,
+  shotSpread: 0.105,
+  minShotDelay: 1.05,
+  maxShotDelay: 1.8,
+
+  collisionRadius: 0.42,
   modelPath: './models/characters/enemy-man.glb',
 };
 
@@ -162,8 +175,15 @@ const shotDirection = new THREE.Vector3();
 const shotRight = new THREE.Vector3();
 const shotUp = new THREE.Vector3();
 
+const enemyShootDirection = new THREE.Vector3();
+const enemyShootRight = new THREE.Vector3();
+const enemyShootUp = new THREE.Vector3();
+
 const raycaster = new THREE.Raycaster();
 raycaster.far = 90;
+
+const visibilityRaycaster = new THREE.Raycaster();
+visibilityRaycaster.far = 90;
 
 let verticalVelocity = 0;
 let canJump = false;
@@ -173,6 +193,7 @@ let rightMouseHeld = false;
 let sniperAiming = false;
 let lastShotTime = -999;
 let reloadTimeout = null;
+let gameOver = false;
 
 const playerState = {
   hp: PLAYER.maxHp,
@@ -217,7 +238,11 @@ const combatHud = createCombatHud();
 const statusHud = createStatusHud();
 const notification = createNotification();
 const scopeOverlay = createScopeOverlay();
+const damageOverlay = createDamageOverlay();
+const gameOverOverlay = createGameOverOverlay();
+
 let notificationTimer = null;
+let damageOverlayTimer = null;
 
 createLighting();
 createArena();
@@ -227,6 +252,11 @@ loadGameAssets();
 updateAllHud();
 
 controls.addEventListener('lock', () => {
+  if (gameOver) {
+    controls.unlock();
+    return;
+  }
+
   document.body.classList.add('locked');
   menu.classList.remove('visible');
   pauseMenu.classList.remove('visible');
@@ -241,7 +271,7 @@ controls.addEventListener('lock', () => {
 controls.addEventListener('unlock', () => {
   document.body.classList.remove('locked');
 
-  if (hasStarted) {
+  if (hasStarted && !gameOver) {
     pauseMenu.classList.add('visible');
     hudState.textContent = 'Pausiert';
   }
@@ -257,6 +287,10 @@ resumeButton.addEventListener('click', () => controls.lock());
 
 window.addEventListener('keydown', (event) => {
   keys.add(event.code);
+
+  if (gameOver) {
+    return;
+  }
 
   if (event.code === 'Space' && canJump && controls.isLocked) {
     verticalVelocity = PLAYER.jumpVelocity;
@@ -285,7 +319,7 @@ window.addEventListener('keyup', (event) => {
 });
 
 window.addEventListener('mousedown', (event) => {
-  if (!controls.isLocked) {
+  if (!controls.isLocked || gameOver) {
     return;
   }
 
@@ -347,7 +381,7 @@ async function loadGameAssets() {
     spawnPickups();
     spawnEnemies();
 
-    showNotification('Modelle geladen. Arena bereit.');
+    showNotification('Arena bereit.');
   } catch (error) {
     console.error('Fehler beim Laden der GLB-Modelle:', error);
     showNotification('Ein Modell konnte nicht geladen werden.');
@@ -798,6 +832,98 @@ function createScopeOverlay() {
   return overlay;
 }
 
+function createDamageOverlay() {
+  const overlay = document.createElement('div');
+
+  overlay.style.position = 'fixed';
+  overlay.style.inset = '0';
+  overlay.style.zIndex = '28';
+  overlay.style.pointerEvents = 'none';
+  overlay.style.opacity = '0';
+  overlay.style.transition = 'opacity 140ms ease';
+  overlay.style.background = `
+    radial-gradient(
+      circle at center,
+      rgba(255, 0, 0, 0) 25%,
+      rgba(255, 0, 0, 0.12) 60%,
+      rgba(255, 0, 0, 0.58) 100%
+    )
+  `;
+
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+function createGameOverOverlay() {
+  const overlay = document.createElement('div');
+
+  overlay.style.display = 'none';
+  overlay.style.position = 'fixed';
+  overlay.style.inset = '0';
+  overlay.style.zIndex = '60';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.background = 'rgba(2, 5, 12, 0.86)';
+  overlay.style.backdropFilter = 'blur(16px)';
+
+  overlay.innerHTML = `
+    <div style="
+      width:min(520px, calc(100vw - 40px));
+      padding:34px;
+      border-radius:28px;
+      border:1px solid rgba(150, 195, 255, 0.24);
+      background:rgba(8, 14, 24, 0.94);
+      color:#eef7ff;
+      box-shadow:0 30px 100px rgba(0,0,0,0.5);
+      text-align:center;
+      font-family:inherit;
+    ">
+      <div style="
+        font-size:13px;
+        letter-spacing:0.22em;
+        text-transform:uppercase;
+        opacity:0.72;
+        margin-bottom:12px;
+      ">
+        SHOTVARA
+      </div>
+      <h2 style="
+        margin:0 0 14px;
+        font-size:42px;
+        line-height:1;
+      ">
+        Eliminert
+      </h2>
+      <p style="
+        margin:0 0 24px;
+        color:rgba(238,247,255,0.78);
+        font-size:16px;
+      ">
+        Deine HP sind auf 0 gefallen.
+      </p>
+      <button id="restart-game-button" style="
+        border:0;
+        border-radius:999px;
+        padding:15px 28px;
+        cursor:pointer;
+        font-size:15px;
+        font-weight:700;
+        color:#06111f;
+        background:#8fdfff;
+      ">
+        Neu starten
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector('#restart-game-button').addEventListener('click', () => {
+    window.location.reload();
+  });
+
+  return overlay;
+}
 
 function showNotification(text) {
   notification.textContent = text;
@@ -810,6 +936,16 @@ function showNotification(text) {
     notification.style.opacity = '0';
     notification.style.transform = 'translateX(-50%) translateY(0)';
   }, 1600);
+}
+
+function showDamageFlash() {
+  damageOverlay.style.opacity = '1';
+
+  window.clearTimeout(damageOverlayTimer);
+
+  damageOverlayTimer = window.setTimeout(() => {
+    damageOverlay.style.opacity = '0';
+  }, 180);
 }
 
 function updateAllHud() {
@@ -941,7 +1077,13 @@ function createArmorPickup(position) {
 function preparePickupWeaponModel(model, weaponId) {
   centerObject(model);
 
-  const desiredLength = weaponId === 'sniper' ? 2.15 : weaponId === 'mg' ? 1.7 : 0.85;
+  const desiredLength =
+    weaponId === 'sniper'
+      ? 2.15
+      : weaponId === 'mg'
+        ? 1.7
+        : 0.85;
+
   scaleObjectToLargestDimension(model, desiredLength);
 
   model.rotation.set(0, Math.PI / 2, 0);
@@ -1171,20 +1313,20 @@ function spawnEnemy(routeIndex = 0) {
     alive: true,
     route,
     routeIndex: 1,
-    speed: ENEMY.speed + Math.random() * 0.25,
+    state: 'patrol',
+    speed: ENEMY.patrolSpeed + Math.random() * 0.2,
     mixer: null,
     walkAction: null,
     deathAction: null,
+    nextShotAt: clock.elapsedTime + randomEnemyShotDelay(),
   };
 
-  // Treffererkennung direkt auf alle sichtbaren Körper-Meshes legen
   enemyModel.traverse((child) => {
     if (child.isMesh) {
       child.userData.enemyEntity = enemy;
     }
   });
 
-  // Zusätzlich auch am Root hinterlegen
   rootGroup.userData.enemyEntity = enemy;
 
   scene.add(rootGroup);
@@ -1194,14 +1336,8 @@ function spawnEnemy(routeIndex = 0) {
 }
 
 function prepareEnemyModel(model) {
-  // Gegner passend zur Arena skalieren
-  model.scale.setScalar(0.5);
-
-  // Modell sauber auf den Gegner-Root setzen
+  model.scale.setScalar(ENEMY.scale);
   model.position.set(0, 0, 0);
-
-  // Korrekte Laufrichtung:
-  // Vorher liefen die Figuren optisch rückwärts.
   model.rotation.set(0, 0, 0);
 
   model.traverse((child) => {
@@ -1269,6 +1405,8 @@ function registerEnemyHit(enemy, hitPoint, weapon) {
 
 function killEnemy(enemy) {
   enemy.alive = false;
+  enemy.state = 'dead';
+
   stats.kills += 1;
   stats.score += 100;
   updateCombatHud();
@@ -1295,34 +1433,261 @@ function killEnemy(enemy) {
   }, ENEMY.respawnDelay);
 }
 
-function updateEnemies(delta) {
+function updateEnemies(delta, time) {
   enemies.forEach((enemy) => {
     if (enemy.mixer) {
       enemy.mixer.update(delta);
     }
 
-    if (!enemy.alive) {
+    if (!enemy.alive || gameOver) {
       return;
     }
 
-    const target = enemy.route[enemy.routeIndex];
-    const dx = target[0] - enemy.root.position.x;
-    const dz = target[1] - enemy.root.position.z;
-    const distance = Math.hypot(dx, dz);
+    const enemyPosition = enemy.root.position;
+    const dx = camera.position.x - enemyPosition.x;
+    const dz = camera.position.z - enemyPosition.z;
+    const distanceToPlayer = Math.hypot(dx, dz);
 
-    if (distance < 0.35) {
-      enemy.routeIndex = (enemy.routeIndex + 1) % enemy.route.length;
-      return;
+    const canSeePlayer =
+      distanceToPlayer <= ENEMY.detectionRange &&
+      hasLineOfSightToPlayer(enemy);
+
+    if (canSeePlayer) {
+      enemy.state = 'combat';
+      updateCombatEnemy(enemy, delta, time, dx, dz, distanceToPlayer);
+    } else {
+      enemy.state = 'patrol';
+      updatePatrolEnemy(enemy, delta);
     }
-
-    const nx = dx / distance;
-    const nz = dz / distance;
-
-    enemy.root.position.x += nx * enemy.speed * delta;
-    enemy.root.position.z += nz * enemy.speed * delta;
-
-    enemy.root.rotation.y = Math.atan2(nx, nz);
   });
+}
+
+function updatePatrolEnemy(enemy, delta) {
+  const target = enemy.route[enemy.routeIndex];
+
+  const dx = target[0] - enemy.root.position.x;
+  const dz = target[1] - enemy.root.position.z;
+  const distance = Math.hypot(dx, dz);
+
+  if (distance < 0.35) {
+    enemy.routeIndex = (enemy.routeIndex + 1) % enemy.route.length;
+    return;
+  }
+
+  const nx = dx / distance;
+  const nz = dz / distance;
+
+  moveEnemy(enemy, nx, nz, enemy.speed, delta);
+  enemy.root.rotation.y = Math.atan2(nx, nz);
+}
+
+function updateCombatEnemy(enemy, delta, time, dx, dz, distanceToPlayer) {
+  const nx = dx / distanceToPlayer;
+  const nz = dz / distanceToPlayer;
+
+  enemy.root.rotation.y = Math.atan2(nx, nz);
+
+  if (distanceToPlayer > ENEMY.preferredRange) {
+    moveEnemy(enemy, nx, nz, ENEMY.chaseSpeed, delta);
+  }
+
+  if (
+    distanceToPlayer <= ENEMY.attackRange &&
+    time >= enemy.nextShotAt &&
+    hasLineOfSightToPlayer(enemy)
+  ) {
+    enemyShoot(enemy);
+    enemy.nextShotAt = time + randomEnemyShotDelay();
+  }
+}
+
+function moveEnemy(enemy, nx, nz, speed, delta) {
+  const nextX = enemy.root.position.x + nx * speed * delta;
+  const nextZ = enemy.root.position.z + nz * speed * delta;
+
+  if (!enemyCollidesAt(nextX, enemy.root.position.z)) {
+    enemy.root.position.x = nextX;
+  }
+
+  if (!enemyCollidesAt(enemy.root.position.x, nextZ)) {
+    enemy.root.position.z = nextZ;
+  }
+}
+
+function enemyCollidesAt(x, z) {
+  for (const collider of colliders) {
+    if (collider.type === 'box') {
+      const nearestX = THREE.MathUtils.clamp(
+        x,
+        collider.minX,
+        collider.maxX
+      );
+
+      const nearestZ = THREE.MathUtils.clamp(
+        z,
+        collider.minZ,
+        collider.maxZ
+      );
+
+      const dx = x - nearestX;
+      const dz = z - nearestZ;
+
+      if (
+        dx * dx + dz * dz <
+        ENEMY.collisionRadius * ENEMY.collisionRadius
+      ) {
+        return true;
+      }
+    }
+
+    if (collider.type === 'circle') {
+      const dx = x - collider.x;
+      const dz = z - collider.z;
+      const minDistance = ENEMY.collisionRadius + collider.radius;
+
+      if (dx * dx + dz * dz < minDistance * minDistance) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function hasLineOfSightToPlayer(enemy) {
+  const origin = enemy.root.position.clone();
+  origin.y = 1.2;
+
+  const target = camera.position.clone();
+  const direction = target.clone().sub(origin);
+  const distance = direction.length();
+
+  direction.normalize();
+
+  visibilityRaycaster.set(origin, direction);
+  visibilityRaycaster.far = distance - 0.25;
+
+  const intersections = visibilityRaycaster.intersectObjects(
+    staticRaycastMeshes,
+    true
+  );
+
+  return intersections.length === 0;
+}
+
+function enemyShoot(enemy) {
+  if (gameOver) {
+    return;
+  }
+
+  const origin = enemy.root.position.clone();
+  origin.y = 1.25;
+
+  const playerCenter = camera.position.clone();
+
+  enemyShootDirection.copy(playerCenter).sub(origin).normalize();
+
+  enemyShootRight.set(1, 0, 0);
+  enemyShootUp.set(0, 1, 0);
+
+  const spreadX = (Math.random() - 0.5) * ENEMY.shotSpread;
+  const spreadY = (Math.random() - 0.5) * ENEMY.shotSpread;
+
+  enemyShootDirection
+    .addScaledVector(enemyShootRight, spreadX)
+    .addScaledVector(enemyShootUp, spreadY)
+    .normalize();
+
+  const toPlayer = playerCenter.clone().sub(origin);
+  const projectionLength = toPlayer.dot(enemyShootDirection);
+
+  if (projectionLength <= 0) {
+    return;
+  }
+
+  const closestPoint = origin
+    .clone()
+    .addScaledVector(enemyShootDirection, projectionLength);
+
+  const missDistance = closestPoint.distanceTo(playerCenter);
+
+  if (missDistance <= PLAYER.hitRadius) {
+    applyPlayerDamage(ENEMY.shotDamage);
+    createPlayerHitImpact();
+  }
+}
+
+function applyPlayerDamage(damage) {
+  let remainingDamage = damage;
+
+  if (playerState.armor > 0) {
+    const absorbed = Math.min(playerState.armor, remainingDamage);
+    playerState.armor -= absorbed;
+    remainingDamage -= absorbed;
+  }
+
+  if (remainingDamage > 0) {
+    playerState.hp = Math.max(0, playerState.hp - remainingDamage);
+  }
+
+  showDamageFlash();
+  updateStatusHud();
+
+  if (playerState.hp <= 0) {
+    triggerGameOver();
+  }
+}
+
+function createPlayerHitImpact() {
+  const material = new THREE.MeshBasicMaterial({
+    color: 0xff4a63,
+    transparent: true,
+    opacity: 0.8,
+  });
+
+  const effect = new THREE.Mesh(
+    new THREE.SphereGeometry(0.12, 12, 12),
+    material
+  );
+
+  effect.position.copy(camera.position);
+  effect.position.add(
+    new THREE.Vector3(
+      (Math.random() - 0.5) * 0.3,
+      (Math.random() - 0.5) * 0.3,
+      (Math.random() - 0.5) * 0.3
+    )
+  );
+
+  scene.add(effect);
+
+  impactEffects.push({
+    mesh: effect,
+    life: 0.14,
+    maxLife: 0.14,
+    growth: 2.6,
+  });
+}
+
+function triggerGameOver() {
+  gameOver = true;
+  triggerHeld = false;
+  rightMouseHeld = false;
+  stopSniperAim();
+
+  controls.unlock();
+
+  pauseMenu.classList.remove('visible');
+  gameOverOverlay.style.display = 'flex';
+  hudState.textContent = 'Eliminiert';
+}
+
+function randomEnemyShotDelay() {
+  return THREE.MathUtils.lerp(
+    ENEMY.minShotDelay,
+    ENEMY.maxShotDelay,
+    Math.random()
+  );
 }
 
 function updatePickups(time) {
@@ -1360,7 +1725,8 @@ function collectPickup(pickup, time) {
   if (pickup.type === 'weapon') {
     if (!playerState.unlockedWeapons[pickup.weaponId]) {
       playerState.unlockedWeapons[pickup.weaponId] = true;
-      playerState.ammo[pickup.weaponId] = WEAPONS[pickup.weaponId].magazineSize;
+      playerState.ammo[pickup.weaponId] =
+        WEAPONS[pickup.weaponId].magazineSize;
       playerState.currentWeaponId = pickup.weaponId;
 
       pickup.collected = true;
@@ -1485,7 +1851,7 @@ function animate() {
   updatePickups(time);
   updateAutomaticFire(time);
   updateImpactEffects(delta);
-  updateEnemies(delta);
+  updateEnemies(delta, time);
   updateCameraZoom(delta);
 
   renderer.render(scene, camera);
@@ -1504,7 +1870,8 @@ function updateAutomaticFire(time) {
   if (
     controls.isLocked &&
     triggerHeld &&
-    weapon.automatic
+    weapon.automatic &&
+    !gameOver
   ) {
     attemptShoot(time);
   }
@@ -1559,7 +1926,7 @@ function updateCameraZoom(delta) {
 }
 
 function updatePlayer(delta) {
-  if (!controls.isLocked) {
+  if (!controls.isLocked || gameOver) {
     hudSpeed.textContent = '0.0 m/s';
     return;
   }
@@ -1692,23 +2059,6 @@ function scaleObjectToLargestDimension(object, targetSize) {
 
   const scale = targetSize / largest;
   object.scale.multiplyScalar(scale);
-}
-
-function scaleObjectToHeight(object, targetHeight) {
-  const box = new THREE.Box3().setFromObject(object);
-  const size = box.getSize(new THREE.Vector3());
-
-  if (size.y <= 0) {
-    return;
-  }
-
-  const scale = targetHeight / size.y;
-  object.scale.multiplyScalar(scale);
-}
-
-function groundObject(object) {
-  const box = new THREE.Box3().setFromObject(object);
-  object.position.y -= box.min.y;
 }
 
 function onResize() {
