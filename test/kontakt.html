@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontakt & Beratung — AK WebWorks</title>
+<meta name="description" content="Kostenloses Erstgespräch buchen. Alperen Ali Kati — Webdesign für lokale Unternehmen aus Bielefeld.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<nav class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo">
+      <img src="logo.png" alt="AK WebWorks" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+      <span class="nav__logo-fb" style="display:none">AK</span>
+      <span>WebWorks</span>
+    </a>
+    <nav class="nav__links">
+      <a href="index.html#warum">Warum</a>
+      <a href="index.html#leistungen">Leistungen</a>
+      <a href="index.html#preise">Preise</a>
+      <a href="index.html#ueber">Über mich</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+    <div class="nav__right">
+      <button class="nav__toggle" id="navToggle" aria-label="Menü" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav__drawer" id="navDrawer">
+    <a href="index.html#warum">Warum</a>
+    <a href="index.html#leistungen">Leistungen</a>
+    <a href="index.html#preise">Preise</a>
+    <a href="index.html#ueber">Über mich</a>
+    <a href="index.html#faq">FAQ</a>
+  </div>
+</nav>
+</header>
+
+<main class="contact-page">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div class="contact-info">
+        <div class="eyebrow">Kontakt aufnehmen</div>
+        <h1>Lass uns über dein Projekt sprechen.</h1>
+        <p class="lede">Kein Verkaufsgespräch, kein Druck. 30 Minuten — kostenlos, unverbindlich. Ich erkläre dir, was deine Website braucht und was sie nicht braucht.</p>
+
+        <div class="contact-card">
+          <h4>Direkt erreichbar</h4>
+          <a href="tel:+4915123456789">+49 151 234 56789</a>
+          <!-- PLATZHALTER: echte Nummer eintragen -->
+          <a href="mailto:info@akwebworks.de">info@akwebworks.de</a>
+          <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            @ak.webworks
+          </a>
+        </div>
+
+        <div class="contact-card">
+          <h4>Erreichbarkeit</h4>
+          <div class="hours-list">
+            <div class="hours-row"><span class="day">Montag – Freitag</span><span class="time">09:00 – 19:00</span></div>
+            <div class="hours-row"><span class="day">Samstag</span><span class="time">10:00 – 16:00</span></div>
+            <div class="hours-row"><span class="day">Sonntag</span><span class="time">auf Anfrage</span></div>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <h4>Standort</h4>
+          <p>Bielefeld, Ostwestfalen-Lippe</p>
+          <p style="color:var(--ink-t);font-size:14px">Persönliche Treffen in Bielefeld und Umgebung möglich.</p>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div id="formWrap">
+          <div class="eyebrow" style="margin-bottom:16px">Anfrage senden</div>
+          <h2>Kostenloses Erstgespräch</h2>
+          <p class="form-sub">Füll das Formular aus — ich melde mich innerhalb von 24 h.</p>
+          <form class="booking-form" id="bookingForm" action="#">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname">Name *</label>
+                <input type="text" id="fname" name="name" placeholder="Max Mustermann" required>
+              </div>
+              <div class="form-group">
+                <label for="fcompany">Unternehmen / Branche</label>
+                <input type="text" id="fcompany" name="unternehmen" placeholder="KFZ-Werkstatt Muster">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="femail">E-Mail *</label>
+                <input type="email" id="femail" name="email" placeholder="max@beispiel.de" required>
+              </div>
+              <div class="form-group">
+                <label for="fphone">Telefon</label>
+                <input type="tel" id="fphone" name="telefon" placeholder="+49 151 ...">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="fpackage">Interessantes Paket</label>
+              <select id="fpackage" name="paket">
+                <option value="">Noch nicht sicher</option>
+                <option value="basis">Basis — 599 €</option>
+                <option value="plus">Website Plus — 999 €</option>
+                <option value="individuell">Individuell — ab 1.599 €</option>
+                <option value="pflege">Nur Pflege-Paket</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fmessage">Dein Projekt / Wünsche</label>
+              <textarea id="fmessage" name="nachricht" placeholder="Kurze Beschreibung — Ziele, offene Fragen, Wünsche..."></textarea>
+            </div>
+            <input type="text" name="_gotcha" style="display:none">
+            <button type="submit" class="btn btn-primary form-submit">
+              Anfrage senden <span class="arr">→</span>
+            </button>
+            <p class="form-note">* Pflichtfelder · Deine Daten werden nicht weitergegeben.</p>
+          </form>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="form-success__icon">✓</div>
+          <h3>Anfrage gesendet!</h3>
+          <p>Danke — ich melde mich innerhalb von 24 Stunden bei dir.</p>
+          <a href="index.html" class="btn btn-outline">Zurück zur Startseite</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__brand-logo">
+          <img src="logo.png" alt="AK WebWorks" height="30" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+          <span class="footer__brand-logo-fb" style="display:none">AK</span>
+          <span>WebWorks</span>
+        </a>
+        <p>Professionelle Websites für lokale Unternehmen. Aus Bielefeld.</p>
+      </div>
+      <div class="footer__col"><h5>Navigation</h5><ul><li><a href="index.html#leistungen">Leistungen</a></li><li><a href="index.html#preise">Preise</a></li><li><a href="index.html#ueber">Über mich</a></li><li><a href="index.html#faq">FAQ</a></li></ul></div>
+      <div class="footer__col"><h5>Kontakt</h5><ul><li><a href="tel:+4915123456789">+49 151 234 56789</a></li><li><a href="mailto:info@akwebworks.de">info@akwebworks.de</a></li></ul></div>
+      <div class="footer__col"><h5>Rechtliches</h5><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="agb.html">AGB</a></li></ul></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 AK WebWorks — Alle Rechte vorbehalten.</span></div>
+  </div>
+</footer>
+<script src="script.js"></script>
+<script src="webbot.js"></script>
+</body>
+</html>
