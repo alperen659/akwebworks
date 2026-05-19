@@ -466,77 +466,41 @@ function updatePlayer(delta) {
   hudSpeed.textContent = `${horizontalSpeed.toFixed(1)} m/s`;
 }
 
-function resolveAxisCollision(candidateValue, otherAxisValue, axis) {
-  let resolved = candidateValue;
-
+function collidesAt(x, z) {
   for (const collider of colliders) {
     if (collider.type === 'box') {
-      const testX = axis === 'x' ? resolved : camera.position.x;
-      const testZ = axis === 'z' ? resolved : otherAxisValue;
-
       const nearestX = THREE.MathUtils.clamp(
-        testX,
+        x,
         collider.minX,
         collider.maxX
       );
 
       const nearestZ = THREE.MathUtils.clamp(
-        testZ,
+        z,
         collider.minZ,
         collider.maxZ
       );
 
-      const dx = testX - nearestX;
-      const dz = testZ - nearestZ;
+      const dx = x - nearestX;
+      const dz = z - nearestZ;
 
-      const overlap =
-        dx * dx + dz * dz < PLAYER.radius * PLAYER.radius;
-
-      if (overlap) {
-        if (axis === 'x') {
-          resolved =
-            testX < (collider.minX + collider.maxX) / 2
-              ? collider.minX - PLAYER.radius
-              : collider.maxX + PLAYER.radius;
-
-          velocity.x = 0;
-        } else {
-          resolved =
-            testZ < (collider.minZ + collider.maxZ) / 2
-              ? collider.minZ - PLAYER.radius
-              : collider.maxZ + PLAYER.radius;
-
-          velocity.z = 0;
-        }
+      if (dx * dx + dz * dz < PLAYER.radius * PLAYER.radius) {
+        return true;
       }
     }
 
     if (collider.type === 'circle') {
-      const testX = axis === 'x' ? resolved : camera.position.x;
-      const testZ = axis === 'z' ? resolved : otherAxisValue;
-
-      const dx = testX - collider.x;
-      const dz = testZ - collider.z;
+      const dx = x - collider.x;
+      const dz = z - collider.z;
       const minDistance = PLAYER.radius + collider.radius;
-      const distanceSq = dx * dx + dz * dz;
 
-      if (distanceSq < minDistance * minDistance) {
-        const distance = Math.max(Math.sqrt(distanceSq), 0.0001);
-        const nx = dx / distance;
-        const nz = dz / distance;
-
-        if (axis === 'x') {
-          resolved = collider.x + nx * minDistance;
-          velocity.x = 0;
-        } else {
-          resolved = collider.z + nz * minDistance;
-          velocity.z = 0;
-        }
+      if (dx * dx + dz * dz < minDistance * minDistance) {
+        return true;
       }
     }
   }
 
-  return resolved;
+  return false;
 }
 
 function onResize() {
