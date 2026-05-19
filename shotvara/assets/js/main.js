@@ -1186,9 +1186,17 @@ function spawnEnemy(routeIndex = 0) {
 }
 
 function prepareEnemyModel(model) {
-  centerObject(model);
-  scaleObjectToHeight(model, ENEMY.height);
+  // Feste Skalierung statt automatischer Bounding-Box-Skalierung.
+  // Bei animierten GLB-Charakteren kann die automatische Berechnung
+  // zu falschen, extrem kleinen Modellen führen.
+  model.scale.setScalar(1.65);
+
+  // Modell optisch korrekt auf den Boden setzen
   groundObject(model);
+
+  // Falls die Ausrichtung des GLB-Modells gedreht ist,
+  // korrigieren wir die Standardausrichtung hier.
+  model.rotation.y = Math.PI;
 
   model.traverse((child) => {
     if (child.isMesh) {
