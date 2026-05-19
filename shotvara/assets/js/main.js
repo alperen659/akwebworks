@@ -1213,11 +1213,9 @@ function spawnEnemy(routeIndex = 0) {
 }
 
 function prepareEnemyModel(model) {
-  // Direkte, feste Transformation für das Quaternius-Man-Modell.
-  // Keine automatische Bounding-Box-Berechnung mehr,
-  // da diese beim animierten Modell hier offenbar Probleme macht.
-
-  model.scale.setScalar(1.8);
+  // Das Quaternius-Modell ist bereits sinnvoll proportioniert.
+  // 1.0 ergibt eine deutlich passendere Gegnergröße für unsere Arena.
+  model.scale.setScalar(1.0);
   model.position.set(0, 0, 0);
   model.rotation.set(0, Math.PI, 0);
 
