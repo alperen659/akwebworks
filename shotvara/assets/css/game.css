@@ -773,3 +773,43 @@ button:disabled {
     font-size: clamp(3rem, 18vw, 5.2rem);
   }
 }
+.match-ready-overlay {
+  z-index: 46;
+}
+
+.match-ready-panel {
+  width: min(100%, 38rem);
+  text-align: center;
+}
+
+.match-ready-panel p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.match-player-preview {
+  display: grid;
+  gap: 0.7rem;
+  margin: 1.4rem 0 1.6rem;
+}
+
+.match-player-preview div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.4rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.match-player-preview strong {
+  font-size: 1rem;
+}
+
+.match-player-preview span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
