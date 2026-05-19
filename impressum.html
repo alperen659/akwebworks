@@ -18,6 +18,7 @@
   --bg-dark:  #0F1623;
   --nav-bg:   rgba(13,18,32,0.93);
   --nav-bdr:  rgba(255,255,255,0.06);
+  --nav-border:rgba(255,255,255,0.06);
   --blue:     #1D5BD4;
   --blue-l:   #3B77F0;
   --blue-dim: #D6E2FA;
@@ -45,16 +46,23 @@ h1,h2,h3,h4{font-family:var(--sans);font-weight:700;letter-spacing:-.03em;line-h
 h1{font-size:clamp(2.4rem,5.5vw,4.8rem)}
 
 /* NAV */
-nav.top{position:sticky;top:0;z-index:200;background:var(--nav-bg);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--nav-bdr)}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+nav.top{position:sticky;top:0;z-index:200;background:var(--nav-bg);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--nav-border);transition:box-shadow .3s}
+nav.top.scrolled{box-shadow:0 4px 40px rgba(13,18,32,.22)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:74px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-.02em}
 .logo-img{height:36px;width:auto;display:block}
 .logo-fallback{height:36px;width:36px;background:var(--blue);color:#fff;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:14px;font-weight:500}
-.logo-text{color:#F0F2F7}
+.logo-lockup{display:flex;flex-direction:column;gap:2px;line-height:1.05}
+.logo-text{color:#F0F2F7;line-height:1.05}
+.logo-subline{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.11em;text-transform:uppercase;color:rgba(240,242,247,.38);white-space:nowrap}
+@media(max-width:640px){.logo-subline{font-size:9px;letter-spacing:.08em}}
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-links a{font-size:13.5px;font-weight:500;color:rgba(240,242,247,.6);padding:8px 14px;border-radius:7px;transition:color .2s,background .2s}
-.nav-links a:hover{color:#F0F2F7;background:rgba(255,255,255,.07)}
+.nav-links a:hover{color:#F0F2F7;background:rgba(255,255,255,.07);text-shadow:0 0 20px rgba(122,168,255,.35)}
 @media(max-width:900px){.nav-links{display:none}}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-phone{font-family:var(--mono);font-size:12.5px;color:rgba(240,242,247,.4)}
+@media(max-width:700px){.nav-phone{display:none}}
 .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:8px;font-family:var(--sans);font-weight:600;font-size:14.5px;cursor:pointer;transition:all .25s var(--ease);white-space:nowrap;border:none;text-decoration:none}
 .btn-primary{background:var(--blue);color:#fff;font-size:13.5px;padding:10px 20px}
 .btn-primary:hover{background:var(--blue-l);transform:translateY(-2px);box-shadow:0 8px 28px rgba(29,91,212,.28)}
@@ -106,12 +114,15 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
 </head>
 <body>
 
-<nav class="top">
+<nav class="top" id="navbar">
   <div class="container nav-inner">
     <a href="index.html" class="logo">
       <img src="logo.png" alt="AK WebWorks" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
       <span class="logo-fallback" style="display:none;">AK</span>
-      <span class="logo-text">WebWorks</span>
+      <span class="logo-lockup">
+        <span class="logo-text">WebWorks</span>
+        <span class="logo-subline">Webdesign aus Bielefeld</span>
+      </span>
     </a>
     <div class="nav-links">
       <a href="index.html#leistungen">Leistungen</a>
@@ -120,7 +131,10 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
       <a href="index.html#ueber">Über mich</a>
       <a href="index.html#faq">FAQ</a>
     </div>
-    <a href="index.html#termin" class="btn btn-primary">Beratung buchen <span class="arrow">→</span></a>
+    <div class="nav-right">
+      <a href="tel:+4915123456789" class="nav-phone">+49 151 234 56789</a>
+      <a href="kontakt.html" class="btn btn-primary">Beratung buchen <span class="arrow">→</span></a>
+    </div>
   </div>
 </nav>
 
@@ -128,9 +142,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
   <div class="container">
     <div class="legal-wrap">
 
-      <a href="index.html" class="back-link">← Zurück zur Website</a>
 
-      <div class="eyebrow">Rechtliches</div>
       <h1>Impressum</h1>
       <p class="legal-meta">Angaben gemäß § 5 TMG · Stand: 2026</p>
 
@@ -147,7 +159,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
       <h2>Kontakt</h2>
       <p>
         Telefon: +49 151 234 56789<br>
-        E-Mail: <a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a><br>
+        E-Mail: <a href="mailto:info@akwebworks.de">info@akwebworks.de</a><br>
         Website: <a href="https://www.akwebworks.de">www.akwebworks.de</a>
       </p>
 
@@ -241,7 +253,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         <h5>Kontakt</h5>
         <ul>
           <li><a href="tel:+4915123456789">+49 151 234 56789</a></li>
-          <li><a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a></li>
+          <li><a href="mailto:info@akwebworks.de">info@akwebworks.de</a></li>
           <li>
             <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="ig-link">
               <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
@@ -266,5 +278,9 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
   </div>
 </footer>
 
+<script>
+const navEl = document.getElementById('navbar');
+window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 20); }, { passive: true });
+</script>
 </body>
 </html>
