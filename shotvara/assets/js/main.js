@@ -32,7 +32,7 @@ const WEAPONS = {
     spread: 0.007,
     automatic: false,
     color: 0x7fdfff,
-    modelPath: './assets/models/weapons/pistol.glb',
+    modelPath: './models/weapons/pistol.glb',
   },
   mg: {
     id: 'mg',
@@ -45,7 +45,7 @@ const WEAPONS = {
     spread: 0.028,
     automatic: true,
     color: 0xffb35f,
-    modelPath: './assets/models/weapons/assault-rifle.glb',
+    modelPath: './models/weapons/assault-rifle.glb',
   },
   sniper: {
     id: 'sniper',
@@ -58,7 +58,7 @@ const WEAPONS = {
     spread: 0.0015,
     automatic: false,
     color: 0xff6b93,
-    modelPath: './assets/models/weapons/sniper-rifle.glb',
+    modelPath: './models/weapons/sniper-rifle.glb',
   },
 };
 
