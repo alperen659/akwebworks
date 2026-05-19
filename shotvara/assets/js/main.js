@@ -1186,6 +1186,7 @@ function spawnEnemy(routeIndex = 0) {
 }
 
 function prepareEnemyModel(model) {
+  centerObject(model);
   scaleObjectToHeight(model, ENEMY.height);
   groundObject(model);
 
@@ -1193,6 +1194,7 @@ function prepareEnemyModel(model) {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
+      child.frustumCulled = false;
     }
   });
 }
