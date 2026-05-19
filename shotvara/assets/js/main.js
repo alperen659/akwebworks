@@ -17,6 +17,23 @@ const ARENA = {
   floorY: 0,
 };
 
+const TARGET_SPAWNS = [
+  [-14, 2.5, -11],
+  [-7, 2.8, -15],
+  [2, 2.4, -15],
+  [12, 2.7, -11],
+  [16, 2.4, 0],
+  [13, 2.7, 13],
+  [4, 3.1, 15],
+  [-7, 2.6, 14],
+  [-16, 2.5, 6],
+  [-13, 3.0, -1],
+  [2, 2.8, 5],
+  [8, 2.5, -2],
+];
+
+const TARGET_COUNT = 6;
+
 const root = document.querySelector('#game-root');
 const menu = document.querySelector('#menu');
 const pauseMenu = document.querySelector('#pause-menu');
@@ -24,6 +41,7 @@ const startButton = document.querySelector('#start-button');
 const resumeButton = document.querySelector('#resume-button');
 const hudSpeed = document.querySelector('#hud-speed');
 const hudState = document.querySelector('#hud-state');
+const crosshair = document.querySelector('#crosshair');
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x05070c);
@@ -56,6 +74,7 @@ scene.add(camera);
 
 const clock = new THREE.Clock();
 const keys = new Set();
+
 const velocity = new THREE.Vector3();
 const moveVector = new THREE.Vector3();
 const forwardVector = new THREE.Vector3();
@@ -68,10 +87,29 @@ let hasStarted = false;
 const colliders = [];
 const animatedLights = [];
 
+const raycaster = new THREE.Raycaster();
+raycaster.far = 80;
+
+const raycastMeshes = [];
+const targetMeshes = [];
+const animatedTargets = [];
+const impactEffects = [];
+
+const shotDirection = new THREE.Vector3();
+
+const stats = {
+  score: 0,
+  shots: 0,
+  hits: 0,
+};
+
+const combatHud = createCombatHud();
+
 createLighting();
 createArena();
 createProps();
 createSpawnMarker();
+spawnInitialTargets();
 
 controls.addEventListener('lock', () => {
   document.body.classList.add('locked');
@@ -106,6 +144,12 @@ window.addEventListener('keydown', (event) => {
 
 window.addEventListener('keyup', (event) => {
   keys.delete(event.code);
+});
+
+window.addEventListener('mousedown', (event) => {
+  if (event.button === 0 && controls.isLocked) {
+    shoot();
+  }
 });
 
 window.addEventListener('resize', onResize);
@@ -177,6 +221,7 @@ function createArena() {
   floor.position.set(0, -0.35, 0);
   floor.receiveShadow = true;
   scene.add(floor);
+  raycastMeshes.push(floor);
 
   const grid = new THREE.GridHelper(
     ARENA.halfSize * 2,
@@ -299,6 +344,7 @@ function createProps() {
     column.castShadow = true;
     column.receiveShadow = true;
     scene.add(column);
+    raycastMeshes.push(column);
 
     registerCircularCollider(x, z, 0.9);
   });
@@ -330,6 +376,7 @@ function addWall(x, y, z, width, height, depth, material) {
   wall.castShadow = true;
   wall.receiveShadow = true;
   scene.add(wall);
+  raycastMeshes.push(wall);
 
   registerBoxCollider(x, z, width, depth);
 }
@@ -344,6 +391,7 @@ function addObstacle(x, y, z, width, height, depth, material) {
   obstacle.castShadow = true;
   obstacle.receiveShadow = true;
   scene.add(obstacle);
+  raycastMeshes.push(obstacle);
 
   registerBoxCollider(x, z, width, depth);
 }
@@ -367,13 +415,293 @@ function registerCircularCollider(x, z, radius) {
   });
 }
 
+function createCombatHud() {
+  const hud = document.createElement('div');
+
+  hud.style.position = 'fixed';
+  hud.style.top = '24px';
+  hud.style.right = '24px';
+  hud.style.zIndex = '20';
+  hud.style.minWidth = '170px';
+  hud.style.padding = '14px 16px';
+  hud.style.border = '1px solid rgba(120, 185, 255, 0.24)';
+  hud.style.borderRadius = '16px';
+  hud.style.background = 'rgba(6, 11, 20, 0.72)';
+  hud.style.backdropFilter = 'blur(14px)';
+  hud.style.color = '#eaf4ff';
+  hud.style.fontFamily = 'inherit';
+  hud.style.fontSize = '14px';
+  hud.style.lineHeight = '1.55';
+  hud.style.boxShadow = '0 18px 45px rgba(0, 0, 0, 0.22)';
+
+  hud.innerHTML = `
+    <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; opacity:0.7; margin-bottom:6px;">
+      Schießstand
+    </div>
+    <div>Punkte: <strong id="combat-score">0</strong></div>
+    <div>Schüsse: <strong id="combat-shots">0</strong></div>
+    <div>Treffer: <strong id="combat-hits">0</strong></div>
+    <div>Quote: <strong id="combat-accuracy">0%</strong></div>
+  `;
+
+  document.body.appendChild(hud);
+
+  return {
+    score: hud.querySelector('#combat-score'),
+    shots: hud.querySelector('#combat-shots'),
+    hits: hud.querySelector('#combat-hits'),
+    accuracy: hud.querySelector('#combat-accuracy'),
+  };
+}
+
+function updateCombatHud() {
+  const accuracy = stats.shots === 0
+    ? 0
+    : Math.round((stats.hits / stats.shots) * 100);
+
+  combatHud.score.textContent = stats.score;
+  combatHud.shots.textContent = stats.shots;
+  combatHud.hits.textContent = stats.hits;
+  combatHud.accuracy.textContent = `${accuracy}%`;
+}
+
+function spawnInitialTargets() {
+  const availableSpawns = [...TARGET_SPAWNS];
+
+  for (let i = 0; i < TARGET_COUNT; i++) {
+    const index = Math.floor(Math.random() * availableSpawns.length);
+    const spawn = availableSpawns.splice(index, 1)[0];
+    spawnTarget(spawn);
+  }
+}
+
+function spawnTarget(spawn = getFreeTargetSpawn()) {
+  if (!spawn) {
+    return;
+  }
+
+  const [x, y, z] = spawn;
+
+  const material = new THREE.MeshStandardMaterial({
+    color: 0xff4c6a,
+    emissive: 0x7d1025,
+    emissiveIntensity: 1.3,
+    roughness: 0.34,
+    metalness: 0.18,
+  });
+
+  const target = new THREE.Mesh(
+    new THREE.SphereGeometry(0.58, 24, 24),
+    material
+  );
+
+  target.position.set(x, y, z);
+  target.castShadow = true;
+  target.userData.isTarget = true;
+  target.userData.spawnKey = `${x}|${y}|${z}`;
+  target.userData.baseY = y;
+  target.userData.offset = Math.random() * Math.PI * 2;
+
+  scene.add(target);
+  raycastMeshes.push(target);
+  targetMeshes.push(target);
+  animatedTargets.push(target);
+
+  const halo = new THREE.Mesh(
+    new THREE.TorusGeometry(0.86, 0.045, 16, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0xff8da0,
+      transparent: true,
+      opacity: 0.72,
+    })
+  );
+
+  halo.position.copy(target.position);
+  halo.userData.parentTarget = target;
+  halo.userData.offset = target.userData.offset;
+  target.userData.halo = halo;
+  scene.add(halo);
+}
+
+function getFreeTargetSpawn() {
+  const occupied = new Set(
+    targetMeshes.map((target) => target.userData.spawnKey)
+  );
+
+  const freeSpawns = TARGET_SPAWNS.filter(([x, y, z]) => {
+    const key = `${x}|${y}|${z}`;
+    return !occupied.has(key);
+  });
+
+  if (freeSpawns.length === 0) {
+    return null;
+  }
+
+  return freeSpawns[Math.floor(Math.random() * freeSpawns.length)];
+}
+
+function shoot() {
+  stats.shots += 1;
+  updateCombatHud();
+
+  camera.getWorldDirection(shotDirection);
+  raycaster.set(camera.position, shotDirection);
+
+  const intersections = raycaster.intersectObjects(raycastMeshes, false);
+  const firstHit = intersections[0];
+
+  const endPoint = firstHit
+    ? firstHit.point.clone()
+    : camera.position.clone().addScaledVector(shotDirection, 70);
+
+  createTracer(camera.position.clone(), endPoint);
+  createImpactEffect(endPoint, firstHit?.object?.userData?.isTarget === true);
+  pulseCrosshair();
+
+  if (firstHit?.object?.userData?.isTarget === true) {
+    registerTargetHit(firstHit.object, endPoint);
+  }
+}
+
+function registerTargetHit(target, hitPoint) {
+  stats.hits += 1;
+  stats.score += 100;
+  updateCombatHud();
+
+  createTargetBurst(hitPoint);
+  removeTarget(target);
+
+  window.setTimeout(() => {
+    spawnTarget();
+  }, 650);
+}
+
+function removeTarget(target) {
+  const halo = target.userData.halo;
+
+  scene.remove(target);
+  scene.remove(halo);
+
+  const raycastIndex = raycastMeshes.indexOf(target);
+  if (raycastIndex !== -1) raycastMeshes.splice(raycastIndex, 1);
+
+  const targetIndex = targetMeshes.indexOf(target);
+  if (targetIndex !== -1) targetMeshes.splice(targetIndex, 1);
+
+  const animatedIndex = animatedTargets.indexOf(target);
+  if (animatedIndex !== -1) animatedTargets.splice(animatedIndex, 1);
+
+  target.geometry.dispose();
+  target.material.dispose();
+
+  if (halo) {
+    halo.geometry.dispose();
+    halo.material.dispose();
+  }
+}
+
+function createTracer(start, end) {
+  const direction = end.clone().sub(start).normalize();
+  const tracerStart = start.clone().addScaledVector(direction, 0.55);
+
+  const geometry = new THREE.BufferGeometry().setFromPoints([
+    tracerStart,
+    end,
+  ]);
+
+  const material = new THREE.LineBasicMaterial({
+    color: 0x92e8ff,
+    transparent: true,
+    opacity: 0.95,
+  });
+
+  const tracer = new THREE.Line(geometry, material);
+  scene.add(tracer);
+
+  window.setTimeout(() => {
+    scene.remove(tracer);
+    geometry.dispose();
+    material.dispose();
+  }, 70);
+}
+
+function createImpactEffect(position, isTargetHit) {
+  const material = new THREE.MeshBasicMaterial({
+    color: isTargetHit ? 0xff8da0 : 0x8de8ff,
+    transparent: true,
+    opacity: 0.95,
+  });
+
+  const impact = new THREE.Mesh(
+    new THREE.SphereGeometry(isTargetHit ? 0.18 : 0.11, 14, 14),
+    material
+  );
+
+  impact.position.copy(position);
+  scene.add(impact);
+
+  impactEffects.push({
+    mesh: impact,
+    life: 0.18,
+    maxLife: 0.18,
+    growth: isTargetHit ? 3.2 : 2.1,
+  });
+}
+
+function createTargetBurst(position) {
+  for (let i = 0; i < 6; i++) {
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xff6f86,
+      transparent: true,
+      opacity: 0.92,
+    });
+
+    const particle = new THREE.Mesh(
+      new THREE.SphereGeometry(0.06, 10, 10),
+      material
+    );
+
+    particle.position.copy(position);
+    scene.add(particle);
+
+    const direction = new THREE.Vector3(
+      Math.random() - 0.5,
+      Math.random() - 0.2,
+      Math.random() - 0.5
+    ).normalize();
+
+    impactEffects.push({
+      mesh: particle,
+      life: 0.32,
+      maxLife: 0.32,
+      growth: 0.3,
+      velocity: direction.multiplyScalar(4 + Math.random() * 2.5),
+    });
+  }
+}
+
+function pulseCrosshair() {
+  if (!crosshair) {
+    return;
+  }
+
+  crosshair.style.transform = 'translate(-50%, -50%) scale(1.18)';
+
+  window.setTimeout(() => {
+    crosshair.style.transform = 'translate(-50%, -50%) scale(1)';
+  }, 70);
+}
+
 function animate() {
   requestAnimationFrame(animate);
 
   const delta = Math.min(clock.getDelta(), 0.05);
 
   animateLights(clock.elapsedTime);
+  animateTargets(clock.elapsedTime);
+  updateImpactEffects(delta);
   updatePlayer(delta);
+
   renderer.render(scene, camera);
 }
 
@@ -382,6 +710,48 @@ function animateLights(time) {
     light.intensity =
       baseIntensity + Math.sin(time * 1.7 + offset) * 0.18;
   });
+}
+
+function animateTargets(time) {
+  animatedTargets.forEach((target) => {
+    const floatOffset = Math.sin(time * 2.15 + target.userData.offset) * 0.16;
+    target.position.y = target.userData.baseY + floatOffset;
+    target.rotation.y += 0.012;
+    target.rotation.x += 0.006;
+
+    const halo = target.userData.halo;
+
+    if (halo) {
+      halo.position.copy(target.position);
+      halo.lookAt(camera.position);
+      halo.rotation.z += 0.015;
+    }
+  });
+}
+
+function updateImpactEffects(delta) {
+  for (let i = impactEffects.length - 1; i >= 0; i--) {
+    const effect = impactEffects[i];
+
+    effect.life -= delta;
+
+    if (effect.velocity) {
+      effect.mesh.position.addScaledVector(effect.velocity, delta);
+    }
+
+    const lifeRatio = Math.max(effect.life / effect.maxLife, 0);
+    effect.mesh.material.opacity = lifeRatio;
+
+    const scale = 1 + (1 - lifeRatio) * effect.growth;
+    effect.mesh.scale.setScalar(scale);
+
+    if (effect.life <= 0) {
+      scene.remove(effect.mesh);
+      effect.mesh.geometry.dispose();
+      effect.mesh.material.dispose();
+      impactEffects.splice(i, 1);
+    }
+  }
 }
 
 function updatePlayer(delta) {
@@ -440,14 +810,12 @@ function updatePlayer(delta) {
   const proposedX = camera.position.x + velocity.x * delta;
   const proposedZ = camera.position.z + velocity.z * delta;
 
-  // X-Achse getrennt prüfen
   if (!collidesAt(proposedX, camera.position.z)) {
     camera.position.x = proposedX;
   } else {
     velocity.x = 0;
   }
 
-  // Z-Achse getrennt prüfen
   if (!collidesAt(camera.position.x, proposedZ)) {
     camera.position.z = proposedZ;
   } else {
