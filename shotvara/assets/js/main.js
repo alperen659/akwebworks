@@ -1157,15 +1157,31 @@ function spawnEnemy(routeIndex = 0) {
   const start = route[0];
 
   const rootGroup = new THREE.Group();
-  const enemyModel = SkeletonUtils.clone(assets.enemy.scene);
+  rootGroup.position.set(start[0], 0, start[1]);
 
+  const enemyModel = SkeletonUtils.clone(assets.enemy.scene);
   prepareEnemyModel(enemyModel);
   rootGroup.add(enemyModel);
-  rootGroup.position.set(start[0], 0, start[1]);
+
+  // DEBUG-Marker:
+  // Wenn diese roten Säulen sichtbar sind, spawnen die Gegner korrekt
+  // und nur das Charaktermodell selbst ist falsch skaliert/positioniert.
+  const debugMarker = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.22, 0.22, 2.2, 16),
+    new THREE.MeshBasicMaterial({
+      color: 0xff0033,
+      transparent: true,
+      opacity: 0.85,
+    })
+  );
+
+  debugMarker.position.set(0, 1.1, 0);
+  rootGroup.add(debugMarker);
 
   const enemy = {
     root: rootGroup,
     model: enemyModel,
+    debugMarker,
     hp: ENEMY.maxHp,
     maxHp: ENEMY.maxHp,
     alive: true,
@@ -1184,7 +1200,6 @@ function spawnEnemy(routeIndex = 0) {
 
   setupEnemyAnimations(enemy);
 }
-
 function prepareEnemyModel(model) {
   // Feste Skalierung statt automatischer Bounding-Box-Skalierung.
   // Bei animierten GLB-Charakteren kann die automatische Berechnung
