@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#070b12" />
   <title>SHOTVARA — Browser Shooter</title>
-  <meta name="description" content="SHOTVARA — Browser-FPV-Shooter mit Account-System und kommendem Multiplayer." />
+  <meta name="description" content="SHOTVARA — Browser-FPV-Shooter mit Account-System und Multiplayer." />
   <link rel="stylesheet" href="./assets/css/game.css" />
   <script type="importmap">
     {
@@ -50,8 +50,8 @@
         <p class="eyebrow">AK WebWorks Game Lab</p>
         <h1 id="menu-title">SHOTVARA</h1>
         <p class="subtitle">
-          Der erste spielbare Browser-Shooter-Build mit Waffen, Gegnern,
-          Rüstung, Sniper-Zoom, Accounts und der Grundlage für echten Multiplayer.
+          Browser-Shooter mit Waffen, Gegnern, Rüstung, Sniper-Zoom,
+          Account-System und echtem Multiplayer-Grundgerüst.
         </p>
 
         <div class="menu-actions">
@@ -67,8 +67,8 @@
             <p>Betrete die Arena, sammle Waffen, bekämpfe Gegner und teste die Shooter-Basis.</p>
           </article>
           <article>
-            <h2>Multiplayer-Basis</h2>
-            <p>Erstelle Lobbys, lade Freunde per Code ein und bereite Online-Matches vor.</p>
+            <h2>Multiplayer</h2>
+            <p>Erstelle eine Lobby, lade Freunde ein und startet gemeinsam ein Match.</p>
           </article>
         </div>
       </div>
@@ -279,6 +279,22 @@
       </div>
 
       <p id="multiplayer-feedback" class="form-feedback" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="match-ready-modal" class="overlay match-ready-overlay" aria-labelledby="match-ready-title">
+    <div class="panel match-ready-panel">
+      <p class="eyebrow">Multiplayer</p>
+      <h2 id="match-ready-title">Match bereit</h2>
+      <p>
+        Die Lobby wurde gestartet. Betritt jetzt die Arena und verbinde dich mit den anderen Spielern.
+      </p>
+
+      <div id="match-player-preview" class="match-player-preview"></div>
+
+      <button id="enter-multiplayer-match-button" type="button">
+        Match betreten
+      </button>
     </div>
   </section>
 
