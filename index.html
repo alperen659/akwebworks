@@ -46,7 +46,7 @@ a{color:inherit;text-decoration:none;transition:all .2s var(--ease)}
 .container{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:2}
 @media(max-width:640px){.container{padding:0 18px}}
 h1,h2,h3,h4{font-family:var(--sans);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:0}
-h1{font-size:clamp(2rem,4vw,3.6rem)}
+h1{font-size:clamp(2.4rem,5.5vw,4.8rem)}
 h2{font-size:clamp(2rem,4vw,3.4rem)}
 h3{font-size:clamp(1.25rem,2vw,1.6rem)}
 .lede{font-size:clamp(1rem,1.3vw,1.12rem);color:var(--ink-s);line-height:1.75;max-width:54ch}
@@ -290,7 +290,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
 .footer-bottom{display:flex;justify-content:center;align-items:center;padding-top:24px;border-top:1px solid var(--line-s);font-size:12.5px;color:var(--muted);text-align:center}
 .ig-link{display:inline-flex;align-items:center;gap:7px;color:var(--ink-s);font-size:14px}
 .ig-link:hover{color:var(--blue)}
-.ig-icon{width:16px!important;height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
+.ig-icon{width:16px!important;height:16px!important;max-width:16px!important;max-height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.in{opacity:1;transform:translateY(0)}
 .reveal-d1{transition-delay:.1s}
@@ -623,7 +623,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
           <li><a href="mailto:info@akwebworks.de">info@akwebworks.de</a></li>
           <li>
             <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="ig-link">
-              <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              <svg class="ig-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
               ak.webworks
             </a>
           </li>
