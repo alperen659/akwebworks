@@ -1,344 +1,235 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js';
-import { PointerLockControls } from 'https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/controls/PointerLockControls.js';
+import * as THREE from 'three';
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-const CONFIG = {
-  playerHeight: 1.7,
-  playerRadius: 0.42,
-  moveSpeed: 7.2,
-  sprintSpeed: 10.2,
-  gravity: 28,
-  jumpStrength: 9.2,
-  arenaHalfSize: 22,
+const PLAYER = {
+  height: 1.72,
+  radius: 0.42,
+  walkSpeed: 7.6,
+  acceleration: 28,
+  damping: 11,
+  jumpVelocity: 7.1,
+  gravity: 21,
+};
+
+const ARENA = {
+  halfSize: 22,
+  wallHeight: 5.4,
   floorY: 0,
 };
 
-const dom = {
-  overlay: document.getElementById('overlay'),
-  enterButton: document.getElementById('enter-arena'),
-  pausePanel: document.getElementById('pause-panel'),
-  resumeButton: document.getElementById('resume-arena'),
-  crosshair: document.getElementById('crosshair'),
-  statusText: document.getElementById('status-text'),
-  speedText: document.getElementById('speed-text'),
-};
+const root = document.querySelector('#game-root');
+const menu = document.querySelector('#menu');
+const pauseMenu = document.querySelector('#pause-menu');
+const startButton = document.querySelector('#start-button');
+const resumeButton = document.querySelector('#resume-button');
+const hudSpeed = document.querySelector('#hud-speed');
+const hudState = document.querySelector('#hud-state');
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x090d18);
-scene.fog = new THREE.Fog(0x090d18, 26, 72);
+scene.background = new THREE.Color(0x05070c);
+scene.fog = new THREE.Fog(0x05070c, 18, 62);
 
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-camera.position.set(0, CONFIG.playerHeight, 14);
+const camera = new THREE.PerspectiveCamera(76, window.innerWidth / window.innerHeight, 0.1, 180);
+camera.position.set(0, PLAYER.height, 13.5);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-document.body.appendChild(renderer.domElement);
+root.appendChild(renderer.domElement);
 
-const controls = new PointerLockControls(camera, document.body);
+const controls = new PointerLockControls(camera, renderer.domElement);
 scene.add(camera);
 
 const clock = new THREE.Clock();
-
-const keys = {
-  forward: false,
-  backward: false,
-  left: false,
-  right: false,
-  sprint: false,
-};
-
+const keys = new Set();
 const velocity = new THREE.Vector3();
+const moveVector = new THREE.Vector3();
+const forwardVector = new THREE.Vector3();
+const rightVector = new THREE.Vector3();
+
 let verticalVelocity = 0;
 let canJump = false;
+let hasStarted = false;
 
 const colliders = [];
 
 buildLighting();
 buildArena();
+buildDecorativeAccents();
 
-dom.enterButton.addEventListener('click', () => {
+startButton.addEventListener('click', () => {
+  hasStarted = true;
   controls.lock();
 });
 
-dom.resumeButton.addEventListener('click', () => {
+resumeButton.addEventListener('click', () => {
   controls.lock();
 });
 
 controls.addEventListener('lock', () => {
-  dom.overlay.classList.add('hidden');
-  dom.pausePanel.classList.add('hidden');
-  dom.crosshair.classList.remove('hidden');
-  dom.statusText.textContent = 'Arena aktiv';
+  menu.classList.add('is-hidden');
+  pauseMenu.classList.add('is-hidden');
+  hudState.textContent = 'Arena aktiv';
 });
 
 controls.addEventListener('unlock', () => {
-  dom.crosshair.classList.add('hidden');
-
-  if (!dom.overlay.classList.contains('hidden')) {
-    return;
+  if (hasStarted) {
+    pauseMenu.classList.remove('is-hidden');
+    hudState.textContent = 'Pausiert';
   }
-
-  dom.pausePanel.classList.remove('hidden');
-  dom.statusText.textContent = 'Pausiert';
 });
 
-document.addEventListener('keydown', onKeyDown);
-document.addEventListener('keyup', onKeyUp);
+document.addEventListener('keydown', (event) => {
+  keys.add(event.code);
+
+  if (event.code === 'Space' && controls.isLocked && canJump) {
+    verticalVelocity = PLAYER.jumpVelocity;
+    canJump = false;
+  }
+});
+
+document.addEventListener('keyup', (event) => {
+  keys.delete(event.code);
+});
 
 window.addEventListener('resize', onResize);
 
 animate();
 
-function onKeyDown(event) {
-  switch (event.code) {
-    case 'KeyW':
-      keys.forward = true;
-      break;
-    case 'KeyS':
-      keys.backward = true;
-      break;
-    case 'KeyA':
-      keys.left = true;
-      break;
-    case 'KeyD':
-      keys.right = true;
-      break;
-    case 'ShiftLeft':
-    case 'ShiftRight':
-      keys.sprint = true;
-      break;
-    case 'Space':
-      if (controls.isLocked && canJump) {
-        verticalVelocity = CONFIG.jumpStrength;
-        canJump = false;
-      }
-      break;
-  }
-}
-
-function onKeyUp(event) {
-  switch (event.code) {
-    case 'KeyW':
-      keys.forward = false;
-      break;
-    case 'KeyS':
-      keys.backward = false;
-      break;
-    case 'KeyA':
-      keys.left = false;
-      break;
-    case 'KeyD':
-      keys.right = false;
-      break;
-    case 'ShiftLeft':
-    case 'ShiftRight':
-      keys.sprint = false;
-      break;
-  }
-}
-
 function animate() {
   requestAnimationFrame(animate);
 
   const delta = Math.min(clock.getDelta(), 0.05);
-
-  if (controls.isLocked) {
-    updatePlayer(delta);
-  }
+  updatePlayer(delta);
 
   renderer.render(scene, camera);
 }
 
-function updatePlayer(delta) {
-  const input = new THREE.Vector3();
-
-  if (keys.forward) input.z -= 1;
-  if (keys.backward) input.z += 1;
-  if (keys.left) input.x -= 1;
-  if (keys.right) input.x += 1;
-
-  if (input.lengthSq() > 0) {
-    input.normalize();
-
-    const direction = new THREE.Vector3();
-    controls.getDirection(direction);
-
-    direction.y = 0;
-    direction.normalize();
-
-    const right = new THREE.Vector3()
-      .crossVectors(direction, camera.up)
-      .normalize();
-
-    const moveDirection = new THREE.Vector3();
-
-    moveDirection.addScaledVector(direction, -input.z);
-    moveDirection.addScaledVector(right, input.x);
-    moveDirection.normalize();
-
-    const speed = keys.sprint ? CONFIG.sprintSpeed : CONFIG.moveSpeed;
-
-    velocity.x = moveDirection.x * speed;
-    velocity.z = moveDirection.z * speed;
-  } else {
-    velocity.x = 0;
-    velocity.z = 0;
-  }
-
-  const nextX = camera.position.x + velocity.x * delta;
-  const nextZ = camera.position.z + velocity.z * delta;
-
-  if (!collidesAt(nextX, camera.position.z)) {
-    camera.position.x = nextX;
-  }
-
-  if (!collidesAt(camera.position.x, nextZ)) {
-    camera.position.z = nextZ;
-  }
-
-  verticalVelocity -= CONFIG.gravity * delta;
-  camera.position.y += verticalVelocity * delta;
-
-  if (camera.position.y <= CONFIG.playerHeight) {
-    camera.position.y = CONFIG.playerHeight;
-    verticalVelocity = 0;
-    canJump = true;
-  }
-
-  dom.speedText.textContent = `${Math.round(
-    Math.hypot(velocity.x, velocity.z)
-  )} m/s`;
-}
-
-function collidesAt(x, z) {
-  const limit = CONFIG.arenaHalfSize - CONFIG.playerRadius;
-
-  if (x < -limit || x > limit || z < -limit || z > limit) {
-    return true;
-  }
-
-  for (const collider of colliders) {
-    const nearestX = Math.max(
-      collider.minX,
-      Math.min(x, collider.maxX)
-    );
-
-    const nearestZ = Math.max(
-      collider.minZ,
-      Math.min(z, collider.maxZ)
-    );
-
-    const dx = x - nearestX;
-    const dz = z - nearestZ;
-
-    if (dx * dx + dz * dz < CONFIG.playerRadius * CONFIG.playerRadius) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
 function buildLighting() {
-  const ambient = new THREE.AmbientLight(0x93a4c7, 1.35);
-  scene.add(ambient);
+  const ambientLight = new THREE.HemisphereLight(0xaec5ff, 0x06080e, 1.45);
+  scene.add(ambientLight);
 
-  const moonLight = new THREE.DirectionalLight(0xdfe9ff, 2.3);
-  moonLight.position.set(14, 28, 12);
-  moonLight.castShadow = true;
-  moonLight.shadow.mapSize.width = 2048;
-  moonLight.shadow.mapSize.height = 2048;
-  moonLight.shadow.camera.near = 0.5;
-  moonLight.shadow.camera.far = 80;
-  moonLight.shadow.camera.left = -35;
-  moonLight.shadow.camera.right = 35;
-  moonLight.shadow.camera.top = 35;
-  moonLight.shadow.camera.bottom = -35;
-  scene.add(moonLight);
+  const keyLight = new THREE.DirectionalLight(0xdde9ff, 2.25);
+  keyLight.position.set(14, 24, 8);
+  keyLight.castShadow = true;
+  keyLight.shadow.mapSize.set(2048, 2048);
+  keyLight.shadow.camera.left = -32;
+  keyLight.shadow.camera.right = 32;
+  keyLight.shadow.camera.top = 32;
+  keyLight.shadow.camera.bottom = -32;
+  keyLight.shadow.camera.near = 0.5;
+  keyLight.shadow.camera.far = 80;
+  scene.add(keyLight);
 
-  const accentLightA = new THREE.PointLight(0x3e6cff, 26, 22, 2);
-  accentLightA.position.set(-11, 4.2, -7);
-  scene.add(accentLightA);
+  const bluePulse = new THREE.PointLight(0x3769ff, 28, 24, 2);
+  bluePulse.position.set(-10, 4.6, -8);
+  scene.add(bluePulse);
 
-  const accentLightB = new THREE.PointLight(0x8b5cff, 24, 22, 2);
-  accentLightB.position.set(11, 4.2, 8);
-  scene.add(accentLightB);
+  const violetPulse = new THREE.PointLight(0x8f5dff, 24, 22, 2);
+  violetPulse.position.set(11, 4.2, 7);
+  scene.add(violetPulse);
 }
 
 function buildArena() {
   const floorMaterial = new THREE.MeshStandardMaterial({
-    color: 0x111827,
-    roughness: 0.86,
-    metalness: 0.12,
+    color: 0x0d1422,
+    roughness: 0.84,
+    metalness: 0.1,
   });
 
   const floor = new THREE.Mesh(
-    new THREE.BoxGeometry(CONFIG.arenaHalfSize * 2, 0.5, CONFIG.arenaHalfSize * 2),
+    new THREE.BoxGeometry(ARENA.halfSize * 2, 0.45, ARENA.halfSize * 2),
     floorMaterial
   );
-  floor.position.y = -0.25;
+  floor.position.y = -0.225;
   floor.receiveShadow = true;
   scene.add(floor);
 
-  addGridLines();
-  addWall(0, -CONFIG.arenaHalfSize, CONFIG.arenaHalfSize * 2, 1.2, 0);
-  addWall(0, CONFIG.arenaHalfSize, CONFIG.arenaHalfSize * 2, 1.2, 0);
-  addWall(-CONFIG.arenaHalfSize, 0, 1.2, CONFIG.arenaHalfSize * 2, 0);
-  addWall(CONFIG.arenaHalfSize, 0, 1.2, CONFIG.arenaHalfSize * 2, 0);
+  const grid = new THREE.GridHelper(ARENA.halfSize * 2, 44, 0x31518c, 0x182439);
+  grid.position.y = 0.02;
+  scene.add(grid);
 
-  addWall(-8, -5, 9, 1.1, 0x172134);
-  addWall(7, 4, 10, 1.1, 0x172134);
-  addWall(-4, 9, 1.1, 9, 0x172134);
-  addWall(12, -9, 1.1, 8, 0x172134);
+  addWall(0, -ARENA.halfSize, ARENA.halfSize * 2, 1.2);
+  addWall(0, ARENA.halfSize, ARENA.halfSize * 2, 1.2);
+  addWall(-ARENA.halfSize, 0, 1.2, ARENA.halfSize * 2);
+  addWall(ARENA.halfSize, 0, 1.2, ARENA.halfSize * 2);
 
-  addCrate(-11, 8, 2.4, 2.4, 2.4);
-  addCrate(-9, 8, 2.4, 2.4, 2.4);
-  addCrate(4, -10, 3.2, 3.2, 2.8);
-  addCrate(10, 11, 2.6, 2.6, 2.6);
-  addCrate(11.8, 11, 2.6, 2.6, 2.6);
+  addWall(-8, -5.5, 9.5, 1.15, 0x172135);
+  addWall(7.4, 4.8, 10.5, 1.15, 0x172135);
+  addWall(-4.6, 9.2, 1.15, 9.4, 0x172135);
+  addWall(12.4, -9, 1.15, 8.4, 0x172135);
+
+  addCrate(-11.6, 8.2, 2.6, 2.6, 2.7);
+  addCrate(-8.6, 8.2, 2.6, 2.6, 2.7);
+  addCrate(4.4, -10.2, 3.2, 3.2, 2.85);
+  addCrate(10.4, 11.2, 2.55, 2.55, 2.55);
+  addCrate(13.05, 11.2, 2.55, 2.55, 2.55);
 
   addPillar(-14, -12);
   addPillar(14, -12);
   addPillar(-14, 12);
   addPillar(14, 12);
+
+  addSpawnPlatform();
 }
 
-function addGridLines() {
-  const helper = new THREE.GridHelper(
-    CONFIG.arenaHalfSize * 2,
-    44,
-    0x2f4777,
-    0x1e293b
-  );
-  helper.position.y = 0.01;
-  scene.add(helper);
+function buildDecorativeAccents() {
+  const stripMaterial = new THREE.MeshBasicMaterial({
+    color: 0x4f7cff,
+  });
+
+  const strips = [
+    [-20.8, 0.06, -14.5, 0.12, 0.12, 9],
+    [20.8, 0.06, 12.5, 0.12, 0.12, 11],
+    [-4.6, 0.06, 4.4, 0.12, 0.12, 7.6],
+  ];
+
+  strips.forEach(([x, y, z, width, height, depth]) => {
+    const strip = new THREE.Mesh(
+      new THREE.BoxGeometry(width, height, depth),
+      stripMaterial
+    );
+    strip.position.set(x, y, z);
+    scene.add(strip);
+  });
 }
 
-function addWall(x, z, width, depth, color = 0x1b263a) {
-  const wallHeight = 4.2;
-
-  const wall = new THREE.Mesh(
-    new THREE.BoxGeometry(width, wallHeight, depth),
+function addSpawnPlatform() {
+  const platform = new THREE.Mesh(
+    new THREE.CylinderGeometry(3.25, 3.25, 0.18, 32),
     new THREE.MeshStandardMaterial({
-      color,
-      roughness: 0.82,
-      metalness: 0.18,
+      color: 0x132039,
+      roughness: 0.55,
+      metalness: 0.35,
+      emissive: 0x07142e,
+      emissiveIntensity: 0.8,
     })
   );
 
-  wall.position.set(x, wallHeight / 2, z);
+  platform.position.set(0, 0.09, 13.5);
+  platform.receiveShadow = true;
+  scene.add(platform);
+}
+
+function addWall(x, z, width, depth, color = 0x111a2a) {
+  const wall = new THREE.Mesh(
+    new THREE.BoxGeometry(width, ARENA.wallHeight, depth),
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness: 0.82,
+      metalness: 0.16,
+    })
+  );
+
+  wall.position.set(x, ARENA.wallHeight / 2, z);
   wall.castShadow = true;
   wall.receiveShadow = true;
   scene.add(wall);
 
   colliders.push({
+    type: 'box',
     minX: x - width / 2,
     maxX: x + width / 2,
     minZ: z - depth / 2,
@@ -350,9 +241,9 @@ function addCrate(x, z, width, depth, height) {
   const crate = new THREE.Mesh(
     new THREE.BoxGeometry(width, height, depth),
     new THREE.MeshStandardMaterial({
-      color: 0x384155,
-      roughness: 0.74,
-      metalness: 0.26,
+      color: 0x34415a,
+      roughness: 0.68,
+      metalness: 0.22,
     })
   );
 
@@ -362,6 +253,7 @@ function addCrate(x, z, width, depth, height) {
   scene.add(crate);
 
   colliders.push({
+    type: 'box',
     minX: x - width / 2,
     maxX: x + width / 2,
     minZ: z - depth / 2,
@@ -370,30 +262,136 @@ function addCrate(x, z, width, depth, height) {
 }
 
 function addPillar(x, z) {
+  const radius = 1.18;
+
   const pillar = new THREE.Mesh(
-    new THREE.CylinderGeometry(1.15, 1.15, 5.2, 18),
+    new THREE.CylinderGeometry(radius, radius, 5.4, 22),
     new THREE.MeshStandardMaterial({
-      color: 0x202b3d,
-      roughness: 0.78,
-      metalness: 0.2,
+      color: 0x202d42,
+      roughness: 0.75,
+      metalness: 0.22,
     })
   );
 
-  pillar.position.set(x, 2.6, z);
+  pillar.position.set(x, 2.7, z);
   pillar.castShadow = true;
   pillar.receiveShadow = true;
   scene.add(pillar);
 
   colliders.push({
-    minX: x - 1.15,
-    maxX: x + 1.15,
-    minZ: z - 1.15,
-    maxZ: z + 1.15,
+    type: 'circle',
+    x,
+    z,
+    radius,
   });
+}
+
+function updatePlayer(delta) {
+  if (!controls.isLocked) {
+    hudSpeed.textContent = '0.0 m/s';
+    return;
+  }
+
+  controls.getDirection(forwardVector);
+  forwardVector.y = 0;
+  forwardVector.normalize();
+  rightVector.crossVectors(forwardVector, camera.up).normalize();
+
+  moveVector.set(0, 0, 0);
+
+  if (keys.has('KeyW')) moveVector.add(forwardVector);
+  if (keys.has('KeyS')) moveVector.sub(forwardVector);
+  if (keys.has('KeyD')) moveVector.add(rightVector);
+  if (keys.has('KeyA')) moveVector.sub(rightVector);
+
+  if (moveVector.lengthSq() > 0) {
+    moveVector.normalize().multiplyScalar(PLAYER.walkSpeed);
+    velocity.x = THREE.MathUtils.damp(velocity.x, moveVector.x, PLAYER.acceleration, delta);
+    velocity.z = THREE.MathUtils.damp(velocity.z, moveVector.z, PLAYER.acceleration, delta);
+  } else {
+    velocity.x = THREE.MathUtils.damp(velocity.x, 0, PLAYER.damping, delta);
+    velocity.z = THREE.MathUtils.damp(velocity.z, 0, PLAYER.damping, delta);
+  }
+
+  verticalVelocity -= PLAYER.gravity * delta;
+
+  const current = camera.position.clone();
+  const proposedX = current.x + velocity.x * delta;
+  const proposedZ = current.z + velocity.z * delta;
+
+  camera.position.x = resolveAxisCollision(proposedX, current.z, 'x');
+  camera.position.z = resolveAxisCollision(proposedZ, camera.position.x, 'z');
+  camera.position.y += verticalVelocity * delta;
+
+  if (camera.position.y <= PLAYER.height) {
+    camera.position.y = PLAYER.height;
+    verticalVelocity = 0;
+    canJump = true;
+  }
+
+  const horizontalSpeed = Math.hypot(velocity.x, velocity.z);
+  hudSpeed.textContent = `${horizontalSpeed.toFixed(1)} m/s`;
+}
+
+function resolveAxisCollision(candidateValue, otherAxisValue, axis) {
+  let resolved = candidateValue;
+
+  for (const collider of colliders) {
+    if (collider.type === 'box') {
+      const testX = axis === 'x' ? resolved : camera.position.x;
+      const testZ = axis === 'z' ? resolved : otherAxisValue;
+
+      const nearestX = THREE.MathUtils.clamp(testX, collider.minX, collider.maxX);
+      const nearestZ = THREE.MathUtils.clamp(testZ, collider.minZ, collider.maxZ);
+      const dx = testX - nearestX;
+      const dz = testZ - nearestZ;
+      const overlap = dx * dx + dz * dz < PLAYER.radius * PLAYER.radius;
+
+      if (overlap) {
+        if (axis === 'x') {
+          resolved = testX < (collider.minX + collider.maxX) / 2
+            ? collider.minX - PLAYER.radius
+            : collider.maxX + PLAYER.radius;
+          velocity.x = 0;
+        } else {
+          resolved = testZ < (collider.minZ + collider.maxZ) / 2
+            ? collider.minZ - PLAYER.radius
+            : collider.maxZ + PLAYER.radius;
+          velocity.z = 0;
+        }
+      }
+    }
+
+    if (collider.type === 'circle') {
+      const testX = axis === 'x' ? resolved : camera.position.x;
+      const testZ = axis === 'z' ? resolved : otherAxisValue;
+      const dx = testX - collider.x;
+      const dz = testZ - collider.z;
+      const minDistance = PLAYER.radius + collider.radius;
+      const distanceSq = dx * dx + dz * dz;
+
+      if (distanceSq < minDistance * minDistance) {
+        const distance = Math.max(Math.sqrt(distanceSq), 0.0001);
+        const nx = dx / distance;
+        const nz = dz / distance;
+
+        if (axis === 'x') {
+          resolved = collider.x + nx * minDistance;
+          velocity.x = 0;
+        } else {
+          resolved = collider.z + nz * minDistance;
+          velocity.z = 0;
+        }
+      }
+    }
+  }
+
+  return resolved;
 }
 
 function onResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
