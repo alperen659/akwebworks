@@ -44,6 +44,8 @@ nav.top.scrolled{box-shadow:0 4px 40px rgba(13,18,32,.22)}
 .logo-img{height:36px;width:auto;display:block}
 .logo-fallback{height:36px;width:36px;background:var(--blue);color:#fff;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:14px;font-weight:500}
 .logo-text{color:#F0F2F7}
+.logo-copy{display:flex;flex-direction:column;justify-content:center;line-height:1.05}
+.logo-subtitle{margin-top:3px;font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.08em;color:rgba(240,242,247,.44);white-space:nowrap}
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-links a{font-size:13.5px;font-weight:500;color:rgba(240,242,247,.6);padding:8px 14px;border-radius:7px;transition:color .2s,background .2s}
 .nav-links a:hover{color:#F0F2F7;background:rgba(255,255,255,.07);text-shadow:0 0 20px rgba(122,168,255,.35)}
@@ -60,33 +62,79 @@ nav.top.scrolled{box-shadow:0 4px 40px rgba(13,18,32,.22)}
 .btn:hover .arrow{transform:translateX(4px)}
 
 /* PAGE LAYOUT */
-.contact-page{padding:72px 0 100px}
-.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start}
-@media(max-width:900px){.contact-grid{grid-template-columns:1fr;gap:50px}}
+.contact-page{padding:76px 0 104px}
+.contact-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(540px,1.35fr);
+  gap:78px;
+  align-items:stretch;
+}
+@media(max-width:1040px){
+  .contact-grid{grid-template-columns:1fr;gap:48px}
+}
 
 /* LEFT SIDE */
-.contact-info h1{margin-top:20px;margin-bottom:20px}
-.contact-info .lede{margin-bottom:40px}
-.contact-card{background:var(--bg-3);border:1px solid var(--line);border-radius:var(--rl);padding:28px 28px;margin-bottom:16px;box-shadow:0 2px 16px rgba(15,22,40,.04)}
-.contact-card h4{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin:0 0 14px}
-.contact-card a,.contact-card p{font-size:15px;color:var(--ink-s);display:block;margin:0 0 6px;line-height:1.6}
-.contact-card a:last-child,.contact-card p:last-child{margin:0}
-.contact-card a:hover{color:var(--blue)}
-.contact-card .ig-row{display:inline-flex;align-items:center;gap:7px;color:var(--ink-s);font-size:15px}
-.contact-card .ig-row:hover{color:var(--blue)}
-.contact-card svg{width:16px!important;height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
-
+.contact-info{
+  display:flex;
+  flex-direction:column;
+  min-height:100%;
+  padding:4px 0;
+}
+.contact-info h1{margin:0 0 22px}
+.contact-info .lede{margin:0;max-width:48ch}
+.contact-details{
+  margin-top:auto;
+  padding-top:46px;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+}
+.contact-line{
+  display:grid;
+  grid-template-columns:128px minmax(0,1fr);
+  gap:22px;
+  padding:21px 0;
+  border-bottom:1px solid var(--line-s);
+}
+.contact-line:first-child{padding-top:0}
+.contact-line:last-child{padding-bottom:0;border-bottom:none}
+.contact-label{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding-top:3px;
+}
+.contact-value{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  color:var(--ink-s);
+  font-size:15px;
+  line-height:1.65;
+}
+.contact-value a{width:max-content;max-width:100%;color:var(--ink-s)}
+.contact-value a:hover{color:var(--blue)}
+.contact-value p{margin:0;color:var(--ink-s)}
+.contact-value .soft-note{font-size:14px;color:var(--muted)}
+.contact-value .ig-row{display:inline-flex;align-items:center;gap:8px}
+.contact-value svg{width:16px!important;height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
 .hours-list{display:flex;flex-direction:column;gap:8px}
-.hours-row{display:flex;justify-content:space-between;font-size:14.5px;padding-bottom:8px;border-bottom:1px solid var(--line-s)}
+.hours-row{display:flex;justify-content:space-between;gap:18px;font-size:14.5px;padding-bottom:8px;border-bottom:1px solid var(--line-s)}
 .hours-row:last-child{border-bottom:none;padding-bottom:0}
 .hours-row .day{color:var(--ink-s)}
 .hours-row .time{font-family:var(--mono);font-size:13px;color:var(--ink)}
-
+@media(max-width:640px){
+  .contact-page{padding:54px 0 76px}
+  .contact-line{grid-template-columns:1fr;gap:7px;padding:18px 0}
+  .contact-details{padding-top:34px}
+}
 /* FORM CARD */
-.form-card{background:var(--bg-3);border:1px solid var(--line);border-radius:var(--rx);padding:44px 40px;box-shadow:0 4px 40px rgba(15,22,40,.07);position:relative;overflow:hidden}
+.form-card{background:var(--bg-3);border:1px solid var(--line);border-radius:var(--rx);padding:44px 40px;box-shadow:0 4px 40px rgba(15,22,40,.07);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start}
 @media(max-width:600px){.form-card{padding:28px 22px}}
 .form-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
-.form-card h2{font-size:1.65rem;margin-bottom:6px}
+.form-card h2{font-size:1.65rem;margin-bottom:8px}
 .form-card .form-sub{color:var(--ink-s);font-size:14.5px;margin-bottom:28px}
 
 .booking-form{display:flex;flex-direction:column;gap:18px}
@@ -138,7 +186,10 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
     <a href="index.html" class="logo">
       <img src="logo.png" alt="AK WebWorks" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
       <span class="logo-fallback" style="display:none;">AK</span>
-      <span class="logo-text">WebWorks</span>
+      <span class="logo-copy">
+        <span class="logo-text">WebWorks</span>
+        <span class="logo-subtitle">Webdesign aus Bielefeld</span>
+      </span>
     </a>
     <div class="nav-links">
       <a href="index.html#leistungen">Leistungen</a>
@@ -160,47 +211,53 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
 
       <!-- LEFT: Info -->
       <div class="contact-info">
-        <div class="eyebrow">Kontakt aufnehmen</div>
         <h1>Lass uns über dein Projekt sprechen.</h1>
         <p class="lede">
           Kein Verkaufsgespräch, kein Druck. Ich erkläre dir in 30 Minuten, was deine Website
           braucht — und was sie nicht braucht. Kostenfrei und unverbindlich.
         </p>
 
-        <div class="contact-card">
-          <h4>Direkt erreichbar</h4>
-          <a href="tel:+4915123456789">+49 151 234 56789</a>
-          <a href="mailto:info@akwebworks.de">info@akwebworks.de</a>
-          <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="ig-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <circle cx="12" cy="12" r="4.5"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-            </svg>
-            @ak.webworks auf Instagram
-          </a>
-        </div>
-
-        <div class="contact-card">
-          <h4>Erreichbarkeit</h4>
-          <div class="hours-list">
-            <div class="hours-row"><span class="day">Montag – Freitag</span><span class="time">09:00 – 19:00</span></div>
-            <div class="hours-row"><span class="day">Samstag</span><span class="time">10:00 – 16:00</span></div>
-            <div class="hours-row"><span class="day">Sonntag</span><span class="time">auf Anfrage</span></div>
+        <div class="contact-details">
+          <div class="contact-line">
+            <div class="contact-label">Direkt</div>
+            <div class="contact-value">
+              <a href="tel:+4915123456789">+49 151 234 56789</a>
+              <a href="mailto:info@akwebworks.de">info@akwebworks.de</a>
+              <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="ig-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4.5"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+                @ak.webworks
+              </a>
+            </div>
           </div>
-        </div>
 
-        <div class="contact-card">
-          <h4>Standort</h4>
-          <p>Bielefeld, Ostwestfalen-Lippe</p>
-          <p style="color:var(--muted);font-size:14px;">Persönliche Treffen in Bielefeld und Umgebung möglich.</p>
+          <div class="contact-line">
+            <div class="contact-label">Erreichbarkeit</div>
+            <div class="contact-value">
+              <div class="hours-list">
+                <div class="hours-row"><span class="day">Montag – Freitag</span><span class="time">09:00 – 19:00</span></div>
+                <div class="hours-row"><span class="day">Samstag</span><span class="time">10:00 – 16:00</span></div>
+                <div class="hours-row"><span class="day">Sonntag</span><span class="time">auf Anfrage</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-line">
+            <div class="contact-label">Standort</div>
+            <div class="contact-value">
+              <p>Bielefeld, Ostwestfalen-Lippe</p>
+              <p class="soft-note">Persönliche Treffen in Bielefeld und Umgebung möglich.</p>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- RIGHT: Form -->
       <div class="form-card">
         <div id="formWrap">
-          <span class="eyebrow">Anfrage senden</span>
           <h2>Kostenloses Erstgespräch</h2>
           <p class="form-sub">Füll das Formular aus — ich melde mich innerhalb von 24 h bei dir.</p>
 
