@@ -29,17 +29,29 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x05070c);
 scene.fog = new THREE.Fog(0x05070c, 18, 62);
 
-const camera = new THREE.PerspectiveCamera(76, window.innerWidth / window.innerHeight, 0.1, 180);
+const camera = new THREE.PerspectiveCamera(
+  76,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  180
+);
 camera.position.set(0, PLAYER.height, 13.5);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  powerPreference: 'high-performance',
+});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.04;
 root.appendChild(renderer.domElement);
 
-const controls = new PointerLockControls(camera, renderer.domElement);
+const controls = new PointerLockControls(camera, document.body);
+controls.pointerSpeed = 0.86;
 scene.add(camera);
 
 const clock = new THREE.Clock();
@@ -54,43 +66,45 @@ let canJump = false;
 let hasStarted = false;
 
 const colliders = [];
+const animatedLights = [];
 
-buildLighting();
-buildArena();
-buildDecorativeAccents();
-
-startButton.addEventListener('click', () => {
-  hasStarted = true;
-  controls.lock();
-});
-
-resumeButton.addEventListener('click', () => {
-  controls.lock();
-});
+createLighting();
+createArena();
+createProps();
+createSpawnMarker();
 
 controls.addEventListener('lock', () => {
-  menu.classList.add('is-hidden');
-  pauseMenu.classList.add('is-hidden');
-  hudState.textContent = 'Arena aktiv';
+  document.body.classList.add('locked');
+  menu.classList.remove('visible');
+  pauseMenu.classList.remove('visible');
+  hudState.textContent = hasStarted ? 'Arena aktiv' : 'Initialisiere';
+  hasStarted = true;
 });
 
 controls.addEventListener('unlock', () => {
+  document.body.classList.remove('locked');
+
   if (hasStarted) {
-    pauseMenu.classList.remove('is-hidden');
+    pauseMenu.classList.add('visible');
     hudState.textContent = 'Pausiert';
   }
+
+  keys.clear();
 });
 
-document.addEventListener('keydown', (event) => {
+startButton.addEventListener('click', () => controls.lock());
+resumeButton.addEventListener('click', () => controls.lock());
+
+window.addEventListener('keydown', (event) => {
   keys.add(event.code);
 
-  if (event.code === 'Space' && controls.isLocked && canJump) {
+  if (event.code === 'Space' && canJump && controls.isLocked) {
     verticalVelocity = PLAYER.jumpVelocity;
     canJump = false;
   }
 });
 
-document.addEventListener('keyup', (event) => {
+window.addEventListener('keyup', (event) => {
   keys.delete(event.code);
 });
 
@@ -98,160 +112,243 @@ window.addEventListener('resize', onResize);
 
 animate();
 
-function animate() {
-  requestAnimationFrame(animate);
+function createLighting() {
+  const hemisphere = new THREE.HemisphereLight(0x9ac7ff, 0x091018, 1.45);
+  scene.add(hemisphere);
 
-  const delta = Math.min(clock.getDelta(), 0.05);
-  updatePlayer(delta);
-
-  renderer.render(scene, camera);
-}
-
-function buildLighting() {
-  const ambientLight = new THREE.HemisphereLight(0xaec5ff, 0x06080e, 1.45);
-  scene.add(ambientLight);
-
-  const keyLight = new THREE.DirectionalLight(0xdde9ff, 2.25);
-  keyLight.position.set(14, 24, 8);
+  const keyLight = new THREE.DirectionalLight(0xbce8ff, 1.8);
+  keyLight.position.set(-7, 16, 9);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.set(2048, 2048);
-  keyLight.shadow.camera.left = -32;
-  keyLight.shadow.camera.right = 32;
-  keyLight.shadow.camera.top = 32;
-  keyLight.shadow.camera.bottom = -32;
-  keyLight.shadow.camera.near = 0.5;
-  keyLight.shadow.camera.far = 80;
+  keyLight.shadow.camera.near = 1;
+  keyLight.shadow.camera.far = 60;
+  keyLight.shadow.camera.left = -28;
+  keyLight.shadow.camera.right = 28;
+  keyLight.shadow.camera.top = 28;
+  keyLight.shadow.camera.bottom = -28;
   scene.add(keyLight);
 
-  const bluePulse = new THREE.PointLight(0x3769ff, 28, 24, 2);
-  bluePulse.position.set(-10, 4.6, -8);
-  scene.add(bluePulse);
-
-  const violetPulse = new THREE.PointLight(0x8f5dff, 24, 22, 2);
-  violetPulse.position.set(11, 4.2, 7);
-  scene.add(violetPulse);
+  addAccentLight(-14, 4.2, -10, 0x5ec8ff, 22, 2.4);
+  addAccentLight(14, 4.2, 10, 0x946dff, 20, 2.15);
+  addAccentLight(0, 4.6, 0, 0x4be4ff, 18, 1.8);
 }
 
-function buildArena() {
+function addAccentLight(x, y, z, color, distance, intensity) {
+  const light = new THREE.PointLight(color, intensity, distance, 2.2);
+  light.position.set(x, y, z);
+  scene.add(light);
+
+  animatedLights.push({
+    light,
+    baseIntensity: intensity,
+    offset: Math.random() * Math.PI * 2,
+  });
+
+  const bulb = new THREE.Mesh(
+    new THREE.SphereGeometry(0.18, 18, 18),
+    new THREE.MeshStandardMaterial({
+      color,
+      emissive: color,
+      emissiveIntensity: 1.6,
+      roughness: 0.35,
+    })
+  );
+
+  bulb.position.copy(light.position);
+  scene.add(bulb);
+}
+
+function createArena() {
   const floorMaterial = new THREE.MeshStandardMaterial({
-    color: 0x0d1422,
-    roughness: 0.84,
-    metalness: 0.1,
+    color: 0x101722,
+    roughness: 0.92,
+    metalness: 0.08,
   });
 
   const floor = new THREE.Mesh(
-    new THREE.BoxGeometry(ARENA.halfSize * 2, 0.45, ARENA.halfSize * 2),
+    new THREE.BoxGeometry(
+      ARENA.halfSize * 2,
+      0.7,
+      ARENA.halfSize * 2
+    ),
     floorMaterial
   );
-  floor.position.y = -0.225;
+
+  floor.position.set(0, -0.35, 0);
   floor.receiveShadow = true;
   scene.add(floor);
 
-  const grid = new THREE.GridHelper(ARENA.halfSize * 2, 44, 0x31518c, 0x182439);
-  grid.position.y = 0.02;
+  const grid = new THREE.GridHelper(
+    ARENA.halfSize * 2,
+    44,
+    0x35526a,
+    0x1b2838
+  );
+
+  grid.position.y = 0.01;
+  grid.material.transparent = true;
+  grid.material.opacity = 0.35;
   scene.add(grid);
 
-  addWall(0, -ARENA.halfSize, ARENA.halfSize * 2, 1.2);
-  addWall(0, ARENA.halfSize, ARENA.halfSize * 2, 1.2);
-  addWall(-ARENA.halfSize, 0, 1.2, ARENA.halfSize * 2);
-  addWall(ARENA.halfSize, 0, 1.2, ARENA.halfSize * 2);
-
-  addWall(-8, -5.5, 9.5, 1.15, 0x172135);
-  addWall(7.4, 4.8, 10.5, 1.15, 0x172135);
-  addWall(-4.6, 9.2, 1.15, 9.4, 0x172135);
-  addWall(12.4, -9, 1.15, 8.4, 0x172135);
-
-  addCrate(-11.6, 8.2, 2.6, 2.6, 2.7);
-  addCrate(-8.6, 8.2, 2.6, 2.6, 2.7);
-  addCrate(4.4, -10.2, 3.2, 3.2, 2.85);
-  addCrate(10.4, 11.2, 2.55, 2.55, 2.55);
-  addCrate(13.05, 11.2, 2.55, 2.55, 2.55);
-
-  addPillar(-14, -12);
-  addPillar(14, -12);
-  addPillar(-14, 12);
-  addPillar(14, 12);
-
-  addSpawnPlatform();
-}
-
-function buildDecorativeAccents() {
-  const stripMaterial = new THREE.MeshBasicMaterial({
-    color: 0x4f7cff,
+  const wallMaterial = new THREE.MeshStandardMaterial({
+    color: 0x162131,
+    roughness: 0.82,
+    metalness: 0.16,
   });
 
-  const strips = [
-    [-20.8, 0.06, -14.5, 0.12, 0.12, 9],
-    [20.8, 0.06, 12.5, 0.12, 0.12, 11],
-    [-4.6, 0.06, 4.4, 0.12, 0.12, 7.6],
-  ];
+  addWall(
+    0,
+    ARENA.wallHeight / 2,
+    -ARENA.halfSize,
+    ARENA.halfSize * 2,
+    ARENA.wallHeight,
+    1.1,
+    wallMaterial
+  );
 
-  strips.forEach(([x, y, z, width, height, depth]) => {
-    const strip = new THREE.Mesh(
-      new THREE.BoxGeometry(width, height, depth),
-      stripMaterial
+  addWall(
+    0,
+    ARENA.wallHeight / 2,
+    ARENA.halfSize,
+    ARENA.halfSize * 2,
+    ARENA.wallHeight,
+    1.1,
+    wallMaterial
+  );
+
+  addWall(
+    -ARENA.halfSize,
+    ARENA.wallHeight / 2,
+    0,
+    1.1,
+    ARENA.wallHeight,
+    ARENA.halfSize * 2,
+    wallMaterial
+  );
+
+  addWall(
+    ARENA.halfSize,
+    ARENA.wallHeight / 2,
+    0,
+    1.1,
+    ARENA.wallHeight,
+    ARENA.halfSize * 2,
+    wallMaterial
+  );
+
+  const stripeMaterial = new THREE.MeshStandardMaterial({
+    color: 0x274357,
+    emissive: 0x0a1720,
+    emissiveIntensity: 0.8,
+  });
+
+  [-1, 1].forEach((direction) => {
+    const stripe = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        ARENA.halfSize * 2 - 1.8,
+        0.11,
+        0.14
+      ),
+      stripeMaterial
     );
-    strip.position.set(x, y, z);
-    scene.add(strip);
+
+    stripe.position.set(0, 0.06, direction * 7.5);
+    scene.add(stripe);
   });
 }
 
-function addSpawnPlatform() {
-  const platform = new THREE.Mesh(
-    new THREE.CylinderGeometry(3.25, 3.25, 0.18, 32),
-    new THREE.MeshStandardMaterial({
-      color: 0x132039,
-      roughness: 0.55,
-      metalness: 0.35,
-      emissive: 0x07142e,
-      emissiveIntensity: 0.8,
-    })
-  );
+function createProps() {
+  const obstacleMaterial = new THREE.MeshStandardMaterial({
+    color: 0x253244,
+    roughness: 0.72,
+    metalness: 0.22,
+  });
 
-  platform.position.set(0, 0.09, 13.5);
-  platform.receiveShadow = true;
-  scene.add(platform);
+  const highlightMaterial = new THREE.MeshStandardMaterial({
+    color: 0x24394a,
+    emissive: 0x0e3244,
+    emissiveIntensity: 0.8,
+    roughness: 0.68,
+    metalness: 0.14,
+  });
+
+  addObstacle(-9, 1.5, -5, 4.4, 3, 2.2, obstacleMaterial);
+  addObstacle(8, 1.35, 6, 3.2, 2.7, 4.2, obstacleMaterial);
+  addObstacle(0, 1.1, -10, 5.5, 2.2, 2.2, highlightMaterial);
+  addObstacle(1.5, 1.9, 2.5, 2.5, 3.8, 2.5, obstacleMaterial);
+  addObstacle(-4, 0.75, 9.2, 5, 1.5, 1.8, highlightMaterial);
+
+  const columnMaterial = new THREE.MeshStandardMaterial({
+    color: 0x1a2737,
+    roughness: 0.85,
+    metalness: 0.12,
+  });
+
+  [
+    [-14, -14],
+    [14, -14],
+    [-14, 14],
+    [14, 14],
+  ].forEach(([x, z]) => {
+    const column = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.72, 0.72, 4.9, 20),
+      columnMaterial
+    );
+
+    column.position.set(x, 2.45, z);
+    column.castShadow = true;
+    column.receiveShadow = true;
+    scene.add(column);
+
+    registerCircularCollider(x, z, 0.9);
+  });
 }
 
-function addWall(x, z, width, depth, color = 0x111a2a) {
-  const wall = new THREE.Mesh(
-    new THREE.BoxGeometry(width, ARENA.wallHeight, depth),
-    new THREE.MeshStandardMaterial({
-      color,
-      roughness: 0.82,
-      metalness: 0.16,
+function createSpawnMarker() {
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(1.2, 1.55, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0x5ec8ff,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.7,
     })
   );
 
-  wall.position.set(x, ARENA.wallHeight / 2, z);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.set(0, 0.025, 13.5);
+  scene.add(ring);
+}
+
+function addWall(x, y, z, width, height, depth, material) {
+  const wall = new THREE.Mesh(
+    new THREE.BoxGeometry(width, height, depth),
+    material
+  );
+
+  wall.position.set(x, y, z);
   wall.castShadow = true;
   wall.receiveShadow = true;
   scene.add(wall);
 
-  colliders.push({
-    type: 'box',
-    minX: x - width / 2,
-    maxX: x + width / 2,
-    minZ: z - depth / 2,
-    maxZ: z + depth / 2,
-  });
+  registerBoxCollider(x, z, width, depth);
 }
 
-function addCrate(x, z, width, depth, height) {
-  const crate = new THREE.Mesh(
+function addObstacle(x, y, z, width, height, depth, material) {
+  const obstacle = new THREE.Mesh(
     new THREE.BoxGeometry(width, height, depth),
-    new THREE.MeshStandardMaterial({
-      color: 0x34415a,
-      roughness: 0.68,
-      metalness: 0.22,
-    })
+    material
   );
 
-  crate.position.set(x, height / 2, z);
-  crate.castShadow = true;
-  crate.receiveShadow = true;
-  scene.add(crate);
+  obstacle.position.set(x, y, z);
+  obstacle.castShadow = true;
+  obstacle.receiveShadow = true;
+  scene.add(obstacle);
 
+  registerBoxCollider(x, z, width, depth);
+}
+
+function registerBoxCollider(x, z, width, depth) {
   colliders.push({
     type: 'box',
     minX: x - width / 2,
@@ -261,28 +358,29 @@ function addCrate(x, z, width, depth, height) {
   });
 }
 
-function addPillar(x, z) {
-  const radius = 1.18;
-
-  const pillar = new THREE.Mesh(
-    new THREE.CylinderGeometry(radius, radius, 5.4, 22),
-    new THREE.MeshStandardMaterial({
-      color: 0x202d42,
-      roughness: 0.75,
-      metalness: 0.22,
-    })
-  );
-
-  pillar.position.set(x, 2.7, z);
-  pillar.castShadow = true;
-  pillar.receiveShadow = true;
-  scene.add(pillar);
-
+function registerCircularCollider(x, z, radius) {
   colliders.push({
     type: 'circle',
     x,
     z,
     radius,
+  });
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  const delta = Math.min(clock.getDelta(), 0.05);
+
+  animateLights(clock.elapsedTime);
+  updatePlayer(delta);
+  renderer.render(scene, camera);
+}
+
+function animateLights(time) {
+  animatedLights.forEach(({ light, baseIntensity, offset }) => {
+    light.intensity =
+      baseIntensity + Math.sin(time * 1.7 + offset) * 0.18;
   });
 }
 
@@ -295,6 +393,7 @@ function updatePlayer(delta) {
   controls.getDirection(forwardVector);
   forwardVector.y = 0;
   forwardVector.normalize();
+
   rightVector.crossVectors(forwardVector, camera.up).normalize();
 
   moveVector.set(0, 0, 0);
@@ -306,11 +405,34 @@ function updatePlayer(delta) {
 
   if (moveVector.lengthSq() > 0) {
     moveVector.normalize().multiplyScalar(PLAYER.walkSpeed);
-    velocity.x = THREE.MathUtils.damp(velocity.x, moveVector.x, PLAYER.acceleration, delta);
-    velocity.z = THREE.MathUtils.damp(velocity.z, moveVector.z, PLAYER.acceleration, delta);
+
+    velocity.x = THREE.MathUtils.damp(
+      velocity.x,
+      moveVector.x,
+      PLAYER.acceleration,
+      delta
+    );
+
+    velocity.z = THREE.MathUtils.damp(
+      velocity.z,
+      moveVector.z,
+      PLAYER.acceleration,
+      delta
+    );
   } else {
-    velocity.x = THREE.MathUtils.damp(velocity.x, 0, PLAYER.damping, delta);
-    velocity.z = THREE.MathUtils.damp(velocity.z, 0, PLAYER.damping, delta);
+    velocity.x = THREE.MathUtils.damp(
+      velocity.x,
+      0,
+      PLAYER.damping,
+      delta
+    );
+
+    velocity.z = THREE.MathUtils.damp(
+      velocity.z,
+      0,
+      PLAYER.damping,
+      delta
+    );
   }
 
   verticalVelocity -= PLAYER.gravity * delta;
@@ -319,8 +441,18 @@ function updatePlayer(delta) {
   const proposedX = current.x + velocity.x * delta;
   const proposedZ = current.z + velocity.z * delta;
 
-  camera.position.x = resolveAxisCollision(proposedX, current.z, 'x');
-  camera.position.z = resolveAxisCollision(proposedZ, camera.position.x, 'z');
+  camera.position.x = resolveAxisCollision(
+    proposedX,
+    current.z,
+    'x'
+  );
+
+  camera.position.z = resolveAxisCollision(
+    proposedZ,
+    camera.position.x,
+    'z'
+  );
+
   camera.position.y += verticalVelocity * delta;
 
   if (camera.position.y <= PLAYER.height) {
@@ -341,22 +473,38 @@ function resolveAxisCollision(candidateValue, otherAxisValue, axis) {
       const testX = axis === 'x' ? resolved : camera.position.x;
       const testZ = axis === 'z' ? resolved : otherAxisValue;
 
-      const nearestX = THREE.MathUtils.clamp(testX, collider.minX, collider.maxX);
-      const nearestZ = THREE.MathUtils.clamp(testZ, collider.minZ, collider.maxZ);
+      const nearestX = THREE.MathUtils.clamp(
+        testX,
+        collider.minX,
+        collider.maxX
+      );
+
+      const nearestZ = THREE.MathUtils.clamp(
+        testZ,
+        collider.minZ,
+        collider.maxZ
+      );
+
       const dx = testX - nearestX;
       const dz = testZ - nearestZ;
-      const overlap = dx * dx + dz * dz < PLAYER.radius * PLAYER.radius;
+
+      const overlap =
+        dx * dx + dz * dz < PLAYER.radius * PLAYER.radius;
 
       if (overlap) {
         if (axis === 'x') {
-          resolved = testX < (collider.minX + collider.maxX) / 2
-            ? collider.minX - PLAYER.radius
-            : collider.maxX + PLAYER.radius;
+          resolved =
+            testX < (collider.minX + collider.maxX) / 2
+              ? collider.minX - PLAYER.radius
+              : collider.maxX + PLAYER.radius;
+
           velocity.x = 0;
         } else {
-          resolved = testZ < (collider.minZ + collider.maxZ) / 2
-            ? collider.minZ - PLAYER.radius
-            : collider.maxZ + PLAYER.radius;
+          resolved =
+            testZ < (collider.minZ + collider.maxZ) / 2
+              ? collider.minZ - PLAYER.radius
+              : collider.maxZ + PLAYER.radius;
+
           velocity.z = 0;
         }
       }
@@ -365,6 +513,7 @@ function resolveAxisCollision(candidateValue, otherAxisValue, axis) {
     if (collider.type === 'circle') {
       const testX = axis === 'x' ? resolved : camera.position.x;
       const testZ = axis === 'z' ? resolved : otherAxisValue;
+
       const dx = testX - collider.x;
       const dz = testZ - collider.z;
       const minDistance = PLAYER.radius + collider.radius;
@@ -392,6 +541,7 @@ function resolveAxisCollision(candidateValue, otherAxisValue, axis) {
 function onResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
+
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
