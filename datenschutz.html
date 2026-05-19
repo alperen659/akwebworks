@@ -18,6 +18,7 @@
   --bg-dark:  #0F1623;
   --nav-bg:   rgba(13,18,32,0.93);
   --nav-bdr:  rgba(255,255,255,0.06);
+  --nav-border:rgba(255,255,255,0.06);
   --blue:     #1D5BD4;
   --blue-l:   #3B77F0;
   --blue-dim: #D6E2FA;
@@ -44,16 +45,23 @@ a{color:inherit;text-decoration:none;transition:all .2s var(--ease)}
 h1,h2,h3,h4{font-family:var(--sans);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:0}
 h1{font-size:clamp(2.4rem,5.5vw,4.8rem)}
 
-nav.top{position:sticky;top:0;z-index:200;background:var(--nav-bg);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--nav-bdr)}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+nav.top{position:sticky;top:0;z-index:200;background:var(--nav-bg);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--nav-border);transition:box-shadow .3s}
+nav.top.scrolled{box-shadow:0 4px 40px rgba(13,18,32,.22)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:74px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-.02em}
 .logo-img{height:36px;width:auto;display:block}
 .logo-fallback{height:36px;width:36px;background:var(--blue);color:#fff;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:14px;font-weight:500}
-.logo-text{color:#F0F2F7}
+.logo-lockup{display:flex;flex-direction:column;gap:2px;line-height:1.05}
+.logo-text{color:#F0F2F7;line-height:1.05}
+.logo-subline{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.11em;text-transform:uppercase;color:rgba(240,242,247,.38);white-space:nowrap}
+@media(max-width:640px){.logo-subline{font-size:9px;letter-spacing:.08em}}
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-links a{font-size:13.5px;font-weight:500;color:rgba(240,242,247,.6);padding:8px 14px;border-radius:7px;transition:color .2s,background .2s}
-.nav-links a:hover{color:#F0F2F7;background:rgba(255,255,255,.07)}
+.nav-links a:hover{color:#F0F2F7;background:rgba(255,255,255,.07);text-shadow:0 0 20px rgba(122,168,255,.35)}
 @media(max-width:900px){.nav-links{display:none}}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-phone{font-family:var(--mono);font-size:12.5px;color:rgba(240,242,247,.4)}
+@media(max-width:700px){.nav-phone{display:none}}
 .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:8px;font-family:var(--sans);font-weight:600;font-size:14.5px;cursor:pointer;transition:all .25s var(--ease);white-space:nowrap;border:none;text-decoration:none}
 .btn-primary{background:var(--blue);color:#fff;font-size:13.5px;padding:10px 20px}
 .btn-primary:hover{background:var(--blue-l);transform:translateY(-2px);box-shadow:0 8px 28px rgba(29,91,212,.28)}
@@ -100,12 +108,15 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
 </head>
 <body>
 
-<nav class="top">
+<nav class="top" id="navbar">
   <div class="container nav-inner">
     <a href="index.html" class="logo">
       <img src="logo.png" alt="AK WebWorks" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
       <span class="logo-fallback" style="display:none;">AK</span>
-      <span class="logo-text">WebWorks</span>
+      <span class="logo-lockup">
+        <span class="logo-text">WebWorks</span>
+        <span class="logo-subline">Webdesign aus Bielefeld</span>
+      </span>
     </a>
     <div class="nav-links">
       <a href="index.html#leistungen">Leistungen</a>
@@ -114,7 +125,10 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
       <a href="index.html#ueber">Über mich</a>
       <a href="index.html#faq">FAQ</a>
     </div>
-    <a href="index.html#termin" class="btn btn-primary">Beratung buchen <span class="arrow">→</span></a>
+    <div class="nav-right">
+      <a href="tel:+4915123456789" class="nav-phone">+49 151 234 56789</a>
+      <a href="kontakt.html" class="btn btn-primary">Beratung buchen <span class="arrow">→</span></a>
+    </div>
   </div>
 </nav>
 
@@ -122,9 +136,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
   <div class="container">
     <div class="legal-wrap">
 
-      <a href="index.html" class="back-link">← Zurück zur Website</a>
 
-      <div class="eyebrow">Rechtliches</div>
       <h1>Datenschutzerklärung</h1>
       <p class="legal-meta">Gemäß DSGVO (EU) 2016/679 · Stand: 2026</p>
 
@@ -137,7 +149,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         <p>
           <strong>Alperen Ali Kati</strong> (AK WebWorks)<br>
           [Straße und Hausnummer], 33[xxx] Bielefeld<br>
-          E-Mail: <a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a><br>
+          E-Mail: <a href="mailto:info@akwebworks.de">info@akwebworks.de</a><br>
           Telefon: +49 151 234 56789
         </p>
       </div>
@@ -149,40 +161,102 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         Daten verkauft oder aus anderen Gründen an Dritte weitergegeben — mit Ausnahme der unten genannten
         Dienstleister, die zur Leistungserbringung notwendig sind.
       </p>
-
-      <h2>3. Hosting (GitHub Pages)</h2>
+      <h2>3. Hosting auf eigenem Webserver</h2>
       <p>
-        Diese Website wird über <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P Kelly Jr St,
-        San Francisco, CA 94107, USA) gehostet. Beim Abrufen der Website werden durch GitHub technische
-        Daten — insbesondere IP-Adressen — in Server-Logs gespeichert. Dies dient dem Betrieb und der
-        Sicherheit des Dienstes.
+        Diese Website wird privat über einen eigenen Webserver betrieben. Beim Aufruf der Website
+        werden technisch erforderliche Verbindungsdaten verarbeitet, damit die Seite ausgeliefert
+        sowie Stabilität und Sicherheit des Servers gewährleistet werden können.
       </p>
       <p>
-        Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb
-        der Website). Weitere Informationen:
-        <a href="https://docs.github.com/de/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Privacy Statement</a>
-      </p>
-
-      <h2>4. Kontaktformular (Formspree)</h2>
-      <p>
-        Das Kontaktformular auf dieser Website wird über den Dienst <strong>Formspree</strong>
-        (Formspree, Inc., 2093 Philadelphia Pike #4571, Claymont, DE 19703, USA) betrieben.
-        Wenn du das Kontaktformular nutzt, werden die eingegebenen Daten (Name, E-Mail, Telefon,
-        Nachricht) an Formspree übertragen und von dort an meine E-Mail-Adresse weitergeleitet.
+        Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Datei,
+        übertragene Datenmenge, Browsertyp, Betriebssystem und Referrer-URL gehören, soweit diese
+        Informationen technisch übermittelt werden.
       </p>
       <p>
-        Die Daten werden ausschließlich zur Bearbeitung deiner Anfrage verwendet und nicht für
-        Werbezwecke genutzt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche
-        Maßnahmen / Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
-        an der Kommunikation mit Interessenten).
-      </p>
-      <p>
-        Formspree speichert Formulardaten auf Servern in den USA. Formspree ist unter dem EU-US
-        Data Privacy Framework zertifiziert. Weitere Informationen:
-        <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener noreferrer">formspree.io/legal/privacy-policy</a>
+        Soweit auf dem Webserver Server-Logdateien geführt werden, erfolgt deren Verarbeitung
+        ausschließlich zu Zwecken des technischen Betriebs, der Fehleranalyse und der Abwehr von
+        Missbrauch oder Angriffen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Mein berechtigtes
+        Interesse liegt im sicheren und funktionsfähigen Betrieb dieser Website.
       </p>
 
-      <h2>5. Google Fonts</h2>
+      <h2>4. Einsatz von Cloudflare</h2>
+      <p>
+        Für den technischen Betrieb dieser Website werden Dienste von <strong>Cloudflare, Inc.</strong>,
+        101 Townsend St., San Francisco, CA 94107, USA, eingesetzt. Dazu gehören insbesondere die
+        DNS-Verwaltung der Domain, die Bereitstellung von Proxy- und Sicherheitsfunktionen sowie
+        <strong>Cloudflare Tunnel</strong> zur abgesicherten Verbindung zwischen der öffentlich
+        erreichbaren Website und dem privaten Webserver.
+      </p>
+      <p>
+        Durch den Einsatz dieser Dienste kann Datenverkehr technisch über das Netzwerk von Cloudflare
+        geleitet werden. Dabei können Verbindungs- und Zugriffsdaten wie IP-Adresse, Zeitpunkt des Zugriffs,
+        angefragte Inhalte, technische Browserinformationen und sicherheitsrelevante Metadaten verarbeitet
+        werden, soweit dies für Bereitstellung, Schutz und Stabilität der Website erforderlich ist.
+      </p>
+      <p>
+        Cloudflare Tunnel verbindet den Webserver über eine ausgehende Verbindung mit dem
+        Cloudflare-Netzwerk, sodass der Webserver nicht direkt mit einer öffentlich erreichbaren
+        Server-IP exponiert werden muss. Dies dient insbesondere der sicheren Bereitstellung der Website.
+      </p>
+      <p>
+        Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Mein berechtigtes Interesse liegt in einer
+        zuverlässigen, performanten und gegen Missbrauch besser geschützten Bereitstellung dieser Website.
+      </p>
+      <p>
+        Weitere Informationen:
+        <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare Privacy Policy</a>,
+        <a href="https://developers.cloudflare.com/tunnel/" target="_blank" rel="noopener noreferrer">Cloudflare Tunnel</a>
+        und
+        <a href="https://developers.cloudflare.com/dns/" target="_blank" rel="noopener noreferrer">Cloudflare DNS</a>.
+      </p>
+
+
+
+
+      <h2>5. Kontaktformular</h2>
+      <p>
+        Wenn du das Kontaktformular auf dieser Website nutzt, werden die von dir eingegebenen Daten
+        über ein eigenes Backend auf dem Hostingserver verarbeitet. Dazu gehören insbesondere Name,
+        E-Mail-Adresse, Telefonnummer, gewähltes Paket sowie deine Nachricht, sofern du diese Angaben machst.
+      </p>
+      <p>
+        Die Verarbeitung erfolgt ausschließlich, um deine Anfrage zu bearbeiten, Rückfragen zu stellen
+        und eine mögliche Zusammenarbeit vorzubereiten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO
+        (vorvertragliche Maßnahmen) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der
+        Bearbeitung eingehender Anfragen).
+      </p>
+      <p>
+        Nach dem Absenden wird die Anfrage serverseitig verarbeitet und an meine geschäftliche
+        E-Mail-Adresse weitergeleitet. Eine Nutzung für Werbezwecke oder eine Weitergabe an unbeteiligte
+        Dritte erfolgt nicht.
+      </p>
+      <h2>6. E-Mail-Zustellung über Cloudflare Email Routing</h2>
+      <p>
+        Für E-Mail-Adressen meiner Domain wird zusätzlich <strong>Cloudflare Email Routing</strong>
+        eingesetzt. Dadurch können E-Mails an Adressen wie info@akwebworks.de an eine hinterlegte
+        Zieladresse weitergeleitet werden.
+      </p>
+      <p>
+        Dies betrifft auch Nachrichten, die durch das Kontaktformular an meine geschäftliche
+        E-Mail-Adresse übermittelt werden. Cloudflare verarbeitet dabei die zur Weiterleitung
+        erforderlichen E-Mail- und Routingdaten im Rahmen des eingesetzten Dienstes.
+      </p>
+      <p>
+        Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Mein berechtigtes Interesse liegt in einer
+        zuverlässigen technischen Zustellung geschäftlicher E-Mail-Kommunikation.
+      </p>
+      <p>
+        Weitere Informationen:
+        <a href="https://developers.cloudflare.com/email-routing/" target="_blank" rel="noopener noreferrer">Cloudflare Email Routing</a>
+        und
+        <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare Privacy Policy</a>.
+      </p>
+
+
+
+
+
+      <h2>7. Google Fonts</h2>
       <p>
         Diese Website nutzt <strong>Google Fonts</strong> (Google LLC, 1600 Amphitheatre Parkway,
         Mountain View, CA 94043, USA). Beim Laden der Seite wird eine Verbindung zu Google-Servern
@@ -195,14 +269,14 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
       </p>
       <p>Datenschutzerklärung Google: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a></p>
 
-      <h2>6. Cookies und Tracking</h2>
+      <h2>8. Cookies und Tracking</h2>
       <p>
         Diese Website verwendet <strong>keine Tracking-Cookies</strong> und kein Webanalyse-Tool.
         Es werden ausschließlich technisch notwendige Prozesse genutzt, die keiner Einwilligung bedürfen.
         Ein Cookie-Banner ist aus diesem Grund nicht erforderlich.
       </p>
 
-      <h2>7. Kontaktaufnahme per E-Mail oder Telefon</h2>
+      <h2>9. Kontaktaufnahme per E-Mail oder Telefon</h2>
       <p>
         Wenn du mich per E-Mail oder Telefon kontaktierst, werden die übermittelten Daten
         (z. B. Name, E-Mail-Adresse, Nachricht) gespeichert, um deine Anfrage bearbeiten und
@@ -212,7 +286,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         Aufbewahrungspflichten bestehen.
       </p>
 
-      <h2>8. Deine Rechte als betroffene Person</h2>
+      <h2>10. Deine Rechte als betroffene Person</h2>
       <p>Du hast gegenüber mir folgende Rechte bezüglich deiner personenbezogenen Daten:</p>
       <ul>
         <li><strong>Auskunftsrecht</strong> (Art. 15 DSGVO)</li>
@@ -224,10 +298,10 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
       </ul>
       <p>
         Zur Ausübung deiner Rechte wende dich per E-Mail an:
-        <a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a>
+        <a href="mailto:info@akwebworks.de">info@akwebworks.de</a>
       </p>
 
-      <h2>9. Beschwerderecht bei der Aufsichtsbehörde</h2>
+      <h2>11. Beschwerderecht bei der Aufsichtsbehörde</h2>
       <p>Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig für Nordrhein-Westfalen ist:</p>
       <div class="info-box">
         <p>
@@ -239,7 +313,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         </p>
       </div>
 
-      <h2>10. Aktualität dieser Datenschutzerklärung</h2>
+      <h2>12. Aktualität dieser Datenschutzerklärung</h2>
       <p>
         Ich behalte mir vor, diese Datenschutzerklärung bei Bedarf anzupassen, um sie stets den
         aktuellen rechtlichen Anforderungen entsprechend zu halten oder um Änderungen meiner Leistungen
@@ -278,7 +352,7 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
         <h5>Kontakt</h5>
         <ul>
           <li><a href="tel:+4915123456789">+49 151 234 56789</a></li>
-          <li><a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a></li>
+          <li><a href="mailto:info@akwebworks.de">info@akwebworks.de</a></li>
           <li>
             <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="ig-link">
               <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
@@ -303,5 +377,9 @@ footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)
   </div>
 </footer>
 
+<script>
+const navEl = document.getElementById('navbar');
+window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 20); }, { passive: true });
+</script>
 </body>
 </html>
