@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#070b12" />
-  <title>SHOTVARA — Prototype 0.0.1</title>
-  <meta name="description" content="SHOTVARA Prototype 0.0.1 — erster spielbarer First-Person-Arena-Prototyp im Browser." />
+  <title>SHOTVARA — Browser Shooter</title>
+  <meta name="description" content="SHOTVARA — Browser-FPV-Shooter mit Account-System und kommendem Multiplayer." />
   <link rel="stylesheet" href="./assets/css/game.css" />
   <script type="importmap">
     {
@@ -27,7 +27,7 @@
   <header id="hud" aria-live="polite">
     <div class="hud-brand">
       <strong>SHOTVARA</strong>
-      <span>Prototype 0.0.1</span>
+      <span>Prototype</span>
     </div>
     <div class="hud-status">
       <span id="hud-speed">0.0 m/s</span>
@@ -39,30 +39,74 @@
     <span><kbd>W A S D</kbd> bewegen</span>
     <span><kbd>Maus</kbd> umsehen</span>
     <span><kbd>Leertaste</kbd> springen</span>
+    <span><kbd>R</kbd> nachladen</span>
+    <span><kbd>1 2 3</kbd> Waffen</span>
     <span><kbd>ESC</kbd> Pause</span>
   </div>
 
   <section id="menu" class="overlay visible" aria-labelledby="menu-title">
-    <div class="panel">
-      <p class="eyebrow">AK WebWorks Game Lab</p>
-      <h1 id="menu-title">SHOTVARA</h1>
-      <p class="subtitle">
-        Der erste begehbare Arena-Build. Noch ohne Waffe, aber bereits mit echter FPS-Steuerung,
-        Kollisionen, Sprunglogik und einer kompakten Trainingsumgebung.
-      </p>
+    <div class="menu-layout">
+      <div class="panel hero-panel">
+        <p class="eyebrow">AK WebWorks Game Lab</p>
+        <h1 id="menu-title">SHOTVARA</h1>
+        <p class="subtitle">
+          Der erste spielbare Browser-Shooter-Build mit Waffen, Gegnern,
+          Rüstung, Sniper-Zoom und der Grundlage für echten Multiplayer.
+        </p>
 
-      <button id="start-button" type="button">Arena betreten</button>
+        <div class="menu-actions">
+          <button id="start-button" type="button">Arena betreten</button>
+          <button id="multiplayer-button" class="button-secondary" type="button" disabled>
+            Multiplayer bald
+          </button>
+        </div>
 
-      <div class="feature-grid">
-        <article>
-          <h2>Build-Ziel</h2>
-          <p>Bewegung und Raumgefühl als belastbare Grundlage für alle weiteren Shooter-Systeme.</p>
-        </article>
-        <article>
-          <h2>Nächster Schritt</h2>
-          <p>Schussmechanik, Trefferfeedback und erste Ziele für den 60-Sekunden-Modus.</p>
-        </article>
+        <div class="feature-grid">
+          <article>
+            <h2>Singleplayer-Test</h2>
+            <p>Betrete die Arena, sammle Waffen, bekämpfe Gegner und teste die Shooter-Basis.</p>
+          </article>
+          <article>
+            <h2>Nächster großer Schritt</h2>
+            <p>Accounts sind live. Danach folgen Lobby-System und erste Multiplayer-Matches.</p>
+          </article>
+        </div>
       </div>
+
+      <aside class="panel account-panel" aria-labelledby="account-title">
+        <p class="eyebrow">Spielerkonto</p>
+        <h2 id="account-title">SHOTVARA Account</h2>
+
+        <div id="auth-loading" class="auth-state visible">
+          <p>Account-Status wird geprüft …</p>
+        </div>
+
+        <div id="auth-guest" class="auth-state">
+          <p class="account-copy">
+            Registriere dich oder melde dich an. Das wird später für Lobbys,
+            Multiplayer und gespeicherte Spielerdaten benötigt.
+          </p>
+
+          <div class="account-actions">
+            <button id="open-login-button" type="button">Anmelden</button>
+            <button id="open-register-button" class="button-secondary" type="button">Registrieren</button>
+          </div>
+        </div>
+
+        <div id="auth-user" class="auth-state">
+          <div class="profile-card">
+            <span>Angemeldet als</span>
+            <strong id="account-username">—</strong>
+            <small id="account-email">—</small>
+          </div>
+
+          <div class="account-actions">
+            <button id="logout-button" class="button-secondary" type="button">Logout</button>
+          </div>
+        </div>
+
+        <div id="account-feedback" class="account-feedback" aria-live="polite"></div>
+      </aside>
     </div>
   </section>
 
@@ -75,10 +119,111 @@
     </div>
   </section>
 
+  <section id="login-modal" class="overlay auth-overlay" aria-labelledby="login-title">
+    <div class="panel auth-panel">
+      <button class="modal-close" type="button" data-close-auth aria-label="Anmeldung schließen">×</button>
+      <p class="eyebrow">Anmeldung</p>
+      <h2 id="login-title">Einloggen</h2>
+
+      <form id="login-form" class="auth-form">
+        <label>
+          <span>Benutzername oder E-Mail</span>
+          <input
+            id="login-identifier"
+            name="login"
+            type="text"
+            autocomplete="username"
+            required
+          />
+        </label>
+
+        <label>
+          <span>Passwort</span>
+          <input
+            id="login-password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+        </label>
+
+        <button id="login-submit-button" type="submit">Anmelden</button>
+      </form>
+
+      <p id="login-feedback" class="form-feedback" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="register-modal" class="overlay auth-overlay" aria-labelledby="register-title">
+    <div class="panel auth-panel">
+      <button class="modal-close" type="button" data-close-auth aria-label="Registrierung schließen">×</button>
+      <p class="eyebrow">Neues Konto</p>
+      <h2 id="register-title">Registrieren</h2>
+
+      <form id="register-form" class="auth-form">
+        <label>
+          <span>Benutzername</span>
+          <input
+            id="register-username"
+            name="username"
+            type="text"
+            autocomplete="username"
+            minlength="3"
+            maxlength="24"
+            pattern="[A-Za-z0-9_]{3,24}"
+            required
+          />
+          <small>3–24 Zeichen. Buchstaben, Zahlen und Unterstriche.</small>
+        </label>
+
+        <label>
+          <span>E-Mail-Adresse</span>
+          <input
+            id="register-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          />
+        </label>
+
+        <label>
+          <span>Passwort</span>
+          <input
+            id="register-password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            minlength="10"
+            required
+          />
+          <small>Mindestens 10 Zeichen.</small>
+        </label>
+
+        <label>
+          <span>Passwort wiederholen</span>
+          <input
+            id="register-password-repeat"
+            type="password"
+            autocomplete="new-password"
+            minlength="10"
+            required
+          />
+        </label>
+
+        <button id="register-submit-button" type="submit">Konto erstellen</button>
+      </form>
+
+      <p id="register-feedback" class="form-feedback" aria-live="polite"></p>
+    </div>
+  </section>
+
   <noscript>
     <div class="noscript">SHOTVARA benötigt aktiviertes JavaScript.</div>
   </noscript>
 
+  <script type="module" src="./assets/js/auth.js"></script>
   <script type="module" src="./assets/js/main.js"></script>
 </body>
 </html>
