@@ -133,6 +133,9 @@ const hudSpeed = document.querySelector('#hud-speed');
 const hudState = document.querySelector('#hud-state');
 const crosshair = document.querySelector('#crosshair');
 
+const matchReadyModal = document.querySelector('#match-ready-modal');
+const enterMultiplayerMatchButton = document.querySelector('#enter-multiplayer-match-button');
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x05070c);
 scene.fog = new THREE.Fog(0x05070c, 18, 62);
@@ -194,6 +197,12 @@ let sniperAiming = false;
 let lastShotTime = -999;
 let reloadTimeout = null;
 let gameOver = false;
+
+let multiplayerMatchPrepared = false;
+let multiplayerMatchActive = false;
+let multiplayerMatchData = null;
+
+const remotePlayers = new Map();
 
 const playerState = {
   hp: PLAYER.maxHp,
@@ -265,6 +274,14 @@ controls.addEventListener('lock', () => {
   statusHud.panel.style.display = 'block';
 
   hudState.textContent = hasStarted ? 'Arena aktiv' : 'Initialisiere';
+
+  if (multiplayerMatchPrepared) {
+    multiplayerMatchActive = true;
+    matchReadyModal?.classList.remove('visible');
+
+    window.dispatchEvent(new CustomEvent('shotvara:multiplayer-arena-entered'));
+  }
+
   hasStarted = true;
 });
 
@@ -284,6 +301,10 @@ controls.addEventListener('unlock', () => {
 
 startButton.addEventListener('click', () => controls.lock());
 resumeButton.addEventListener('click', () => controls.lock());
+
+enterMultiplayerMatchButton?.addEventListener('click', () => {
+  controls.lock();
+});
 
 window.addEventListener('keydown', (event) => {
   keys.add(event.code);
@@ -892,7 +913,7 @@ function createGameOverOverlay() {
         font-size:42px;
         line-height:1;
       ">
-        Eliminert
+        Eliminiert
       </h2>
       <p style="
         margin:0 0 24px;
@@ -1429,14 +1450,14 @@ function killEnemy(enemy) {
       enemies.splice(index, 1);
     }
 
-    spawnEnemy(Math.floor(Math.random() * ENEMY_ROUTES.length));
+    if (!multiplayerMatchActive) {
+      spawnEnemy(Math.floor(Math.random() * ENEMY_ROUTES.length));
+    }
   }, ENEMY.respawnDelay);
 }
 
 function updateEnemies(delta, time) {
-  // Gegner-KI startet erst, wenn die Arena wirklich betreten wurde.
-  // Im Startmenü, in der Pause und bei Game Over bleibt alles eingefroren.
-  if (!hasStarted || !controls.isLocked || gameOver) {
+  if (!hasStarted || !controls.isLocked || gameOver || multiplayerMatchActive) {
     return;
   }
 
@@ -2066,6 +2087,144 @@ function scaleObjectToLargestDimension(object, targetSize) {
   const scale = targetSize / largest;
   object.scale.multiplyScalar(scale);
 }
+
+/* -------------------------------------------------------------------------- */
+/*                              MULTIPLAYER HOOKS                             */
+/* -------------------------------------------------------------------------- */
+
+window.addEventListener('shotvara:multiplayer-match-prepared', (event) => {
+  multiplayerMatchPrepared = true;
+  multiplayerMatchData = event.detail;
+
+  clearEnemiesForMultiplayer();
+});
+
+window.addEventListener('shotvara:multiplayer-enter-match', (event) => {
+  multiplayerMatchPrepared = true;
+  multiplayerMatchData = event.detail;
+
+  const ownPlayer = multiplayerMatchData?.players?.find((player) => {
+    return player.userId === getOwnMultiplayerUserId();
+  });
+
+  if (ownPlayer?.spawn) {
+    camera.position.set(
+      ownPlayer.spawn.x,
+      ownPlayer.spawn.y,
+      ownPlayer.spawn.z
+    );
+
+    camera.rotation.set(0, ownPlayer.spawn.yaw, 0);
+  }
+
+  playerState.hp = PLAYER.maxHp;
+  playerState.armor = 0;
+
+  playerState.currentWeaponId = 'pistol';
+  playerState.unlockedWeapons.pistol = true;
+  playerState.unlockedWeapons.mg = false;
+  playerState.unlockedWeapons.sniper = false;
+  playerState.ammo.pistol = WEAPONS.pistol.magazineSize;
+  playerState.ammo.mg = WEAPONS.mg.magazineSize;
+  playerState.ammo.sniper = WEAPONS.sniper.magazineSize;
+
+  equipViewModel('pistol');
+  updateStatusHud();
+
+  clearEnemiesForMultiplayer();
+});
+
+function clearEnemiesForMultiplayer() {
+  enemies.forEach((enemy) => {
+    scene.remove(enemy.root);
+  });
+
+  enemies.length = 0;
+}
+
+function getOwnMultiplayerUserId() {
+  const accountUsername = document.querySelector('#account-username');
+  const ownName = accountUsername?.textContent?.trim();
+
+  const ownPlayer = multiplayerMatchData?.players?.find((player) => {
+    return player.username === ownName;
+  });
+
+  return ownPlayer?.userId ?? null;
+}
+
+function getLocalMultiplayerState() {
+  if (!multiplayerMatchActive || !controls.isLocked) {
+    return null;
+  }
+
+  const direction = new THREE.Vector3();
+  controls.getDirection(direction);
+
+  return {
+    x: camera.position.x,
+    y: camera.position.y,
+    z: camera.position.z,
+    yaw: Math.atan2(direction.x, direction.z),
+    weaponId: playerState.currentWeaponId,
+  };
+}
+
+function upsertRemotePlayer(playerStatePayload) {
+  if (!multiplayerMatchActive || !assets.enemy) {
+    return;
+  }
+
+  const ownUserId = getOwnMultiplayerUserId();
+
+  if (playerStatePayload.userId === ownUserId) {
+    return;
+  }
+
+  let remotePlayer = remotePlayers.get(playerStatePayload.userId);
+
+  if (!remotePlayer) {
+    const root = new THREE.Group();
+    const model = SkeletonUtils.clone(assets.enemy.scene);
+
+    prepareEnemyModel(model);
+    root.add(model);
+
+    scene.add(root);
+
+    remotePlayer = {
+      root,
+      model,
+    };
+
+    remotePlayers.set(playerStatePayload.userId, remotePlayer);
+  }
+
+  remotePlayer.root.position.set(
+    playerStatePayload.x,
+    0,
+    playerStatePayload.z
+  );
+
+  remotePlayer.root.rotation.y = playerStatePayload.yaw;
+}
+
+function removeRemotePlayer(userId) {
+  const remotePlayer = remotePlayers.get(userId);
+
+  if (!remotePlayer) {
+    return;
+  }
+
+  scene.remove(remotePlayer.root);
+  remotePlayers.delete(userId);
+}
+
+window.SHOTVARA_GAME = {
+  getLocalMultiplayerState,
+  upsertRemotePlayer,
+  removeRemotePlayer,
+};
 
 function onResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
