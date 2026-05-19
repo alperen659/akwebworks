@@ -1,6 +1,8 @@
 let currentUser = null;
 let socket = null;
 let currentLobby = null;
+let currentMatch = null;
+let playerStateInterval = null;
 
 const dom = {
   multiplayerButton: document.querySelector('#multiplayer-button'),
@@ -24,6 +26,10 @@ const dom = {
   toggleReadyButton: document.querySelector('#toggle-ready-button'),
   startMatchButton: document.querySelector('#start-match-button'),
   leaveLobbyButton: document.querySelector('#leave-lobby-button'),
+
+  matchReadyModal: document.querySelector('#match-ready-modal'),
+  matchPlayerPreview: document.querySelector('#match-player-preview'),
+  enterMultiplayerMatchButton: document.querySelector('#enter-multiplayer-match-button'),
 };
 
 bindUi();
@@ -37,6 +43,10 @@ window.addEventListener('shotvara:auth-changed', (event) => {
     disconnectSocket();
     closeMultiplayerModal();
   }
+});
+
+window.addEventListener('shotvara:multiplayer-arena-entered', () => {
+  startPlayerStateSync();
 });
 
 function bindUi() {
@@ -55,6 +65,18 @@ function bindUi() {
   dom.toggleReadyButton?.addEventListener('click', toggleReady);
   dom.startMatchButton?.addEventListener('click', startLobbyMatch);
   dom.copyLobbyCodeButton?.addEventListener('click', copyLobbyCode);
+
+  dom.enterMultiplayerMatchButton?.addEventListener('click', () => {
+    if (!currentMatch) {
+      return;
+    }
+
+    dom.matchReadyModal?.classList.remove('visible');
+
+    window.dispatchEvent(new CustomEvent('shotvara:multiplayer-enter-match', {
+      detail: currentMatch,
+    }));
+  });
 
   dom.joinLobbyCode?.addEventListener('input', () => {
     dom.joinLobbyCode.value = dom.joinLobbyCode.value
@@ -155,6 +177,7 @@ function ensureSocketConnection() {
 
   socket.on('disconnect', () => {
     setConnectionState('Verbindung getrennt', 'error');
+    stopPlayerStateSync();
   });
 
   socket.on('socket:ready', () => {
@@ -166,18 +189,37 @@ function ensureSocketConnection() {
     renderLobby(lobby);
   });
 
-  socket.on('lobby:match-placeholder', (payload) => {
-    showFeedback(payload?.message || 'Match-Start vorbereitet.', 'success');
+  socket.on('match:start', (match) => {
+    currentMatch = match;
+    closeMultiplayerModal();
+    renderMatchReady(match);
+
+    dom.matchReadyModal?.classList.add('visible');
+
+    window.dispatchEvent(new CustomEvent('shotvara:multiplayer-match-prepared', {
+      detail: match,
+    }));
+  });
+
+  socket.on('match:player-state', (playerState) => {
+    window.SHOTVARA_GAME?.upsertRemotePlayer?.(playerState);
+  });
+
+  socket.on('match:player-left', ({ userId }) => {
+    window.SHOTVARA_GAME?.removeRemotePlayer?.(userId);
   });
 }
 
 function disconnectSocket() {
+  stopPlayerStateSync();
+
   if (socket) {
     socket.disconnect();
     socket = null;
   }
 
   currentLobby = null;
+  currentMatch = null;
   showStartView();
 }
 
@@ -268,7 +310,7 @@ function startLobbyMatch() {
       return;
     }
 
-    showFeedback(response?.message || 'Match-Start vorbereitet.', 'success');
+    showFeedback(response?.message || 'Match wird gestartet.', 'success');
   });
 }
 
@@ -322,6 +364,49 @@ function renderLobby(lobby) {
 
   const isHost = lobby.hostUserId === currentUser?.id;
   dom.startMatchButton.style.display = isHost ? 'inline-flex' : 'none';
+}
+
+function renderMatchReady(match) {
+  dom.matchPlayerPreview.innerHTML = '';
+
+  match.players.forEach((player) => {
+    const row = document.createElement('div');
+
+    const name = document.createElement('strong');
+    name.textContent = player.username;
+
+    const role = document.createElement('span');
+    role.textContent = player.isHost ? 'Host' : 'Mitspieler';
+
+    row.appendChild(name);
+    row.appendChild(role);
+    dom.matchPlayerPreview.appendChild(row);
+  });
+}
+
+function startPlayerStateSync() {
+  stopPlayerStateSync();
+
+  playerStateInterval = window.setInterval(() => {
+    if (!socket?.connected || !currentMatch) {
+      return;
+    }
+
+    const state = window.SHOTVARA_GAME?.getLocalMultiplayerState?.();
+
+    if (!state) {
+      return;
+    }
+
+    socket.emit('match:player-state', state);
+  }, 80);
+}
+
+function stopPlayerStateSync() {
+  if (playerStateInterval) {
+    window.clearInterval(playerStateInterval);
+    playerStateInterval = null;
+  }
 }
 
 function createBadge(text, variant) {
