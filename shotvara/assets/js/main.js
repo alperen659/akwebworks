@@ -68,7 +68,7 @@ const ENEMY = {
   height: 1.82,
   speed: 1.55,
   respawnDelay: 3200,
-  modelPath: './assets/models/characters/enemy-man.glb',
+  modelPath: './models/characters/enemy-man.glb',
 };
 
 const PICKUP_POSITIONS = {
