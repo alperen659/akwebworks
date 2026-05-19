@@ -1163,9 +1163,7 @@ function spawnEnemy(routeIndex = 0) {
   prepareEnemyModel(enemyModel);
   rootGroup.add(enemyModel);
 
-  // DEBUG-Marker:
-  // Wenn diese roten Säulen sichtbar sind, spawnen die Gegner korrekt
-  // und nur das Charaktermodell selbst ist falsch skaliert/positioniert.
+  // DEBUG 1: Roter Balken zeigt weiterhin Gegnerposition
   const debugMarker = new THREE.Mesh(
     new THREE.CylinderGeometry(0.22, 0.22, 2.2, 16),
     new THREE.MeshBasicMaterial({
@@ -1178,10 +1176,23 @@ function spawnEnemy(routeIndex = 0) {
   debugMarker.position.set(0, 1.1, 0);
   rootGroup.add(debugMarker);
 
+  // DEBUG 2: Gelbe Drahtgitter-Box zeigt,
+  // wo und wie groß das eigentliche Menschenmodell liegt
+  const modelBounds = new THREE.Box3().setFromObject(enemyModel);
+  const helper = new THREE.Box3Helper(modelBounds, 0xffff00);
+  rootGroup.add(helper);
+
+  console.log('Enemy model bounds:', {
+    min: modelBounds.min,
+    max: modelBounds.max,
+    size: modelBounds.getSize(new THREE.Vector3()),
+  });
+
   const enemy = {
     root: rootGroup,
     model: enemyModel,
     debugMarker,
+    debugHelper: helper,
     hp: ENEMY.maxHp,
     maxHp: ENEMY.maxHp,
     alive: true,
@@ -1200,6 +1211,7 @@ function spawnEnemy(routeIndex = 0) {
 
   setupEnemyAnimations(enemy);
 }
+
 function prepareEnemyModel(model) {
   // Feste Skalierung statt automatischer Bounding-Box-Skalierung.
   // Bei animierten GLB-Charakteren kann die automatische Berechnung
