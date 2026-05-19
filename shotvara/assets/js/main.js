@@ -1163,36 +1163,9 @@ function spawnEnemy(routeIndex = 0) {
   prepareEnemyModel(enemyModel);
   rootGroup.add(enemyModel);
 
-  // DEBUG 1: Roter Balken zeigt weiterhin Gegnerposition
-  const debugMarker = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.22, 0.22, 2.2, 16),
-    new THREE.MeshBasicMaterial({
-      color: 0xff0033,
-      transparent: true,
-      opacity: 0.85,
-    })
-  );
-
-  debugMarker.position.set(0, 1.1, 0);
-  rootGroup.add(debugMarker);
-
-  // DEBUG 2: Gelbe Drahtgitter-Box zeigt,
-  // wo und wie groß das eigentliche Menschenmodell liegt
-  const modelBounds = new THREE.Box3().setFromObject(enemyModel);
-  const helper = new THREE.Box3Helper(modelBounds, 0xffff00);
-  rootGroup.add(helper);
-
-  console.log('Enemy model bounds:', {
-    min: modelBounds.min,
-    max: modelBounds.max,
-    size: modelBounds.getSize(new THREE.Vector3()),
-  });
-
   const enemy = {
     root: rootGroup,
     model: enemyModel,
-    debugMarker,
-    debugHelper: helper,
     hp: ENEMY.maxHp,
     maxHp: ENEMY.maxHp,
     alive: true,
@@ -1204,6 +1177,14 @@ function spawnEnemy(routeIndex = 0) {
     deathAction: null,
   };
 
+  // Treffererkennung direkt auf alle sichtbaren Körper-Meshes legen
+  enemyModel.traverse((child) => {
+    if (child.isMesh) {
+      child.userData.enemyEntity = enemy;
+    }
+  });
+
+  // Zusätzlich auch am Root hinterlegen
   rootGroup.userData.enemyEntity = enemy;
 
   scene.add(rootGroup);
@@ -1211,7 +1192,6 @@ function spawnEnemy(routeIndex = 0) {
 
   setupEnemyAnimations(enemy);
 }
-
 function prepareEnemyModel(model) {
   // Das Quaternius-Modell ist bereits sinnvoll proportioniert.
   // 1.0 ergibt eine deutlich passendere Gegnergröße für unsere Arena.
