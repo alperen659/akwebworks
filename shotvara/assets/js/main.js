@@ -1192,12 +1192,17 @@ function spawnEnemy(routeIndex = 0) {
 
   setupEnemyAnimations(enemy);
 }
+
 function prepareEnemyModel(model) {
-  // Das Quaternius-Modell ist bereits sinnvoll proportioniert.
-  // 1.0 ergibt eine deutlich passendere Gegnergröße für unsere Arena.
-  model.scale.setScalar(1.0);
+  // Gegner passend zur Arena skalieren
+  model.scale.setScalar(0.5);
+
+  // Modell sauber auf den Gegner-Root setzen
   model.position.set(0, 0, 0);
-  model.rotation.set(0, Math.PI, 0);
+
+  // Korrekte Laufrichtung:
+  // Vorher liefen die Figuren optisch rückwärts.
+  model.rotation.set(0, 0, 0);
 
   model.traverse((child) => {
     if (child.isMesh) {
