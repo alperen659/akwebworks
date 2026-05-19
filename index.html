@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AK WebWorks — Professionelle Websites für lokale Unternehmen · Bielefeld</title>
+<meta name="description" content="Hochwertige Websites für Handwerker, Dienstleister und lokale Unternehmen. Sauber gebaut, persönlich betreut — aus Bielefeld. Jetzt kostenlose Beratung buchen." />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <nav class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#" class="nav__logo">
+        <img src="logo.png" alt="AK WebWorks" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+        <span class="nav__logo-fb" style="display:none;">AK</span>
+        <span>WebWorks</span>
+      </a>
+      <nav class="nav__links">
+        <a href="#leistungen">Leistungen</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="#preise">Preise</a>
+        <a href="#ueber">Über mich</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav__right">
+        <span class="nav__phone">+49 151 234 56789</span>
+        <a href="kontakt.html" class="btn btn-primary btn-sm">Beratung buchen <span class="arrow">→</span></a>
+        <button class="nav__toggle" id="navToggle" aria-label="Menü" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav__drawer" id="navDrawer">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#preise">Preise</a>
+      <a href="#ueber">Über mich</a>
+      <a href="#faq">FAQ</a>
+      <a href="kontakt.html" class="btn btn-primary">Kostenlose Beratung →</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+      <div class="hero__copy">
+        <div class="hero__tag">
+          <span class="hero__tag-dot"></span>
+          Webdesign aus Bielefeld · für lokale Unternehmen
+        </div>
+        <h1 class="hero__headline">
+          Der erste Eindruck<br>
+          <em>entscheidet.</em><br>
+          <span class="dim">Und er entsteht online.</span>
+        </h1>
+        <p class="hero__sub">
+          Als gelernter Fachinformatiker baue ich Websites, die für lokale Unternehmen
+          wirklich arbeiten — klar strukturiert, sauber codiert, persönlich betreut.
+          Ohne Baukasten. Ohne Agenturpreise.
+        </p>
+        <div class="hero__ctas">
+          <a href="kontakt.html" class="btn btn-primary">Kostenlose Beratung buchen <span class="arrow">→</span></a>
+          <a href="#preise" class="btn btn-ghost">Pakete ansehen</a>
+        </div>
+        <div class="hero__stats">
+          <div>
+            <div class="hero__stat-val">40+</div>
+            <div class="hero__stat-label">Projekte</div>
+          </div>
+          <div>
+            <div class="hero__stat-val">4</div>
+            <div class="hero__stat-label">Jahre Erfahrung</div>
+          </div>
+          <div>
+            <div class="hero__stat-val">14</div>
+            <div class="hero__stat-label">Tage bis live</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__visual reveal">
+        <div class="hero__glow"></div>
+        <div class="browser">
+          <div class="browser__bar">
+            <div class="browser__dots"><span></span><span></span><span></span></div>
+            <div class="browser__url">deinunternehmen.de</div>
+          </div>
+          <div class="browser__body">
+            <div class="mock-nav-b">
+              <div class="mock-logo-b">
+                <span class="mock-logo-b-mark"></span>
+                <span class="mock-logo-b-text"></span>
+              </div>
+              <div class="mock-nav-b-links"><span></span><span></span><span></span></div>
+            </div>
+            <div class="mock-hero-b">
+              <div class="mock-tag-b"></div>
+              <div class="mock-h1-b"><span></span><span></span></div>
+              <div class="mock-p-b"><span></span><span></span><span></span></div>
+              <div class="mock-btns-b"><span></span><span></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone">
+          <div class="phone__screen">
+            <div class="phone__notch"></div>
+            <div class="phone__content">
+              <div class="phone__bar"><span></span><span></span></div>
+              <div class="phone__card">
+                <div class="phone__card-tag"></div>
+                <div class="phone__card-lines"><span></span><span></span></div>
+                <div class="phone__card-btn"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Handwerksbetriebe</span><span class="marquee-item">KFZ-Werkstätten</span><span class="marquee-item">Gastronomie</span><span class="marquee-item">Dienstleister</span><span class="marquee-item">Selbstständige</span><span class="marquee-item">Vereine</span><span class="marquee-item">Praxen &amp; Kanzleien</span><span class="marquee-item">Lokale Geschäfte</span><span class="marquee-item">Handwerksbetriebe</span><span class="marquee-item">KFZ-Werkstätten</span><span class="marquee-item">Gastronomie</span><span class="marquee-item">Dienstleister</span><span class="marquee-item">Selbstständige</span><span class="marquee-item">Vereine</span><span class="marquee-item">Praxen &amp; Kanzleien</span><span class="marquee-item">Lokale Geschäfte</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="leistungen">
+  <div class="container">
+    <div class="problem-intro">
+      <div class="reveal">
+        <div class="eyebrow" style="margin-bottom:20px;">Warum es wichtig ist</div>
+        <h2>Eine schwache Website kostet Sie jeden Monat Kunden.</h2>
+      </div>
+      <p class="lede reveal reveal-d1">
+        Die meisten lokalen Unternehmen verlieren Anfragen nicht, weil sie schlecht arbeiten —
+        sondern weil ihr Webauftritt das nicht vermittelt, was sie wirklich können.
+        Besucher entscheiden in Sekunden. Und sie entscheiden nach dem, was sie sehen.
+      </p>
+    </div>
+    <div class="problem-cards">
+      <div class="problem-card reveal">
+        <div class="problem-card__num">01 / Vertrauen</div>
+        <h3>Wirkt wie 2013.</h3>
+        <p>Veraltete Designs und kaputte Mobile-Ansichten. Bevor jemand auf „Anrufen" klickt, ist er schon beim Wettbewerb.</p>
+      </div>
+      <div class="problem-card reveal reveal-d1">
+        <div class="problem-card__num">02 / Klarheit</div>
+        <h3>Niemand versteht, was Sie machen.</h3>
+        <p>Texte voller Floskeln, keine klare Struktur. Besucher fragen sich nach 5 Sekunden ob sie richtig sind — und gehen.</p>
+      </div>
+      <div class="problem-card reveal reveal-d2">
+        <div class="problem-card__num">03 / Aktion</div>
+        <h3>Keiner ruft an.</h3>
+        <p>Kein klarer nächster Schritt, kein Formular. Selbst interessierte Besucher springen ab, weil die Hürde zu groß ist.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USP -->
+<section class="usp-section">
+  <div class="container">
+    <div class="usp-grid">
+      <div class="reveal">
+        <div class="usp-label">Was anders ist</div>
+        <h2 class="usp-headline">Fachinformatiker-Qualität.<br>Faire Preise.</h2>
+        <p class="usp-sub">Als gelernter Fachinformatiker kombiniere ich technisches Know-how mit modernem Design. Kein Baukasten, kein Template, kein Callcenter. Du bekommst eine Website, die wirklich funktioniert — und einen Menschen, der das persönlich verantwortet.</p>
+        <ul class="usp-list">
+          <li>
+            <div class="usp-icon">👤</div>
+            <div class="usp-list-text">
+              <strong>Direkter Ansprechpartner</strong>
+              <span>Kein Ticket-System, kein Callcenter. Du erreichst mich direkt — und ich antworte.</span>
+            </div>
+          </li>
+          <li>
+            <div class="usp-icon">⚡</div>
+            <div class="usp-list-text">
+              <strong>Echter Code, kein Baukasten</strong>
+              <span>Schnelle Ladezeiten, saubere Struktur, volle Kontrolle. Kein Wix, kein Jimdo.</span>
+            </div>
+          </li>
+          <li>
+            <div class="usp-icon">📱</div>
+            <div class="usp-list-text">
+              <strong>Mobile-First &amp; DSGVO-konform</strong>
+              <span>Von Anfang an richtig gebaut. Auf jedem Gerät perfekt — kein nachträgliches Flicken.</span>
+            </div>
+          </li>
+          <li>
+            <div class="usp-icon">🔓</div>
+            <div class="usp-list-text">
+              <strong>Alles gehört dir</strong>
+              <span>Domain, Code, Inhalte. Kein Lock-in, keine versteckte Abhängigkeit, keine Mietfalle.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="reveal reveal-d1">
+        <div class="usp-visual">
+          <div class="feat-card"><div class="feat-card__icon">🚀</div><div class="feat-card__text"><strong>Schnelle Ladezeiten</strong><span>Optimiert für Performance — damit Google und Besucher zufrieden sind</span></div></div>
+          <div class="feat-card"><div class="feat-card__icon">🔒</div><div class="feat-card__text"><strong>SSL &amp; DSGVO inklusive</strong><span>Rechtlich sauber von Anfang an — kein nachträglicher Aufwand</span></div></div>
+          <div class="feat-card"><div class="feat-card__icon">📍</div><div class="feat-card__text"><strong>Lokales SEO-Setup</strong><span>Damit Sie in Ihrer Region bei Google gefunden werden</span></div></div>
+          <div class="feat-card"><div class="feat-card__icon">🛠</div><div class="feat-card__text"><strong>Persönliche Betreuung</strong><span>Auch nach dem Launch — für Updates, Fragen und Weiterentwicklung</span></div></div>
+          <div class="feat-card"><div class="feat-card__icon">📋</div><div class="feat-card__text"><strong>Keine versteckten Kosten</strong><span>Transparente Festpreise, klare Pakete — Sie wissen immer was Sie bezahlen</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="ablauf">
+  <div class="container">
+    <div class="process-intro reveal">
+      <div class="eyebrow">Der Ablauf</div>
+      <h2>Vier Schritte bis zur fertigen Website.</h2>
+      <p class="lede" style="max-width:52ch;margin:16px auto 0;">Keine Vorkenntnisse nötig. Keine Texte vorbereiten, keine Bilder haben, nichts über HTML wissen. Wir erarbeiten alles gemeinsam.</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="process-step__num">01</div>
+        <div class="process-step__time">Tag 1</div>
+        <h4>Gespräch</h4>
+        <p>30 Minuten Telefon oder Video. Wir klären, was Ihr Unternehmen braucht — und was nicht. Kostenlos und unverbindlich.</p>
+      </div>
+      <div class="process-step reveal reveal-d1">
+        <div class="process-step__num">02</div>
+        <div class="process-step__time">Tag 2–4</div>
+        <h4>Konzept</h4>
+        <p>Seitenstruktur, Textentwurf, Bildauswahl. Sie bekommen einen konkreten Plan zur Freigabe — bevor ein Pixel gebaut wird.</p>
+      </div>
+      <div class="process-step reveal reveal-d2">
+        <div class="process-step__num">03</div>
+        <div class="process-step__time">Tag 5–10</div>
+        <h4>Entwicklung</h4>
+        <p>Ich baue die Website — sauber codiert, mobiloptimiert, performant. Sie sehen Zwischenstände und geben Feedback.</p>
+      </div>
+      <div class="process-step reveal reveal-d3">
+        <div class="process-step__num">04</div>
+        <div class="process-step__time">Tag 10–14</div>
+        <h4>Live-Schaltung</h4>
+        <p>Domain verbunden, alles getestet, Website online. Auf Wunsch übernehme ich die laufende Pflege.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="preise">
+  <div class="container">
+    <div class="pricing-intro reveal">
+      <div class="eyebrow">Pakete &amp; Preise</div>
+      <h2>Transparent. Klar. Fair.</h2>
+      <p class="lede" style="max-width:50ch;margin:16px auto 0;">Drei Pakete für drei typische Bedarfslagen. Alle Preise sind Einmalkosten — kein Abo, keine versteckten Gebühren. Ratenzahlung möglich.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-card__badge">Basis</div>
+        <h3>Klassische Website</h3>
+        <p class="price-card__desc">Für kleine Betriebe und Selbstständige, die professionell sichtbar werden möchten.</p>
+        <div class="price-card__price">
+          <div class="price-card__amount">599 €</div>
+          <div class="price-card__note">EINMALIG · ZZGL. MWST.</div>
+        </div>
+        <ul class="price-card__features">
+          <li>Startseite + bis zu 4 Unterseiten</li>
+          <li>Mobiloptimiertes, modernes Design</li>
+          <li>Leistungen, Über uns, Kontakt</li>
+          <li>Kontaktformular (DSGVO-konform)</li>
+          <li>Impressum &amp; Datenschutz inklusive</li>
+          <li>Eigene Domain anbindbar</li>
+        </ul>
+        <a href="kontakt.html" class="btn btn-outline">Paket wählen <span class="arrow">→</span></a>
+      </div>
+      <div class="price-card price-card--featured reveal reveal-d1">
+        <div class="price-card__badge">★ Beliebteste Wahl</div>
+        <h3>Website Plus</h3>
+        <p class="price-card__desc">Für Unternehmen, die mehr Struktur, mehr Inhalte und zusätzliche Funktionen benötigen.</p>
+        <div class="price-card__price">
+          <div class="price-card__amount">999 €</div>
+          <div class="price-card__note">EINMALIG · ZZGL. MWST.</div>
+        </div>
+        <ul class="price-card__features">
+          <li>Alles aus Klassische Website</li>
+          <li>Bis zu 5+ Unterseiten &amp; Bereiche</li>
+          <li>Galerie, FAQ oder Referenzen</li>
+          <li>Anfrage- oder Reservierungsfunktion</li>
+          <li>Lokales SEO-Setup + Google Maps</li>
+          <li>Erweiterte Seitenstruktur</li>
+          <li>Premium-Support</li>
+        </ul>
+        <a href="kontakt.html" class="btn btn-primary">Paket wählen <span class="arrow">→</span></a>
+      </div>
+      <div class="price-card reveal reveal-d2">
+        <div class="price-card__badge">Individuell</div>
+        <h3>Website nach Wunsch</h3>
+        <p class="price-card__desc">Für größere Projekte mit besonderem Aufbau, mehreren Standorten oder Spezialfunktionen.</p>
+        <div class="price-card__price">
+          <div class="price-card__amount">ab 1.599 €</div>
+          <div class="price-card__note">JE NACH UMFANG · ZZGL. MWST.</div>
+        </div>
+        <ul class="price-card__features">
+          <li>Maßgeschneidertes Seitenkonzept</li>
+          <li>Mehrere Standort- oder Leistungsseiten</li>
+          <li>Individuelle Zusatzfunktionen</li>
+          <li>Mehrsprachigkeit möglich</li>
+          <li>Erweiterte SEO-Optimierung</li>
+          <li>Technisch flexibel skalierbar</li>
+          <li>Erweitertes Marketing möglich</li>
+        </ul>
+        <a href="kontakt.html" class="btn btn-outline">Anfragen <span class="arrow">→</span></a>
+      </div>
+    </div>
+    <div class="care-box reveal">
+      <div>
+        <h4>Optionale Pflege</h4>
+        <p style="margin-top:8px;">Pflege ist nicht erforderlich, aber praktisch — z.B. für Saisonangebote oder neue Inhalte. Jederzeit kündbar, kein Vertrag.</p>
+      </div>
+      <div>
+        <div class="care-row"><span class="care-row__name">Basis-Pflege</span><span class="care-row__price">29 €/Monat</span></div>
+        <div class="care-row"><span class="care-row__name">Plus-Pflege</span><span class="care-row__price">59 €/Monat</span></div>
+        <div class="care-row"><span class="care-row__name">Individuelle Pflege</span><span class="care-row__price">nach Aufwand</span></div>
+      </div>
+    </div>
+    <div class="not-included reveal">
+      <details class="ni">
+        <summary>Was nicht im Paket enthalten ist — klare Worte</summary>
+        <div class="ni-body">
+          <p><strong>Domain.</strong> Trägst du selbst (ca. 10–15 €/Jahr).</p>
+          <p><strong>Hosting.</strong> Empfehlung &amp; Einrichtung kostenlos — ab ca. 5 €/Monat.</p>
+          <p><strong>E-Mail-Postfächer.</strong> Beim Hoster — wir richten ein, du bezahlst.</p>
+          <p><strong>Stockfotos.</strong> Falls keine eigenen Bilder vorhanden, klären wir Lizenzen.</p>
+          <p><strong>Online-Shop / Buchungssystem.</strong> Auf Anfrage als Zusatzmodul.</p>
+          <p><strong>Google Ads.</strong> Vermittle ich auf Wunsch an Partner weiter.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="ueber">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <span class="about-photo__tag">Platzhalter · echtes Foto folgt</span>
+        <div class="about-photo__placeholder">
+          <svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E6E9F4" stop-opacity="0"/><stop offset="100%" stop-color="#E6E9F4"/></linearGradient></defs>
+            <rect width="300" height="380" fill="#E6E9F4"/>
+            <circle cx="150" cy="128" r="66" fill="#CDD4EA"/>
+            <path d="M 40 380 Q 40 238 150 238 Q 260 238 260 380 Z" fill="#C4CCE4"/>
+            <circle cx="150" cy="106" r="34" fill="#D4DCF0"/>
+            <circle cx="150" cy="96" r="22" fill="#BCC8E4"/>
+            <rect x="0" y="296" width="300" height="84" fill="url(#pg)"/>
+          </svg>
+        </div>
+        <div class="about-photo__overlay"></div>
+        <div class="about-badge">
+          <div>
+            <div class="about-badge__val">2022</div>
+            <div class="about-badge__label">Aktiv<br>seit</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-content reveal reveal-d1">
+        <div class="eyebrow">Über mich</div>
+        <h2 style="margin-top:20px;">Hi, ich bin<br>Alperen Ali Kati.</h2>
+        <p>29 Jahre alt, gelernter Fachinformatiker aus Bielefeld. Ich baue Websites für lokale Unternehmen — keine Templates, kein Baukasten. Jede Website entsteht sauber von Grund auf, mit echtem Code und echtem Verständnis dafür, was kleine Betriebe im Alltag wirklich brauchen.</p>
+        <p>Mein Versprechen: keine Wunder, dafür ehrliche Arbeit. Sie bekommen eine Website, die zu Ihrem Unternehmen passt, die Sie verstehen — und die Ihnen Anfragen bringt.</p>
+        <div class="about-sig">— Alperen</div>
+        <div class="about-facts">
+          <div class="about-fact"><div class="about-fact__val">2022</div><div class="about-fact__label">Aktiv seit</div></div>
+          <div class="about-fact"><div class="about-fact__val">40+</div><div class="about-fact__label">Projekte</div></div>
+          <div class="about-fact"><div class="about-fact__val">OWL</div><div class="about-fact__label">Standort</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="testimonials-intro reveal">
+      <div class="eyebrow">Stimmen aus der Praxis</div>
+      <h2>Echte Kunden. Echte Ergebnisse.</h2>
+      <p style="color:rgba(240,242,248,.4);font-size:13px;font-style:italic;margin-top:8px;">Platzhalter — bitte mit echten Kundenstimmen ersetzen.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <blockquote>Unsere alte Seite war 10 Jahre alt und peinlich. Jetzt rufen Leute an und sagen, sie hätten uns übers Internet gefunden — das passierte vorher nie.</blockquote>
+        <div class="testimonial-card__who">
+          <div class="testimonial-card__avatar">MS</div>
+          <div><div class="testimonial-card__name">Max Schmidt</div><div class="testimonial-card__role">KFZ-Werkstatt, Bielefeld · <em>Platzhalter</em></div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-d1">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <blockquote>Klare Kommunikation, keine versteckten Kosten, fertig in zwei Wochen. Genau so hatte ich mir das vorgestellt.</blockquote>
+        <div class="testimonial-card__who">
+          <div class="testimonial-card__avatar">AB</div>
+          <div><div class="testimonial-card__name">Aylin B.</div><div class="testimonial-card__role">Friseursalon, OWL · <em>Platzhalter</em></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="faq-layout">
+      <div class="faq-sidebar reveal">
+        <div class="eyebrow" style="margin-bottom:20px;">Häufige Fragen</div>
+        <h2>Bevor Sie fragen.</h2>
+        <p style="margin-top:16px;">Was Interessenten am häufigsten wissen wollen. Steht Ihre Frage nicht dabei? Schreiben Sie mir — Antwort meist am gleichen Tag.</p>
+        <div style="margin-top:32px;"><a href="kontakt.html" class="btn btn-outline btn-sm">Frage stellen <span class="arrow">→</span></a></div>
+      </div>
+      <div class="faq-list reveal reveal-d1">
+        <details class="faq-item"><summary>Wie lange dauert die Erstellung? <span class="faq-icon">+</span></summary><div class="faq-answer">In der Regel 7–14 Werktage ab Vertragsabschluss. Bei größeren Projekten etwas länger — Sie bekommen immer einen verbindlichen Zeitplan vorab.</div></details>
+        <details class="faq-item"><summary>Was ist, wenn ich keine Texte oder Bilder habe? <span class="faq-icon">+</span></summary><div class="faq-answer">Kein Problem. Texte erarbeiten wir gemeinsam, Bilder können aus lizenzfreien Quellen stammen oder wir vermitteln einen Fotografen. Sie müssen nichts vorbereiten.</div></details>
+        <details class="faq-item"><summary>Wem gehört die Website nach Fertigstellung? <span class="faq-icon">+</span></summary><div class="faq-answer">Ihnen. Komplett. Domain, Inhalte, Code — alles gehört Ihnen. Keine Lizenzgebühren, keine monatliche Mietfalle, kein Lock-in.</div></details>
+        <details class="faq-item"><summary>Kann ich später selbst Änderungen machen? <span class="faq-icon">+</span></summary><div class="faq-answer">Ja. Auf Wunsch baue ich ein einfaches Bearbeitungssystem ein. Oder Sie sagen mir Bescheid und ich übernehme es — im Rahmen eines Pflegepaketes oder auf Anfrage.</div></details>
+        <details class="faq-item"><summary>Was kostet mich das laufend? <span class="faq-icon">+</span></summary><div class="faq-answer">Domain (ca. 10–15 €/Jahr) und Hosting (ab ca. 5 €/Monat). Pflege ist optional. Sonst entstehen keine laufenden Kosten durch mich.</div></details>
+        <details class="faq-item"><summary>Ist die Website DSGVO-konform? <span class="faq-icon">+</span></summary><div class="faq-answer">Ja. Impressum, Datenschutzerklärung, korrektes Kontaktformular, Cookie-Hinweis (wenn nötig). Kein externes Tracking, außer Sie wünschen es ausdrücklich.</div></details>
+        <details class="faq-item"><summary>Kann ich in Raten zahlen? <span class="faq-icon">+</span></summary><div class="faq-answer">Ja. Standardmäßig 50 % bei Beauftragung, 50 % bei Fertigstellung. Bei größeren Projekten auch drei Raten. Kein Aufpreis.</div></details>
+        <details class="faq-item"><summary>Was, wenn mir das Ergebnis nicht gefällt? <span class="faq-icon">+</span></summary><div class="faq-answer">Wir arbeiten in Etappen mit Zwischenfreigaben. Anpassungen sind im Paket enthalten. Bei grundsätzlichem Nicht-Passen erstatte ich anteilig zurück.</div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="termin">
+  <div class="container">
+    <div class="cta-block reveal">
+      <div class="eyebrow">Beratungstermin</div>
+      <h2>30 Minuten.<br>Kostenfrei. Unverbindlich.</h2>
+      <p>Wir sprechen über Ihr Unternehmen und Ihr Ziel — und schauen gemeinsam, welches Paket passt. Wenn keines passt, sage ich das ehrlich.</p>
+      <div class="cta-btns">
+        <a href="kontakt.html" class="btn btn-primary">Termin anfragen <span class="arrow">→</span></a>
+        <a href="mailto:info@akwebworks.de" class="btn btn-ghost">Per E-Mail schreiben</a>
+      </div>
+      <div class="cta-meta">
+        <span>Antwort innerhalb 24 h</span>
+        <span>Keine Anmeldung nötig</span>
+        <span>Auch abends &amp; samstags</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__brand-logo">
+          <img src="logo.png" alt="AK WebWorks" height="32" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+          <span class="footer__brand-logo-fb" style="display:none;">AK</span>
+          <span>WebWorks</span>
+        </a>
+        <p>Hochwertige Websites für lokale Unternehmen. Aus Bielefeld. Mit echtem Code.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Leistungen</h5>
+        <ul>
+          <li><a href="#preise">Pakete</a></li>
+          <li><a href="#ablauf">Ablauf</a></li>
+          <li><a href="#leistungen">Leistungen</a></li>
+          <li><a href="#ueber">Über mich</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Kontakt</h5>
+        <ul>
+          <li><a href="tel:+4915123456789">+49 151 234 56789</a></li>
+          <li><a href="mailto:info@akwebworks.de">info@akwebworks.de</a></li>
+          <li>
+            <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="footer__ig">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              ak.webworks
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Rechtliches</h5>
+        <ul>
+          <li><a href="impressum.html">Impressum</a></li>
+          <li><a href="datenschutz.html">Datenschutz</a></li>
+          <li><a href="agb.html">AGB</a></li>
+          <li><a href="kontakt.html" style="color:var(--blue);">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 AK WebWorks — Alle Rechte vorbehalten.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="webbot.js"></script>
+</body>
+</html>
