@@ -256,6 +256,13 @@ function setAuthenticatedUser(user) {
   dom.accountUsername.textContent = user.username || 'Unbekannt';
   dom.accountEmail.textContent = user.email || '—';
   setAuthState('user');
+
+  window.dispatchEvent(new CustomEvent('shotvara:auth-changed', {
+    detail: {
+      authenticated: true,
+      user,
+    },
+  }));
 }
 
 function setAuthState(state) {
