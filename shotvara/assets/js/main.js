@@ -601,28 +601,81 @@ function removeTarget(target) {
 }
 
 function createTracer(start, end) {
-  const direction = end.clone().sub(start).normalize();
-  const tracerStart = start.clone().addScaledVector(direction, 0.55);
+  const direction = end.clone().sub(start);
+  const length = direction.length();
 
-  const geometry = new THREE.BufferGeometry().setFromPoints([
-    tracerStart,
-    end,
-  ]);
+  if (length <= 0.01) {
+    return;
+  }
 
-  const material = new THREE.LineBasicMaterial({
-    color: 0x92e8ff,
+  const normalizedDirection = direction.clone().normalize();
+
+  const tracerStart = start.clone().addScaledVector(normalizedDirection, 0.65);
+  const tracerEnd = end.clone();
+  const tracerLength = tracerStart.distanceTo(tracerEnd);
+
+  if (tracerLength <= 0.01) {
+    return;
+  }
+
+  const midpoint = tracerStart.clone().lerp(tracerEnd, 0.5);
+
+  const beamGeometry = new THREE.CylinderGeometry(
+    0.035,
+    0.035,
+    tracerLength,
+    8,
+    1,
+    true
+  );
+
+  const beamMaterial = new THREE.MeshBasicMaterial({
+    color: 0x9beeff,
     transparent: true,
     opacity: 0.95,
+    depthWrite: false,
   });
 
-  const tracer = new THREE.Line(geometry, material);
-  scene.add(tracer);
+  const beam = new THREE.Mesh(beamGeometry, beamMaterial);
+  beam.position.copy(midpoint);
+
+  beam.quaternion.setFromUnitVectors(
+    new THREE.Vector3(0, 1, 0),
+    normalizedDirection
+  );
+
+  scene.add(beam);
+
+  const glowGeometry = new THREE.CylinderGeometry(
+    0.09,
+    0.09,
+    tracerLength,
+    8,
+    1,
+    true
+  );
+
+  const glowMaterial = new THREE.MeshBasicMaterial({
+    color: 0x4ddcff,
+    transparent: true,
+    opacity: 0.22,
+    depthWrite: false,
+  });
+
+  const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+  glow.position.copy(midpoint);
+  glow.quaternion.copy(beam.quaternion);
+  scene.add(glow);
 
   window.setTimeout(() => {
-    scene.remove(tracer);
-    geometry.dispose();
-    material.dispose();
-  }, 70);
+    scene.remove(beam);
+    scene.remove(glow);
+
+    beamGeometry.dispose();
+    beamMaterial.dispose();
+    glowGeometry.dispose();
+    glowMaterial.dispose();
+  }, 85);
 }
 
 function createImpactEffect(position, isTargetHit) {
