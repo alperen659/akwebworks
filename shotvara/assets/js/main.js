@@ -1213,23 +1213,26 @@ function spawnEnemy(routeIndex = 0) {
 }
 
 function prepareEnemyModel(model) {
-  // Feste Skalierung statt automatischer Bounding-Box-Skalierung.
-  // Bei animierten GLB-Charakteren kann die automatische Berechnung
-  // zu falschen, extrem kleinen Modellen führen.
-  model.scale.setScalar(1.65);
+  // Direkte, feste Transformation für das Quaternius-Man-Modell.
+  // Keine automatische Bounding-Box-Berechnung mehr,
+  // da diese beim animierten Modell hier offenbar Probleme macht.
 
-  // Modell optisch korrekt auf den Boden setzen
-  groundObject(model);
-
-  // Falls die Ausrichtung des GLB-Modells gedreht ist,
-  // korrigieren wir die Standardausrichtung hier.
-  model.rotation.y = Math.PI;
+  model.scale.setScalar(1.8);
+  model.position.set(0, 0, 0);
+  model.rotation.set(0, Math.PI, 0);
 
   model.traverse((child) => {
     if (child.isMesh) {
+      child.visible = true;
       child.castShadow = true;
       child.receiveShadow = true;
       child.frustumCulled = false;
+
+      if (child.material) {
+        child.material.transparent = false;
+        child.material.opacity = 1;
+        child.material.needsUpdate = true;
+      }
     }
   });
 }
