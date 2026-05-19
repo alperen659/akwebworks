@@ -188,6 +188,10 @@ controls.addEventListener('lock', () => {
   document.body.classList.add('locked');
   menu.classList.remove('visible');
   pauseMenu.classList.remove('visible');
+
+  combatHud.panel.style.display = 'block';
+  statusHud.panel.style.display = 'block';
+
   hudState.textContent = hasStarted ? 'Arena aktiv' : 'Initialisiere';
   hasStarted = true;
 });
@@ -517,6 +521,7 @@ function registerCircularCollider(x, z, radius) {
 function createCombatHud() {
   const hud = document.createElement('div');
 
+  hud.style.display = 'none';
   hud.style.position = 'fixed';
   hud.style.top = '24px';
   hud.style.right = '24px';
@@ -546,6 +551,7 @@ function createCombatHud() {
   document.body.appendChild(hud);
 
   return {
+    panel: hud,
     score: hud.querySelector('#combat-score'),
     shots: hud.querySelector('#combat-shots'),
     hits: hud.querySelector('#combat-hits'),
@@ -556,6 +562,7 @@ function createCombatHud() {
 function createStatusHud() {
   const hud = document.createElement('div');
 
+  hud.style.display = 'none';
   hud.style.position = 'fixed';
   hud.style.left = '24px';
   hud.style.bottom = '24px';
@@ -606,6 +613,7 @@ function createStatusHud() {
   document.body.appendChild(hud);
 
   return {
+    panel: hud,
     hp: hud.querySelector('#status-hp'),
     armor: hud.querySelector('#status-armor'),
     weapon: hud.querySelector('#status-weapon'),
