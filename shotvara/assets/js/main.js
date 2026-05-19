@@ -217,6 +217,7 @@ const combatHud = createCombatHud();
 const statusHud = createStatusHud();
 const notification = createNotification();
 const scopeOverlay = createScopeOverlay();
+let notificationTimer = null;
 
 createLighting();
 createArena();
@@ -797,7 +798,6 @@ function createScopeOverlay() {
   return overlay;
 }
 
-let notificationTimer = null;
 
 function showNotification(text) {
   notification.textContent = text;
