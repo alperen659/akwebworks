@@ -84,7 +84,7 @@
     #akwb-window{position:fixed;bottom:96px;right:28px;width:360px;max-height:540px;background:#fff;border:1px solid #D6DAE8;border-radius:18px;display:flex;flex-direction:column;z-index:9998;overflow:hidden;box-shadow:0 8px 40px rgba(15,22,40,0.13);font-family:"IBM Plex Sans",system-ui,sans-serif;transition:opacity .2s,transform .2s}
     #akwb-window.akwb-hidden{opacity:0;pointer-events:none;transform:translateY(12px) scale(0.97)}
     .akwb-header{background:#0F1623;padding:14px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-    .akwb-avatar{width:36px;height:36px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;border:1px solid rgba(255,255,255,0.15)}
+    .akwb-avatar{width:36px;height:36px;border-radius:8px;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;border:none}
     .akwb-hinfo{flex:1}
     .akwb-hname{color:#F0F2F7;font-size:14px;font-weight:600}
     .akwb-hstatus{color:rgba(240,242,247,0.5);font-size:12px;display:flex;align-items:center;gap:5px}
