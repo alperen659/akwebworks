@@ -51,13 +51,13 @@
         <h1 id="menu-title">SHOTVARA</h1>
         <p class="subtitle">
           Der erste spielbare Browser-Shooter-Build mit Waffen, Gegnern,
-          Rüstung, Sniper-Zoom und der Grundlage für echten Multiplayer.
+          Rüstung, Sniper-Zoom, Accounts und der Grundlage für echten Multiplayer.
         </p>
 
         <div class="menu-actions">
           <button id="start-button" type="button">Arena betreten</button>
           <button id="multiplayer-button" class="button-secondary" type="button" disabled>
-            Multiplayer bald
+            Multiplayer
           </button>
         </div>
 
@@ -67,8 +67,8 @@
             <p>Betrete die Arena, sammle Waffen, bekämpfe Gegner und teste die Shooter-Basis.</p>
           </article>
           <article>
-            <h2>Nächster großer Schritt</h2>
-            <p>Accounts sind live. Danach folgen Lobby-System und erste Multiplayer-Matches.</p>
+            <h2>Multiplayer-Basis</h2>
+            <p>Erstelle Lobbys, lade Freunde per Code ein und bereite Online-Matches vor.</p>
           </article>
         </div>
       </div>
@@ -83,7 +83,7 @@
 
         <div id="auth-guest" class="auth-state">
           <p class="account-copy">
-            Registriere dich oder melde dich an. Das wird später für Lobbys,
+            Registriere dich oder melde dich an. Das wird für Lobbys,
             Multiplayer und gespeicherte Spielerdaten benötigt.
           </p>
 
@@ -219,11 +219,76 @@
     </div>
   </section>
 
+  <section id="multiplayer-modal" class="overlay multiplayer-overlay" aria-labelledby="multiplayer-title">
+    <div class="panel multiplayer-panel">
+      <button class="modal-close" type="button" id="close-multiplayer-button" aria-label="Multiplayer schließen">×</button>
+
+      <p class="eyebrow">Online-Modus</p>
+      <h2 id="multiplayer-title">Multiplayer-Lobby</h2>
+
+      <div id="multiplayer-connect-state" class="multiplayer-connect-state">
+        Verbindung wird aufgebaut …
+      </div>
+
+      <div id="multiplayer-start-view" class="multiplayer-view visible">
+        <p class="multiplayer-copy">
+          Erstelle eine neue Lobby oder tritt mit einem Lobby-Code einer bestehenden Gruppe bei.
+        </p>
+
+        <div class="lobby-entry-grid">
+          <button id="create-lobby-button" type="button">Lobby erstellen</button>
+
+          <form id="join-lobby-form" class="join-lobby-form">
+            <label>
+              <span>Lobby-Code</span>
+              <input
+                id="join-lobby-code"
+                type="text"
+                maxlength="6"
+                placeholder="ABC123"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <button id="join-lobby-button" class="button-secondary" type="submit">Beitreten</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="lobby-view" class="multiplayer-view">
+        <div class="lobby-header-card">
+          <div>
+            <span>Lobby-Code</span>
+            <strong id="lobby-code-display">—</strong>
+          </div>
+          <button id="copy-lobby-code-button" class="button-secondary small-button" type="button">
+            Code kopieren
+          </button>
+        </div>
+
+        <div class="lobby-player-section">
+          <h3>Spieler</h3>
+          <div id="lobby-player-list" class="lobby-player-list"></div>
+        </div>
+
+        <div class="lobby-actions">
+          <button id="toggle-ready-button" type="button">Bereit</button>
+          <button id="start-match-button" type="button">Match starten</button>
+          <button id="leave-lobby-button" class="button-secondary" type="button">Lobby verlassen</button>
+        </div>
+      </div>
+
+      <p id="multiplayer-feedback" class="form-feedback" aria-live="polite"></p>
+    </div>
+  </section>
+
   <noscript>
     <div class="noscript">SHOTVARA benötigt aktiviertes JavaScript.</div>
   </noscript>
 
+  <script src="/shotvara-api/socket.io/socket.io.js"></script>
   <script type="module" src="./assets/js/auth.js"></script>
+  <script type="module" src="./assets/js/multiplayer.js"></script>
   <script type="module" src="./assets/js/main.js"></script>
 </body>
 </html>
