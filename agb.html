@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AGB — AK WebWorks</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#EFF1F8; --bg-2:#E6E9F4; --bg-3:#FFFFFF;
+  --nav-bg:rgba(13,18,32,0.93); --nav-bdr:rgba(255,255,255,0.06);
+  --blue:#1D5BD4; --blue-l:#3B77F0; --blue-dim:#D6E2FA;
+  --ink:#0F1623; --ink-s:#3D4A62; --muted:#7A8499;
+  --line:#D6DAE8; --line-s:#E6E9F4;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --maxw:1200px; --ease:cubic-bezier(0.22,1,0.36,1);
+  --r:10px; --rl:16px; --rx:22px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;overflow-x:hidden;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(29,91,212,.024) 1px,transparent 1px),linear-gradient(90deg,rgba(29,91,212,.024) 1px,transparent 1px);background-size:52px 52px}
+a{color:inherit;text-decoration:none;transition:all .2s var(--ease)}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:2}
+@media(max-width:640px){.container{padding:0 18px}}
+h1,h2,h3,h4{font-family:var(--sans);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:0}
+h1{font-size:clamp(2.4rem,5.5vw,4.8rem)}
+
+nav.top{position:sticky;top:0;z-index:200;background:var(--nav-bg);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--nav-bdr)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-.02em}
+.logo-img{height:36px;width:auto;display:block}
+.logo-fallback{height:36px;width:36px;background:var(--blue);color:#fff;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:14px;font-weight:500}
+.logo-text{color:#F0F2F7}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{font-size:13.5px;font-weight:500;color:rgba(240,242,247,.6);padding:8px 14px;border-radius:7px;transition:color .2s,background .2s}
+.nav-links a:hover{color:#F0F2F7;background:rgba(255,255,255,.07)}
+@media(max-width:900px){.nav-links{display:none}}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:8px;font-family:var(--sans);font-weight:600;font-size:14.5px;cursor:pointer;transition:all .25s var(--ease);white-space:nowrap;border:none;text-decoration:none}
+.btn-primary{background:var(--blue);color:#fff;font-size:13.5px;padding:10px 20px}
+.btn-primary:hover{background:var(--blue-l);transform:translateY(-2px);box-shadow:0 8px 28px rgba(29,91,212,.28)}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);background:rgba(29,91,212,.07)}
+.btn .arrow{transition:transform .22s var(--ease)}
+.btn:hover .arrow{transform:translateX(4px)}
+
+.legal-page{padding:72px 0 100px}
+.legal-wrap{max-width:780px}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;color:var(--muted);margin-bottom:52px;padding:9px 16px;border:1px solid var(--line);border-radius:8px;background:var(--bg-3);transition:all .2s}
+.back-link:hover{color:var(--blue);border-color:var(--blue);background:rgba(29,91,212,.05)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);display:inline-flex;align-items:center;gap:10px;margin-bottom:20px}
+.eyebrow::before{content:"";display:inline-block;width:20px;height:1.5px;background:var(--blue)}
+.legal-meta{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:52px;letter-spacing:.04em}
+.legal-wrap h2{font-size:1.1rem;font-weight:700;margin:44px 0 14px;color:var(--ink);padding-top:30px;border-top:1px solid var(--line);letter-spacing:-.02em}
+.legal-wrap h2:first-of-type{border-top:none;padding-top:0}
+.legal-wrap p{color:var(--ink-s);font-size:15.5px;line-height:1.75;margin:0 0 14px}
+.legal-wrap a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+.legal-wrap a:hover{color:var(--blue-l)}
+.legal-wrap ul,.legal-wrap ol{color:var(--ink-s);font-size:15.5px;line-height:1.75;margin:0 0 14px;padding-left:24px}
+.legal-wrap ul li,.legal-wrap ol li{margin-bottom:6px}
+.info-box{background:var(--bg-3);border:1px solid var(--line);border-radius:var(--rl);padding:24px 28px;margin:20px 0;box-shadow:0 2px 16px rgba(15,22,40,.04)}
+.info-box p{margin:0;font-size:15px}
+.note-box{background:var(--blue-dim);border:1px solid rgba(29,91,212,.2);border-radius:var(--rl);padding:18px 24px;margin:20px 0}
+.note-box p{margin:0;font-size:14px;color:var(--ink-s)}
+
+footer{padding:60px 0 36px;border-top:1px solid var(--line);background:var(--bg)}
+.footer-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:36px;margin-bottom:44px;align-items:start}
+@media(max-width:900px){.footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}}
+@media(max-width:420px){.footer-grid{grid-template-columns:1fr}}
+.footer-grid h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 16px;display:block}
+.footer-grid ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.footer-grid a{color:var(--ink-s);font-size:14px;display:inline-block}
+.footer-grid a:hover{color:var(--blue)}
+.footer-brand .logo{margin-bottom:14px}
+.footer-brand .logo .logo-text{color:var(--ink)}
+.footer-brand p{color:var(--ink-s);font-size:14px;margin:0;line-height:1.65}
+.footer-bottom{display:flex;justify-content:center;align-items:center;padding-top:24px;border-top:1px solid var(--line-s);font-size:12.5px;color:var(--muted);text-align:center}
+.ig-link{display:inline-flex;align-items:center;gap:7px;color:var(--ink-s);font-size:14px}
+.ig-link:hover{color:var(--blue)}
+.ig-icon{width:16px!important;height:16px!important;flex-shrink:0;vertical-align:-2px;display:inline-block}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="AK WebWorks" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+      <span class="logo-fallback" style="display:none;">AK</span>
+      <span class="logo-text">WebWorks</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#leistungen">Leistungen</a>
+      <a href="index.html#ablauf">Ablauf</a>
+      <a href="index.html#preise">Preise</a>
+      <a href="index.html#ueber">Über mich</a>
+      <a href="index.html#faq">FAQ</a>
+    </div>
+    <a href="kontakt.html" class="btn btn-primary">Beratung buchen <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<main class="legal-page">
+  <div class="container">
+    <div class="legal-wrap">
+
+      <a href="index.html" class="back-link">← Zurück zur Website</a>
+
+      <div class="eyebrow">Rechtliches</div>
+      <h1>Allgemeine Geschäftsbedingungen</h1>
+      <p class="legal-meta">AK WebWorks · Alperen Ali Kati · Stand: 2026</p>
+
+      <div class="note-box">
+        <p><strong>Hinweis:</strong> Diese AGB gelten für alle Aufträge zur Erstellung, Gestaltung und Pflege von Websites sowie damit verbundene Dienstleistungen. Mit der Auftragserteilung werden diese AGB anerkannt.</p>
+      </div>
+
+      <h2>§ 1 Geltungsbereich</h2>
+      <p>
+        Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge, die zwischen
+        Alperen Ali Kati (nachfolgend „Auftragnehmer") und dem Auftraggeber über die Erbringung
+        von Webdesign-, Webentwicklungs- und damit verbundenen Dienstleistungen geschlossen werden.
+      </p>
+      <p>
+        Abweichende, entgegenstehende oder ergänzende AGB des Auftraggebers werden nicht
+        Vertragsbestandteil, es sei denn, ihrer Geltung wird ausdrücklich schriftlich zugestimmt.
+      </p>
+
+      <h2>§ 2 Vertragsschluss</h2>
+      <p>
+        Ein Vertrag kommt zustande, wenn der Auftraggeber ein schriftliches Angebot des Auftragnehmers
+        per E-Mail oder in Textform annimmt oder eine schriftliche Auftragsbestätigung erteilt.
+        Mündliche Absprachen bedürfen der schriftlichen Bestätigung, um rechtswirksam zu sein.
+      </p>
+      <p>
+        Das Angebot des Auftragnehmers ist in der Regel 14 Tage gültig, sofern nicht ausdrücklich
+        eine andere Frist angegeben ist.
+      </p>
+
+      <h2>§ 3 Leistungsumfang</h2>
+      <p>
+        Der genaue Leistungsumfang ergibt sich aus dem individuellen Angebot oder der
+        Auftragsbestätigung. Leistungen, die nicht im Angebot enthalten sind, werden gesondert
+        beauftragt und vergütet. Dazu gehören insbesondere:
+      </p>
+      <ul>
+        <li>Texterstellung, sofern nicht ausdrücklich vereinbart</li>
+        <li>Fotografie und professionelle Bildbearbeitung</li>
+        <li>Laufende Kosten für Domains, Hosting oder Software-Lizenzen Dritter</li>
+        <li>Suchmaschinenoptimierung (SEO) über das vereinbarte Grundsetup hinaus</li>
+        <li>Einrichtung und Pflege von Social-Media-Kanälen</li>
+        <li>Online-Shops oder Buchungssysteme, sofern nicht separat angeboten</li>
+      </ul>
+
+      <h2>§ 4 Mitwirkungspflichten des Auftraggebers</h2>
+      <p>
+        Der Auftraggeber stellt dem Auftragnehmer alle für die Durchführung des Auftrags
+        erforderlichen Materialien, Inhalte, Zugänge und Informationen rechtzeitig und vollständig
+        zur Verfügung. Dazu gehören insbesondere Texte, Bilder, Logos, Farbangaben und sonstige
+        Gestaltungsvorgaben.
+      </p>
+      <p>
+        Verzögerungen durch verspätet gelieferte oder unvollständige Inhalte gehen nicht zu Lasten
+        des Auftragnehmers. Vereinbarte Liefertermine verlängern sich entsprechend.
+      </p>
+      <p>
+        Der Auftraggeber ist für die rechtliche Zulässigkeit der von ihm bereitgestellten Inhalte
+        (Texte, Bilder, Marken, etc.) selbst verantwortlich. Er stellt den Auftragnehmer von
+        Ansprüchen Dritter frei, die aus der Verwendung dieser Inhalte entstehen.
+      </p>
+
+      <h2>§ 5 Vergütung und Zahlungsbedingungen</h2>
+      <p>
+        Die Vergütung richtet sich nach dem individuellen Angebot. Alle genannten Preise sind
+        Nettopreise zzgl. der gesetzlichen Umsatzsteuer, sofern nicht anderweitig ausgewiesen.
+        (Bei Anwendung der Kleinunternehmerregelung gem. § 19 UStG wird keine Umsatzsteuer erhoben.)
+      </p>
+      <p>
+        Die Zahlung erfolgt — sofern nicht abweichend vereinbart — wie folgt:
+      </p>
+      <ul>
+        <li><strong>50 % Anzahlung</strong> bei Auftragserteilung (Projektstart)</li>
+        <li><strong>50 % Restzahlung</strong> bei Fertigstellung und Freigabe</li>
+      </ul>
+      <p>
+        Bei größeren Projekten kann in Abstimmung eine Ratenzahlung in drei Teilen vereinbart werden.
+        Rechnungen sind innerhalb von 14 Tagen nach Rechnungsdatum ohne Abzug zu begleichen.
+        Bei Zahlungsverzug werden Verzugszinsen in Höhe von 9 Prozentpunkten über dem Basiszinssatz
+        gemäß § 247 BGB berechnet.
+      </p>
+
+      <h2>§ 6 Liefertermine und Fristen</h2>
+      <p>
+        Angegebene Liefertermine sind unverbindliche Richtwerte, sofern nicht ausdrücklich ein
+        verbindlicher Termin schriftlich vereinbart wurde. Voraussetzung für die Einhaltung der
+        Lieferzeit ist die vollständige und rechtzeitige Bereitstellung aller benötigten Inhalte
+        und Materialien durch den Auftraggeber sowie die fristgerechte Zahlung der Anzahlung.
+      </p>
+
+      <h2>§ 7 Abnahme und Freigabe</h2>
+      <p>
+        Nach Fertigstellung der vereinbarten Leistung wird das Ergebnis dem Auftraggeber zur
+        Prüfung und Freigabe vorgelegt. Der Auftraggeber hat die Pflicht, die Leistung innerhalb
+        von 7 Werktagen zu prüfen und etwaige Mängel schriftlich mitzuteilen.
+      </p>
+      <p>
+        Erfolgt innerhalb dieser Frist keine Rückmeldung, gilt die Leistung als abgenommen.
+        Im Angebot enthaltene Korrekturschleifen sind im vereinbarten Preis enthalten; darüber
+        hinausgehende Änderungswünsche werden gesondert berechnet.
+      </p>
+
+      <h2>§ 8 Urheberrecht und Nutzungsrechte</h2>
+      <p>
+        Der Auftragnehmer überträgt dem Auftraggeber nach vollständiger Bezahlung das einfache,
+        unbefristete Nutzungsrecht an den erstellten Werken (Grafiken, Code, Texte) für den
+        vereinbarten Verwendungszweck.
+      </p>
+      <p>
+        Der Auftragnehmer behält das Recht, die Arbeiten in seinem Portfolio oder zu
+        Referenzzwecken zu zeigen, sofern der Auftraggeber nicht ausdrücklich widerspricht.
+      </p>
+      <p>
+        Der Auftraggeber hat keinen Anspruch auf Herausgabe der Quelldateien (z. B.
+        Designdateien, PSD, Figma), sofern nicht ausdrücklich im Angebot vereinbart.
+      </p>
+
+      <h2>§ 9 Mängelgewährleistung</h2>
+      <p>
+        Der Auftragnehmer gewährleistet, dass die erbrachten Leistungen zum Zeitpunkt der
+        Abnahme frei von wesentlichen Mängeln sind. Mängel, die auf einer fehlerhaften oder
+        unvollständigen Bereitstellung von Inhalten durch den Auftraggeber beruhen, begründen
+        keinen Gewährleistungsanspruch.
+      </p>
+      <p>
+        Mängel sind dem Auftragnehmer unverzüglich schriftlich anzuzeigen. Der Auftragnehmer
+        hat das Recht zur Nachbesserung. Schlägt die Nachbesserung fehlgeschlagen oder verweigert
+        der Auftragnehmer diese, kann der Auftraggeber die Vergütung mindern.
+      </p>
+
+      <h2>§ 10 Haftungsbeschränkung</h2>
+      <p>
+        Der Auftragnehmer haftet für Schäden nur bei Vorsatz und grober Fahrlässigkeit. Die
+        Haftung für leichte Fahrlässigkeit ist — soweit gesetzlich zulässig — ausgeschlossen,
+        außer bei Verletzung von Leben, Körper oder Gesundheit.
+      </p>
+      <p>
+        Der Auftragnehmer übernimmt keine Haftung für:
+      </p>
+      <ul>
+        <li>Ausfälle oder Fehler des Hostings oder der Domain (liegt beim Hoster des Auftraggebers)</li>
+        <li>Datenverluste, die nicht im Verantwortungsbereich des Auftragnehmers liegen</li>
+        <li>Rechtsverstöße durch Inhalte, die vom Auftraggeber bereitgestellt wurden</li>
+        <li>Verluste durch entgangene Geschäfte, Umsatzeinbußen oder mittelbare Schäden</li>
+      </ul>
+
+      <h2>§ 11 Vertraulichkeit</h2>
+      <p>
+        Beide Parteien verpflichten sich, alle im Rahmen des Auftrags erlangten vertraulichen
+        Informationen — insbesondere Geschäftsdaten, Zugangsdaten, und nicht-öffentliche
+        Unternehmensinformationen — vertraulich zu behandeln und nicht an Dritte weiterzugeben.
+        Diese Pflicht gilt auch nach Beendigung des Vertragsverhältnisses.
+      </p>
+
+      <h2>§ 12 Kündigung und Rücktritt</h2>
+      <p>
+        Beide Parteien können den Vertrag aus wichtigem Grund außerordentlich kündigen. Ein
+        wichtiger Grund liegt insbesondere vor, wenn der Auftraggeber mit der Zahlung fälliger
+        Beträge trotz Mahnung mehr als 14 Tage in Verzug ist, oder wenn der Auftraggeber den
+        Auftragnehmer trotz Aufforderung nicht innerhalb angemessener Frist bei der Erfüllung
+        mitwirkt.
+      </p>
+      <p>
+        Bei Kündigung durch den Auftraggeber ohne wichtigen Grund werden bereits erbrachte
+        Leistungen anteilig vergütet. Die geleistete Anzahlung bleibt in diesem Fall einbehalten.
+      </p>
+
+      <h2>§ 13 Datenschutz</h2>
+      <p>
+        Die Verarbeitung personenbezogener Daten im Rahmen der Vertragsabwicklung erfolgt gemäß
+        der geltenden Datenschutzgrundverordnung (DSGVO). Einzelheiten sind der
+        <a href="datenschutz.html">Datenschutzerklärung</a> des Auftragnehmers zu entnehmen.
+      </p>
+
+      <h2>§ 14 Schlussbestimmungen</h2>
+      <p>
+        Es gilt das Recht der Bundesrepublik Deutschland. Erfüllungsort und ausschließlicher
+        Gerichtsstand für alle Streitigkeiten aus diesem Vertragsverhältnis ist Bielefeld,
+        sofern der Auftraggeber Kaufmann, juristische Person des öffentlichen Rechts oder
+        öffentlich-rechtliches Sondervermögen ist.
+      </p>
+      <p>
+        Sollten einzelne Bestimmungen dieser AGB unwirksam sein oder werden, bleibt die
+        Wirksamkeit der übrigen Bestimmungen davon unberührt. Die unwirksame Bestimmung ist
+        durch eine wirksame zu ersetzen, die dem wirtschaftlichen Zweck der unwirksamen
+        Bestimmung am nächsten kommt.
+      </p>
+      <p>
+        Diese AGB wurden zuletzt im Jahr 2026 aktualisiert.
+      </p>
+
+      <div class="info-box" style="margin-top:48px;">
+        <p>
+          <strong>AK WebWorks · Alperen Ali Kati</strong><br>
+          [Straße und Hausnummer], 33[xxx] Bielefeld<br>
+          E-Mail: <a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a><br>
+          Tel.: +49 151 234 56789
+        </p>
+      </div>
+
+      <p style="margin-top:48px;">
+        <a href="index.html" class="btn btn-outline">← Zurück zur Website</a>
+      </p>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img src="logo.png" alt="AK WebWorks" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+          <span class="logo-fallback" style="display:none;">AK</span>
+          <span class="logo-text" style="color:var(--ink);">WebWorks</span>
+        </a>
+        <p>Hochwertige Websites für lokale Unternehmen. Aus Bielefeld. Mit echtem Code.</p>
+      </div>
+      <div>
+        <h5>Leistungen</h5>
+        <ul>
+          <li><a href="index.html#preise">Pakete</a></li>
+          <li><a href="index.html#ablauf">Ablauf</a></li>
+          <li><a href="index.html#">Referenzen</a></li>
+          <li><a href="index.html#">Pflege</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Kontakt</h5>
+        <ul>
+          <li><a href="tel:+4915123456789">+49 151 234 56789</a></li>
+          <li><a href="mailto:hallo@akwebworks.de">hallo@akwebworks.de</a></li>
+          <li>
+            <a href="https://www.instagram.com/ak.webworks" target="_blank" rel="noopener noreferrer" class="ig-link">
+              <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              ak.webworks
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h5>Rechtliches</h5>
+        <ul>
+          <li><a href="impressum.html">Impressum</a></li>
+          <li><a href="datenschutz.html">Datenschutz</a></li>
+          <li><a href="agb.html" style="color:var(--blue);">AGB</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AK WebWorks — Alle Rechte vorbehalten.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
