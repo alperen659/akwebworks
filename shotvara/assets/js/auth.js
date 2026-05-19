@@ -269,6 +269,15 @@ function setAuthState(state) {
   dom.authLoading?.classList.toggle('visible', state === 'loading');
   dom.authGuest?.classList.toggle('visible', state === 'guest');
   dom.authUser?.classList.toggle('visible', state === 'user');
+
+  if (state === 'guest') {
+    window.dispatchEvent(new CustomEvent('shotvara:auth-changed', {
+      detail: {
+        authenticated: false,
+        user: null,
+      },
+    }));
+  }
 }
 
 function openModal(modal) {
