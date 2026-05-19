@@ -437,21 +437,22 @@ function updatePlayer(delta) {
 
   verticalVelocity -= PLAYER.gravity * delta;
 
-  const current = camera.position.clone();
-  const proposedX = current.x + velocity.x * delta;
-  const proposedZ = current.z + velocity.z * delta;
+  const proposedX = camera.position.x + velocity.x * delta;
+  const proposedZ = camera.position.z + velocity.z * delta;
 
-  camera.position.x = resolveAxisCollision(
-    proposedX,
-    current.z,
-    'x'
-  );
+  // X-Achse getrennt prüfen
+  if (!collidesAt(proposedX, camera.position.z)) {
+    camera.position.x = proposedX;
+  } else {
+    velocity.x = 0;
+  }
 
-  camera.position.z = resolveAxisCollision(
-    proposedZ,
-    camera.position.x,
-    'z'
-  );
+  // Z-Achse getrennt prüfen
+  if (!collidesAt(camera.position.x, proposedZ)) {
+    camera.position.z = proposedZ;
+  } else {
+    velocity.z = 0;
+  }
 
   camera.position.y += verticalVelocity * delta;
 
