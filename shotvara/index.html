@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070b12" />
+  <title>SHOTVARA — Prototype 0.0.1</title>
+  <meta name="description" content="SHOTVARA Prototype 0.0.1 — erster spielbarer First-Person-Arena-Prototyp im Browser." />
+  <link rel="stylesheet" href="./assets/css/game.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="game-root" aria-label="SHOTVARA Spielbereich"></div>
+
+  <div id="crosshair" aria-hidden="true">
+    <span></span>
+    <span></span>
+  </div>
+
+  <header id="hud" aria-live="polite">
+    <div class="hud-brand">
+      <strong>SHOTVARA</strong>
+      <span>Prototype 0.0.1</span>
+    </div>
+    <div class="hud-status">
+      <span id="hud-speed">0.0 m/s</span>
+      <span id="hud-state">Bereit</span>
+    </div>
+  </header>
+
+  <div id="controls-hint" aria-hidden="true">
+    <span><kbd>W A S D</kbd> bewegen</span>
+    <span><kbd>Maus</kbd> umsehen</span>
+    <span><kbd>Leertaste</kbd> springen</span>
+    <span><kbd>ESC</kbd> Pause</span>
+  </div>
+
+  <section id="menu" class="overlay visible" aria-labelledby="menu-title">
+    <div class="panel">
+      <p class="eyebrow">AK WebWorks Game Lab</p>
+      <h1 id="menu-title">SHOTVARA</h1>
+      <p class="subtitle">
+        Der erste begehbare Arena-Build. Noch ohne Waffe, aber bereits mit echter FPS-Steuerung,
+        Kollisionen, Sprunglogik und einer kompakten Trainingsumgebung.
+      </p>
+
+      <button id="start-button" type="button">Arena betreten</button>
+
+      <div class="feature-grid">
+        <article>
+          <h2>Build-Ziel</h2>
+          <p>Bewegung und Raumgefühl als belastbare Grundlage für alle weiteren Shooter-Systeme.</p>
+        </article>
+        <article>
+          <h2>Nächster Schritt</h2>
+          <p>Schussmechanik, Trefferfeedback und erste Ziele für den 60-Sekunden-Modus.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="pause-menu" class="overlay" aria-labelledby="pause-title">
+    <div class="panel compact">
+      <p class="eyebrow">Pause</p>
+      <h2 id="pause-title">Arena unterbrochen</h2>
+      <p>Zum Fortsetzen erneut klicken.</p>
+      <button id="resume-button" type="button">Fortsetzen</button>
+    </div>
+  </section>
+
+  <noscript>
+    <div class="noscript">SHOTVARA benötigt aktiviertes JavaScript.</div>
+  </noscript>
+
+  <script type="module" src="./assets/js/main.js"></script>
+</body>
+</html>
